@@ -204,9 +204,7 @@ function render(){
     `<span class="badge ${isControl?'grey':'ok'}">판정 · ${v.label||"—"}</span>`,
     ev.flag? `<span class="badge ${ev.flag==="상록 정합"?"ok":ev.flag==="계절 작물 의심"?"warn":"grey"}">상록성 · ${ev.flag}</span>`:"",
     isControl ? `<span class="badge grey">대조군 구획</span>`
-      : R.coords_status==="confirmed"
-        ? `<span class="badge ok">좌표 확정</span>`
-        : `<span class="badge warn">좌표 미확정 · 재단 확인 전</span>`,
+      : R.coords_status==="confirmed" ? `<span class="badge ok">좌표 확정</span>` : "",
     `<span class="badge grey">관측 ${R.series.length}개 시점</span>`
   ].join("");
 
