@@ -1,0 +1,176 @@
+{
+  "site": "dakope-demo",
+  "label": "다코페 녹화 구획 (탐색 후보)",
+  "partner": "확인 필요",
+  "coords_status": "estimated",
+  "aoi": [
+    89.45406,
+    22.66643,
+    89.45893,
+    22.67548
+  ],
+  "area_ha": 50.04,
+  "planted_year": 2023,
+  "planted_ha": null,
+  "planted_trees": null,
+  "generated_at": "2026-07-25T05:38:43+00:00",
+  "series": [
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.11462273448705673,
+      "ndvi_p90": 0.2589882016181946,
+      "canopy_frac": 0.05429864253393665,
+      "canopy_frac_lo": 0.021870286576168928,
+      "canopy_frac_hi": 0.11236802413273002,
+      "canopy_ha": 2.7172869629891556,
+      "canopy_ha_lo": 1.0944628045372986,
+      "canopy_ha_hi": 5.623274409519225,
+      "year": 2022,
+      "date": "2022-03-10",
+      "scene": "S2A_45QYF_20220310_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": -1
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.16711559891700745,
+      "ndvi_p90": 0.3359803259372711,
+      "canopy_frac": 0.15987933634992457,
+      "canopy_frac_lo": 0.0746606334841629,
+      "canopy_frac_hi": 0.2707390648567119,
+      "canopy_ha": 8.000900502134735,
+      "canopy_ha_lo": 3.736269574110089,
+      "canopy_ha_hi": 13.548694718237593,
+      "year": 2023,
+      "date": "2023-01-09",
+      "scene": "S2B_45QYF_20230109_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 0
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.1364220380783081,
+      "ndvi_p90": 0.39621269702911377,
+      "canopy_frac": 0.23529411764705882,
+      "canopy_frac_lo": 0.16063348416289594,
+      "canopy_frac_hi": 0.3129713423831071,
+      "canopy_ha": 11.774910172953007,
+      "canopy_ha_lo": 8.03864059884292,
+      "canopy_ha_hi": 15.662140133895827,
+      "year": 2024,
+      "date": "2023-12-30",
+      "scene": "S2A_45QYF_20231230_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 1
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.5121061205863953,
+      "ndvi_p90": 0.7772433757781982,
+      "canopy_frac": 0.770739064856712,
+      "canopy_frac_lo": 0.7262443438914027,
+      "canopy_frac_hi": 0.8144796380090498,
+      "canopy_ha": 38.57037883576274,
+      "canopy_ha_lo": 36.34371312997995,
+      "canopy_ha_hi": 40.75930444483733,
+      "year": 2025,
+      "date": "2025-03-29",
+      "scene": "S2B_45QYF_20250329_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 2
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.5899711847305298,
+      "ndvi_p90": 0.852763831615448,
+      "canopy_frac": 0.8355957767722474,
+      "canopy_frac_lo": 0.806184012066365,
+      "canopy_frac_hi": 0.8680241327300151,
+      "canopy_ha": 41.81602715266645,
+      "canopy_ha_lo": 40.34416338104732,
+      "canopy_ha_hi": 43.438851311118306,
+      "year": 2026,
+      "date": "2026-03-04",
+      "scene": "S2B_45QYF_20260304_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 3
+    }
+  ],
+  "frames": [
+    "00_2022.jpg",
+    "01_2023.jpg",
+    "02_2024.jpg",
+    "03_2025.jpg",
+    "04_2026.jpg"
+  ],
+  "frames_raw": [
+    "raw_00_2022.jpg",
+    "raw_01_2023.jpg",
+    "raw_02_2024.jpg",
+    "raw_03_2025.jpg",
+    "raw_04_2026.jpg"
+  ],
+  "frame_aspect": 0.5098,
+  "video": "timelapse.mp4",
+  "establishment": {
+    "gain_ha": 39.098740189677294,
+    "gain_ha_lo": 34.7208889715281,
+    "gain_ha_hi": 42.344388506581005,
+    "rate": 0.7812971342383107,
+    "rate_lo": 0.693815987933635,
+    "rate_hi": 0.8461538461538461
+  },
+  "carbon": {
+    "tco2": 369.4830947924504,
+    "tco2_lo": 234.59244113806375,
+    "tco2_hi": 527.8329925606434,
+    "eff_years": 1.5
+  },
+  "carbon_coefficient": {
+    "unit": "tCO2/ha/yr",
+    "low": 4.0,
+    "mid": 6.3,
+    "high": 9.0,
+    "source": "잠정값. 열대 맹그로브 조림지 흡수량 문헌 범위를 보수적으로 잡았다. 재단 검증위원회 확정 전까지 확정 수치로 인용하지 않는다.",
+    "status": "provisional"
+  },
+  "trend": {
+    "slope_pp_per_year": 21.734539969834074,
+    "r2": 0.8898522913102653,
+    "n": 5
+  },
+  "evergreen": {
+    "ratio": 0.5370036101083032,
+    "flag": "부분 낙엽",
+    "note": "계절 변동이 있다. 혼재 식생이거나 조위 영향일 수 있어 현장 확인이 필요하다.",
+    "wet_date": "2025-11-19",
+    "wet_canopy_frac": 0.44871794871794873,
+    "dry_canopy_frac": 0.8355957767722474
+  },
+  "verdict": {
+    "label": "정착",
+    "note": "식재 구획의 임관이 안정적으로 확대되고 있다."
+  },
+  "method": {
+    "source": "Copernicus Sentinel-2 L2A (AWS Open Data, 무료 공개)",
+    "index": "NDVI = (B08 − B04) / (B08 + B04)",
+    "canopy_threshold": 0.3,
+    "threshold_range": [
+      0.25,
+      0.35
+    ],
+    "cloud_mask": "SCL 장면분류에서 구름·그림자·결측 화소 제외",
+    "season": "건기(12~3월)만 쓴다. 우기는 구름이 덮고 조위가 높아 갯벌 판독이 흔들린다.",
+    "limits": [
+      "10m 격자보다 작은 어린 묘목은 잡히지 않는다. 초기 정착률은 하한으로 읽어야 한다.",
+      "조위에 따라 갯벌 노출 면적이 달라져 NDVI 가 흔들린다. 같은 건기 장면끼리만 비교했다.",
+      "흡수 탄소는 임관 면적에서 역산한 추정치다. 현장 실측을 대체하지 않는다.",
+      "좌표가 확정되기 전 결과는 후보 구획에 대한 것이다."
+    ]
+  }
+}

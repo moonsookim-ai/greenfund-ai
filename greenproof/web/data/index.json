@@ -1,0 +1,15 @@
+{
+  "sites": [
+    {
+      "id": "dakope-demo",
+      "label": "다코페 녹화 구획 (탐색 후보)",
+      "coords_status": "estimated"
+    },
+    {
+      "id": "sundarbans-control",
+      "label": "순다르반스 기존 맹그로브림 (대조군)",
+      "coords_status": "control"
+    }
+  ],
+  "generated_at": "2026-07-25T05:40:30+00:00"
+}

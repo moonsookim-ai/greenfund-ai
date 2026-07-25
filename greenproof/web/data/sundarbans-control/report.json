@@ -1,0 +1,177 @@
+{
+  "site": "sundarbans-control",
+  "label": "순다르반스 기존 맹그로브림 (대조군)",
+  "partner": "대조군",
+  "coords_status": "control",
+  "role": "control",
+  "aoi": [
+    89.518,
+    22.226,
+    89.5249,
+    22.2325
+  ],
+  "area_ha": 51.09,
+  "planted_year": 2000,
+  "planted_ha": null,
+  "planted_trees": null,
+  "generated_at": "2026-07-25T05:40:30+00:00",
+  "series": [
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.7635478377342224,
+      "ndvi_p90": 0.8049335479736328,
+      "canopy_frac": 0.9992492492492493,
+      "canopy_frac_lo": 0.9977477477477478,
+      "canopy_frac_hi": 0.9992492492492493,
+      "canopy_ha": 51.04916912367126,
+      "canopy_ha_lo": 50.972461130998575,
+      "canopy_ha_hi": 51.04916912367126,
+      "year": 2022,
+      "date": "2022-03-07",
+      "scene": "S2A_45QYE_20220307_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 22
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.6134526133537292,
+      "ndvi_p90": 0.6553563475608826,
+      "canopy_frac": 0.9977477477477478,
+      "canopy_frac_lo": 0.996996996996997,
+      "canopy_frac_hi": 0.9984984984984985,
+      "canopy_ha": 50.972461130998575,
+      "canopy_ha_lo": 50.934107134662234,
+      "canopy_ha_hi": 51.010815127334915,
+      "year": 2023,
+      "date": "2023-03-12",
+      "scene": "S2A_45QYE_20230312_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 23
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.7518715858459473,
+      "ndvi_p90": 0.7930166721343994,
+      "canopy_frac": 0.9992492492492493,
+      "canopy_frac_lo": 0.9992492492492493,
+      "canopy_frac_hi": 1.0,
+      "canopy_ha": 51.04916912367126,
+      "canopy_ha_lo": 51.04916912367126,
+      "canopy_ha_hi": 51.0875231200076,
+      "year": 2024,
+      "date": "2024-02-10",
+      "scene": "S2B_45QYE_20240210_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 24
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.7922378778457642,
+      "ndvi_p90": 0.8333223462104797,
+      "canopy_frac": 0.9992492492492493,
+      "canopy_frac_lo": 0.9992492492492493,
+      "canopy_frac_hi": 1.0,
+      "canopy_ha": 51.04916912367126,
+      "canopy_ha_lo": 51.04916912367126,
+      "canopy_ha_hi": 51.0875231200076,
+      "year": 2025,
+      "date": "2024-12-16",
+      "scene": "S2B_45QYE_20241216_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 25
+    },
+    {
+      "valid_frac": 1.0,
+      "ndvi_mean": 0.816541314125061,
+      "ndvi_p90": 0.8489006161689758,
+      "canopy_frac": 1.0,
+      "canopy_frac_lo": 0.9992492492492493,
+      "canopy_frac_hi": 1.0,
+      "canopy_ha": 51.0875231200076,
+      "canopy_ha_lo": 51.04916912367126,
+      "canopy_ha_hi": 51.0875231200076,
+      "year": 2026,
+      "date": "2025-12-18",
+      "scene": "S2A_45QYE_20251218_0_L2A",
+      "cloud_scene": 0.0,
+      "cloud_aoi": 0.0,
+      "t_years": 26
+    }
+  ],
+  "frames": [
+    "00_2022.jpg",
+    "01_2023.jpg",
+    "02_2024.jpg",
+    "03_2025.jpg",
+    "04_2026.jpg"
+  ],
+  "frames_raw": [
+    "raw_00_2022.jpg",
+    "raw_01_2023.jpg",
+    "raw_02_2024.jpg",
+    "raw_03_2025.jpg",
+    "raw_04_2026.jpg"
+  ],
+  "frame_aspect": 0.973,
+  "video": "timelapse.mp4",
+  "establishment": {
+    "gain_ha": 0.0383539963363404,
+    "gain_ha_lo": 0.0,
+    "gain_ha_hi": 0.11506198900902831,
+    "rate": 0.0007507507507507185,
+    "rate_lo": 0.0,
+    "rate_hi": 0.0022522522522522947
+  },
+  "carbon": {
+    "tco2": 3.141192299946279,
+    "tco2_lo": 1.9944078094897009,
+    "tco2_hi": 4.487417571351827,
+    "eff_years": 13.0
+  },
+  "carbon_coefficient": {
+    "unit": "tCO2/ha/yr",
+    "low": 4.0,
+    "mid": 6.3,
+    "high": 9.0,
+    "source": "잠정값. 열대 맹그로브 조림지 흡수량 문헌 범위를 보수적으로 잡았다. 재단 검증위원회 확정 전까지 확정 수치로 인용하지 않는다.",
+    "status": "provisional"
+  },
+  "trend": {
+    "slope_pp_per_year": 0.03003003003001999,
+    "r2": 0.333333333333349,
+    "n": 5
+  },
+  "evergreen": {
+    "ratio": 0.9992492492492493,
+    "flag": "상록 정합",
+    "note": "건기와 우기 모두 임관을 유지한다. 맹그로브를 포함한 상록 식생과 정합한다.",
+    "wet_date": "2025-10-22",
+    "wet_canopy_frac": 0.9992492492492493,
+    "dry_canopy_frac": 1.0
+  },
+  "verdict": {
+    "label": "대조 정상",
+    "note": "성숙림이 예상대로 높고 평탄하게 읽혔다. 판독 규칙이 정상 작동한다."
+  },
+  "method": {
+    "source": "Copernicus Sentinel-2 L2A (AWS Open Data, 무료 공개)",
+    "index": "NDVI = (B08 − B04) / (B08 + B04)",
+    "canopy_threshold": 0.3,
+    "threshold_range": [
+      0.25,
+      0.35
+    ],
+    "cloud_mask": "SCL 장면분류에서 구름·그림자·결측 화소 제외",
+    "season": "건기(12~3월)만 쓴다. 우기는 구름이 덮고 조위가 높아 갯벌 판독이 흔들린다.",
+    "limits": [
+      "10m 격자보다 작은 어린 묘목은 잡히지 않는다. 초기 정착률은 하한으로 읽어야 한다.",
+      "조위에 따라 갯벌 노출 면적이 달라져 NDVI 가 흔들린다. 같은 건기 장면끼리만 비교했다.",
+      "흡수 탄소는 임관 면적에서 역산한 추정치다. 현장 실측을 대체하지 않는다.",
+      "좌표가 확정되기 전 결과는 후보 구획에 대한 것이다."
+    ]
+  }
+}

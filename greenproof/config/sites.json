@@ -1,0 +1,53 @@
+{
+  "_note": "구획 좌표는 재단이 현지 파트너에게 받아 채운다. coords_status 가 confirmed 로 바뀌기 전까지 모든 산출물에 '좌표 미확정' 배지가 붙는다.",
+
+  "carbon_coefficient": {
+    "unit": "tCO2/ha/yr",
+    "low": 4.0,
+    "mid": 6.3,
+    "high": 9.0,
+    "source": "잠정값. 열대 맹그로브 조림지 흡수량 문헌 범위를 보수적으로 잡았다. 재단 검증위원회 확정 전까지 확정 수치로 인용하지 않는다.",
+    "status": "provisional"
+  },
+
+  "regions": {
+    "dakope": {
+      "label": "방글라데시 쿨나주 다코페",
+      "bbox": [89.42, 22.44, 89.66, 22.68],
+      "note": "재단·하이브 맹그로브 조성 사업 지역. 정확한 구획 좌표 확보 전 탐색 대상 범위."
+    }
+  },
+
+  "sites": {
+    "dakope-demo": {
+      "label": "다코페 녹화 구획 (탐색 후보)",
+      "region": "dakope",
+      "partner": "확인 필요",
+      "aoi": [89.45406, 22.66643, 89.45893, 22.67548],
+      "coords_status": "estimated",
+      "planted_year": 2023,
+      "planted_ha": null,
+      "planted_trees": null,
+      "role": "subject",
+      "note": "greenproof scan 이 찾아낸 녹화 신호 1·2위 구획을 합쳤다. 재단 실제 식재 구획 좌표를 받으면 교체한다."
+    },
+    "sundarbans-control": {
+      "label": "순다르반스 기존 맹그로브림 (대조군)",
+      "region": "dakope",
+      "partner": "대조군",
+      "aoi": [89.518, 22.226, 89.5249, 22.2325],
+      "coords_status": "control",
+      "planted_year": 2000,
+      "planted_ha": null,
+      "planted_trees": null,
+      "role": "control",
+      "note": "성숙 맹그로브림. 판독 규칙이 맞다면 임관은 높고 평탄하며 상록 정합이 나와야 한다. 여기서 이상값이 나오면 규칙을 의심할 것."
+    }
+  },
+
+  "observation": {
+    "season_windows": [["12-01", "03-31"]],
+    "season_note": "건기(12~3월)만 쓴다. 우기는 구름이 덮고 조위가 높아 갯벌 판독이 흔들린다.",
+    "years": [2022, 2023, 2024, 2025, 2026]
+  }
+}
