@@ -222,7 +222,11 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
 </div>
 
 <script type="module">
-import { startOcean } from "./ocean.js";
+// The ?v= pins the module to this HTML revision. Browsers cache .js hard
+// (Cloudflare's default browser TTL is 4h): without the pin, a fresh HTML can
+// load a stale module and the whole page dies on a missing property.
+// Bump it whenever ocean.js changes.
+import { startOcean } from "./ocean.js?v=3";
 
 /* ---------------- i18n dictionary ---------------- */
 const T = {
@@ -327,9 +331,9 @@ const ocean = startOcean($("#ocean"), { sea: 0.6, sun: 0.62, drift: 1.0,
 if (!ocean.ok) { $("#hero").style.background = "linear-gradient(180deg,#1b3550,#5b6f6a 55%,#c7a878)"; $("#simwrap").style.display = "none"; }
 $("#h-cta").onclick = () => $("#app").scrollIntoView({ behavior: "smooth" });
 
-// simulation controls
+// Simulation controls. The whole block is fenced off: the hero decoration
+// must never be able to take the evidence below it down with it.
 const simP = $("#simPanel");
-$("#simToggle").onclick = () => { const closed = simP.classList.toggle("closed"); $("#simToggle").textContent = closed ? tr().simOpen : tr().simClose; };
 function bindSlider(id, prop, valFn) {
   const el = $(id); if (!ocean.ok) return;
   el.value = ocean[prop];
@@ -337,19 +341,27 @@ function bindSlider(id, prop, valFn) {
   el.addEventListener("input", upd); upd();
 }
 function paintSim() {
-  const t = tr();
-  $("#simToggle").textContent = simP.classList.contains("closed") ? t.simOpen : t.simClose;
-  $("#lbl-sea").textContent = t.simSea; $("#lbl-sun").textContent = t.simSun;
-  $("#lbl-drift").textContent = t.simDrift; $("#lbl-fps").textContent = t.simFps;
-  if (ocean.ok) {
-    $("#val-sea").textContent = Math.round(ocean.sea * 100) + "%";
-    $("#val-sun").textContent = t.tod(ocean.sun);
-    $("#val-drift").textContent = ocean.drift.toFixed(2) + "×";
-  }
+  try {
+    const t = tr();
+    $("#simToggle").textContent = simP.classList.contains("closed") ? t.simOpen : t.simClose;
+    $("#lbl-sea").textContent = t.simSea; $("#lbl-sun").textContent = t.simSun;
+    $("#lbl-drift").textContent = t.simDrift; $("#lbl-fps").textContent = t.simFps;
+    if (ocean.ok && typeof ocean.drift === "number") {
+      $("#val-sea").textContent = Math.round(ocean.sea * 100) + "%";
+      $("#val-sun").textContent = t.tod(ocean.sun);
+      $("#val-drift").textContent = ocean.drift.toFixed(2) + "×";
+    }
+  } catch (e) { console.warn("sim panel:", e); }
 }
-bindSlider("#s-sea", "sea", () => paintSim());
-bindSlider("#s-sun", "sun", () => paintSim());
-bindSlider("#s-drift", "drift", () => paintSim());
+try {
+  $("#simToggle").onclick = () => { const closed = simP.classList.toggle("closed"); $("#simToggle").textContent = closed ? tr().simOpen : tr().simClose; };
+  bindSlider("#s-sea", "sea", () => paintSim());
+  bindSlider("#s-sun", "sun", () => paintSim());
+  bindSlider("#s-drift", "drift", () => paintSim());
+} catch (e) {
+  console.warn("sim controls disabled:", e);
+  $("#simwrap").style.display = "none";
+}
 
 function paintHero() {
   const t = tr();

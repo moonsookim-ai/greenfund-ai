@@ -1,0 +1,25 @@
+# Cache policy. Requires the zone's Browser Cache TTL to be set to
+# "Respect Existing Headers" — a zone-level TTL overrides this file for
+# standard static extensions (.js, .png ...), which is exactly how a stale
+# module once took the production page down.
+
+/index.html
+  Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache
+
+/emissions/
+  Cache-Control: no-cache
+
+/ocean.js
+  Cache-Control: public, max-age=60
+
+/data/*
+  Cache-Control: public, max-age=300
+
+/emissions/data/*
+  Cache-Control: public, max-age=3600
+
+/og.png
+  Cache-Control: public, max-age=86400
