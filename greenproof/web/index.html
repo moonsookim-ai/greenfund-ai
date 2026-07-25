@@ -48,10 +48,14 @@ a{color:inherit}
 .hero .kick{font-size:12px;letter-spacing:.34em;font-weight:800;color:#bff0d2;margin:0 0 14px}
 .hero h1{font-size:clamp(30px,5.6vw,62px);line-height:1.12;margin:0;letter-spacing:-.02em;font-weight:800}
 .hero p{font-size:clamp(15px,2.1vw,21px);margin:20px 0 0;max-width:44ch;color:#eaf3ee}
-.hero .cta{margin-top:30px;display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+.hero .ctarow{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+.hero .cta{display:inline-flex;align-items:center;gap:10px;cursor:pointer;
   background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;
-  padding:13px 22px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;backdrop-filter:blur(6px);transition:background .2s}
+  padding:13px 22px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;backdrop-filter:blur(6px);transition:background .2s;text-decoration:none}
 .hero .cta:hover{background:rgba(255,255,255,.22)}
+.hero .cta.primary{background:#3ddc84;border-color:#3ddc84;color:#04150c}
+.hero .cta.primary:hover{background:#5ee89a}
+@media(max-width:620px){ .hero .ctarow{flex-direction:column;align-items:stretch} .hero .cta{justify-content:center} }
 .hero .cta .arw{animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 /* ocean simulation controls */
@@ -80,8 +84,8 @@ header.top{border-bottom:1px solid var(--line);background:var(--card);position:s
 .brand em{font-style:normal;color:var(--green)}
 .brand small{display:block;letter-spacing:0;font-weight:600;font-size:11px;color:var(--muted);margin-top:2px}
 .top select{padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;max-width:60vw}
-.modlink{font-size:12px;font-weight:700;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;white-space:nowrap}
-.modlink:hover{color:var(--green-dk);border-color:color-mix(in srgb,var(--green) 45%,transparent)}
+.modlink{font-size:13px;font-weight:800;color:#04150c;background:var(--green);text-decoration:none;border:1px solid var(--green);border-radius:999px;padding:8px 15px;white-space:nowrap}
+.modlink:hover{filter:brightness(1.08)}
 .top .lang2{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .top .modlink{margin-left:auto}
 .top .modlink + .lang2{margin-left:8px}
@@ -185,7 +189,10 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
     <p class="kick" id="h-kick"></p>
     <h1 id="h-title"></h1>
     <p id="h-sub"></p>
-    <button class="cta" id="h-cta"><span id="h-cta-t"></span><span class="arw">↓</span></button>
+    <div class="ctarow">
+      <button class="cta primary" id="h-cta"><span id="h-cta-t"></span><span class="arw">↓</span></button>
+      <a class="cta" id="h-cta2" href="/emissions/"><span id="h-cta2-t"></span><span>→</span></a>
+    </div>
   </div></div>
   <div class="simwrap" id="simwrap">
     <button class="simtoggle" id="simToggle"></button>
@@ -369,6 +376,7 @@ function paintHero() {
   $("#h-title").textContent = t.heroTitle;
   $("#h-sub").textContent = t.heroSub;
   $("#h-cta-t").textContent = t.heroCta;
+  $("#h-cta2-t").textContent = t.modEmissions.replace(" →", "");
   { const me = $("#modEmissions"); if (me) me.textContent = t.modEmissions; }
   paintSim();
   document.documentElement.lang = lang;
