@@ -68,22 +68,21 @@ def main():
 
     # Right-side text block
     tx = pw * 2 + 52
-    d.text((tx, 84), "GREEN PROOF", font=font(21, True), fill=GREEN)
-    d.text((tx + 162, 86), "Satellite Verification", font=font(17), fill=MUTED)
-    d.text((tx, 140), "The trees you", font=font(37, True), fill=INK)
-    d.text((tx, 186), "paid for — are", font=font(37, True), fill=INK)
-    d.text((tx, 232), "they still alive?", font=font(37, True), fill=GOLD)
+    d.text((tx, 90), "GREEN PROOF", font=font(21, True), fill=GREEN)
+    d.text((tx + 162, 92), "Environmental Foundation", font=font(17), fill=MUTED)
+    d.text((tx, 150), "This forest", font=font(42, True), fill=INK)
+    d.text((tx, 200), "came back.", font=font(42, True), fill=GOLD)
 
-    d.line([tx, 312, tx + 90, 312], fill=GREEN, width=3)
+    d.line([tx, 282, tx + 90, 282], fill=GREEN, width=3)
     for j, line in enumerate([
-        "Read from Copernicus Sentinel-2",
-        f"imagery, {d0['date']} to {d1['date']}.",
-        f"Canopy {d0['canopy_frac']*100:.0f}% to {d1['canopy_frac']*100:.0f}%.",
+        "Watch the earth heal, and know it's real.",
+        f"Read from satellites, {d0['date']} to {d1['date']}.",
+        f"Canopy {d0['canopy_frac']*100:.0f}% to {d1['canopy_frac']*100:.0f}%, every scene disclosed.",
     ]):
-        d.text((tx, 338 + j * 30), line, font=font(19), fill=MUTED)
+        d.text((tx, 308 + j * 30), line, font=font(18), fill=MUTED)
 
     d.text((tx, H - 62), "greenfund.ai.kr", font=font(19, True), fill=INK)
-    d.text((tx, H - 34), "Every satellite scene used is disclosed", font=font(16), fill=MUTED)
+    d.text((tx, H - 34), "The change you help make, shown openly", font=font(16), fill=MUTED)
 
     out = ROOT / "web" / "og.png"
     img.save(out, optimize=True)
