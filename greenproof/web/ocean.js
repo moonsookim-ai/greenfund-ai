@@ -31,14 +31,14 @@ export function startOcean(canvas, opts = {}) {
   uniform vec2  uRes;
   uniform float uTime;
   uniform float uSea;      // sea state 0..1
-  uniform vec2  uLook;     // pointer parallax
+  uniform vec2  uLook;     // orbit yaw / pitch
+  uniform float uSun;      // time of day 0..1 (dawn .. noon .. dusk)
   uniform float uQual;     // 1 desktop, 0 mobile
 
   const float PI = 3.14159265;
-  // Late-afternoon sun, sitting a little above the horizon for a long,
-  // realistic glitter path across the swell.
-  vec3  SUN_DIR = normalize(vec3(0.0, 0.16, -1.0));
-  const vec3 SUN_COL = vec3(1.0, 0.86, 0.66);
+  // Sun direction and colour are set from the time-of-day control in main().
+  vec3 SUN_DIR;
+  vec3 SUN_COL;
 
   // ------------------------------------------------------------------ noise
   float hash(vec2 p){ p = fract(p*vec2(127.31,311.7)); p += dot(p, p+34.7); return fract(p.x*p.y); }
@@ -118,9 +118,11 @@ export function startOcean(canvas, opts = {}) {
   // One analytic sky, used for the dome and for the water reflection.
   vec3 sky(vec3 rd){
     rd.y = max(rd.y, -0.05);
-    // daytime gradient: a saturated blue that only pales toward the horizon
-    vec3 zenith  = vec3(0.09, 0.24, 0.50);
-    vec3 horizon = vec3(0.52, 0.66, 0.80);
+    // Palette shifts with the time of day: warm and low-contrast near sunrise
+    // and sunset, saturated blue at midday. elev is high at noon (uSun 0.5).
+    float elev = clamp(SUN_DIR.y * 2.2, 0.0, 1.0);
+    vec3 zenith  = mix(vec3(0.14, 0.20, 0.40), vec3(0.09, 0.24, 0.52), elev);
+    vec3 horizon = mix(vec3(0.95, 0.62, 0.42), vec3(0.55, 0.68, 0.82), clamp(elev*1.4, 0.0, 1.0));
     float g = pow(clamp(1.0 - rd.y, 0.0, 1.0), 3.2);
     vec3 col = mix(zenith, horizon, g);
     // sun disk + a tight halo (kept small so it does not wash the frame)
@@ -182,12 +184,19 @@ export function startOcean(canvas, opts = {}) {
 
   void main(){
     SEA_HEIGHT = mix(0.45, 0.95, uSea);
+    // Time of day -> sun elevation and colour. uSun 0 dawn, 0.5 noon, 1 dusk.
+    float elev = mix(0.05, 0.62, sin(clamp(uSun,0.0,1.0)*PI));
+    float az   = mix(-0.5, 0.5, uSun);
+    SUN_DIR = normalize(vec3(az*0.6, elev, -1.0));
+    SUN_COL = mix(vec3(1.0, 0.52, 0.30), vec3(1.0, 0.95, 0.85), clamp(elev*2.2, 0.0, 1.0));
+
     vec2 sc = (gl_FragCoord.xy - 0.5*uRes) / uRes.y;
 
     // Eye over the water, tilted down so the foreground swell is seen at a
     // steep angle (dark, textured) with a thin bright horizon band on top.
+    // uLook is the orbit yaw/pitch from dragging.
     vec3 ro = vec3(0.0, 5.0, 0.0);
-    float yaw = uLook.x*0.14, pit = -0.14 + uLook.y*0.05;
+    float yaw = uLook.x, pit = -0.14 + uLook.y;
     vec3 fwd = normalize(vec3(sin(yaw), pit, -cos(yaw)));
     vec3 rgt = normalize(cross(vec3(0,1,0), fwd));
     vec3 up  = cross(fwd, rgt);
@@ -250,6 +259,7 @@ export function startOcean(canvas, opts = {}) {
     time: gl.getUniformLocation(prog, "uTime"),
     sea: gl.getUniformLocation(prog, "uSea"),
     look: gl.getUniformLocation(prog, "uLook"),
+    sun: gl.getUniformLocation(prog, "uSun"),
     qual: gl.getUniformLocation(prog, "uQual"),
   };
 
@@ -266,30 +276,53 @@ export function startOcean(canvas, opts = {}) {
   resize();
   addEventListener("resize", resize, { passive: true });
 
-  const sea = opts.sea ?? 0.62;
-  let look = { x: 0, y: 0 }, target = { x: 0, y: 0 };
-  function onMove(e) {
-    const t = e.touches ? e.touches[0] : e;
-    target.x = (t.clientX / innerWidth) * 2 - 1;
-    target.y = (t.clientY / innerHeight) * 2 - 1;
-  }
-  addEventListener("pointermove", onMove, { passive: true });
+  // live, adjustable simulation state
+  const S = { sea: opts.sea ?? 0.6, sun: opts.sun ?? 0.62, drift: opts.drift ?? 1.0 };
 
-  let running = true, visible = true, raf = 0, t0 = performance.now();
+  // orbit look: damped toward a target the user drags; gentle auto-yaw when idle
+  let look = { x: 0, y: 0 }, target = { x: 0, y: 0 };
+  let dragging = false, lastX = 0, lastY = 0, idle = 0;
+  function down(e) { dragging = true; idle = 0; const t = e.touches ? e.touches[0] : e; lastX = t.clientX; lastY = t.clientY; }
+  function move(e) {
+    if (!dragging) return;
+    const t = e.touches ? e.touches[0] : e;
+    target.x = Math.max(-0.6, Math.min(0.6, target.x + (t.clientX - lastX) * -0.0016));
+    target.y = Math.max(-0.10, Math.min(0.16, target.y + (t.clientY - lastY) * 0.0012));
+    lastX = t.clientX; lastY = t.clientY; idle = 0;
+  }
+  function up() { dragging = false; }
+  canvas.addEventListener("pointerdown", down);
+  addEventListener("pointermove", move, { passive: true });
+  addEventListener("pointerup", up);
+  canvas.addEventListener("touchstart", down, { passive: true });
+  canvas.addEventListener("touchmove", move, { passive: true });
+  canvas.addEventListener("touchend", up);
+  canvas.style.touchAction = "pan-y";
+  canvas.style.cursor = "grab";
+
+  let running = true, visible = true, raf = 0, last = performance.now(), clock = 0;
+  let fps = 0, fAcc = 0, fN = 0, fT = performance.now();
   const io = new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && running) tick(); }, { threshold: 0.02 });
   io.observe(canvas);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden && running && visible) tick(); });
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && running && visible) { last = performance.now(); tick(); } });
 
   function draw(now) {
-    const t = (now - t0) / 1000;
-    look.x += (target.x - look.x) * 0.04;
-    look.y += (target.y - look.y) * 0.04;
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    clock += dt * S.drift;                 // wave/cloud clock, drift-scaled
+    idle += dt;
+    if (idle > 2.2 && !dragging) target.x += Math.sin(clock * 0.05) * 0.00035; // slow drift
+    look.x += (target.x - look.x) * 0.05;
+    look.y += (target.y - look.y) * 0.05;
     gl.uniform2f(U.res, W, H);
-    gl.uniform1f(U.time, t);
-    gl.uniform1f(U.sea, sea);
+    gl.uniform1f(U.time, clock);
+    gl.uniform1f(U.sea, S.sea);
     gl.uniform2f(U.look, look.x, look.y);
+    gl.uniform1f(U.sun, S.sun);
     gl.uniform1f(U.qual, isMobile ? 0.0 : 1.0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+    // fps meter
+    fN++; fAcc += dt;
+    if (now - fT > 500) { fps = Math.round(fN / fAcc); fN = 0; fAcc = 0; fT = now; if (opts.onFps) opts.onFps(fps); }
   }
 
   function tick() {
@@ -303,9 +336,13 @@ export function startOcean(canvas, opts = {}) {
 
   return {
     ok: true,
+    set sea(v) { S.sea = +v; }, get sea() { return S.sea; },
+    set sun(v) { S.sun = +v; }, get sun() { return S.sun; },
+    set drift(v) { S.drift = +v; }, get drift() { return S.drift; },
+    get fps() { return fps; },
     destroy() {
       running = false; cancelAnimationFrame(raf); io.disconnect();
-      removeEventListener("resize", resize); removeEventListener("pointermove", onMove);
+      removeEventListener("resize", resize); removeEventListener("pointermove", move); removeEventListener("pointerup", up);
       const ext = gl.getExtension("WEBGL_lose_context"); if (ext) ext.loseContext();
     },
   };

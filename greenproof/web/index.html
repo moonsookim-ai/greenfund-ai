@@ -54,6 +54,17 @@ a{color:inherit}
 .hero .cta:hover{background:rgba(255,255,255,.22)}
 .hero .cta .arw{animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+/* ocean simulation controls */
+.simwrap{position:absolute;right:20px;bottom:20px;z-index:4;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.simtoggle{background:rgba(6,14,18,.42);border:1px solid rgba(255,255,255,.32);color:#fff;font:inherit;font-weight:700;font-size:12px;padding:8px 13px;border-radius:999px;cursor:pointer;backdrop-filter:blur(8px)}
+.simpanel{display:none;width:236px;background:rgba(6,14,18,.5);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 15px;backdrop-filter:blur(10px);color:#eaf3ee}
+.simpanel.open{display:block}
+.simpanel .r{margin:0 0 11px}
+.simpanel .r:last-child{margin-bottom:0}
+.simpanel label{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#cfe6d8;margin-bottom:4px}
+.simpanel input[type=range]{width:100%;accent-color:#3ddc84;height:22px}
+.simpanel .fps{display:flex;justify-content:space-between;font-size:11px;color:#9fbcac;border-top:1px solid rgba(255,255,255,.16);padding-top:9px;margin-top:3px;font-variant-numeric:tabular-nums}
+@media(max-width:620px){ .simwrap{right:12px;bottom:14px} .simpanel{width:200px} }
 .hero .topbar{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:14px;padding:18px 24px}
 .hero .logo{font-weight:800;letter-spacing:.16em;font-size:13px;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.5)}
 .hero .logo em{font-style:normal;color:#7ee2ad}
@@ -172,6 +183,18 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
     <p id="h-sub"></p>
     <button class="cta" id="h-cta"><span id="h-cta-t"></span><span class="arw">↓</span></button>
   </div></div>
+  <div class="simwrap" id="simwrap">
+    <button class="simtoggle" id="simToggle"></button>
+    <div class="simpanel" id="simPanel">
+      <div class="r"><label><span id="lbl-sea"></span><span id="val-sea"></span></label>
+        <input type="range" id="s-sea" min="0" max="1" step="0.01"></div>
+      <div class="r"><label><span id="lbl-sun"></span><span id="val-sun"></span></label>
+        <input type="range" id="s-sun" min="0" max="1" step="0.01"></div>
+      <div class="r"><label><span id="lbl-drift"></span><span id="val-drift"></span></label>
+        <input type="range" id="s-drift" min="0" max="2" step="0.05"></div>
+      <div class="fps"><span id="lbl-fps"></span><span id="val-fps">— fps</span></div>
+    </div>
+  </div>
 </section>
 
 <!-- ===================== APP ===================== -->
@@ -203,6 +226,9 @@ const T = {
     heroTitle: "Watch the earth heal, and know it's real.",
     heroSub: "Forests growing back, birds returning, cleaner air. The change you help make, shown openly from satellites, sound and open data. Come and see it.",
     heroCta: "See the change",
+    simOpen: "≈ Adjust the sea", simClose: "× Close",
+    simSea: "Sea state", simSun: "Time of day", simDrift: "Wind / drift", simFps: "Render",
+    tod: (v) => v < 0.28 ? "sunrise" : v < 0.5 ? "morning" : v < 0.62 ? "midday" : v < 0.8 ? "afternoon" : "sunset",
     brandSub: "Environmental Foundation · Satellite Verification",
     titleSubject: "Three years on, this is what the satellite sees",
     titleControl: "First, we check that the rules are right",
@@ -240,6 +266,9 @@ const T = {
     heroTitle: "지구가 되살아나는 모습을, 함께 지켜봐 주세요.",
     heroSub: "다시 자라는 숲, 돌아오는 새, 맑아지는 공기. 당신이 함께 만든 변화를 위성과 소리와 공개 데이터로 투명하게 보여드립니다.",
     heroCta: "변화 보기",
+    simOpen: "≈ 바다 조절", simClose: "× 닫기",
+    simSea: "파도 세기", simSun: "시간대", simDrift: "바람 / 흐름", simFps: "렌더",
+    tod: (v) => v < 0.28 ? "일출" : v < 0.5 ? "아침" : v < 0.62 ? "한낮" : v < 0.8 ? "오후" : "일몰",
     brandSub: "환경재단 · 위성 검증소",
     titleSubject: "3년이 지난 지금, 위성은 이렇게 봅니다",
     titleControl: "먼저 판독 규칙이 맞는지 확인합니다",
@@ -285,9 +314,35 @@ const pct = n => n == null || !isFinite(n) ? "—" : (n * 100).toFixed(0) + "%";
 const tr = () => T[lang];
 
 /* ---------------- ocean hero ---------------- */
-const ocean = startOcean($("#ocean"), { sea: 0.6 });
-if (!ocean.ok) $("#hero").style.background = "linear-gradient(180deg,#1b3550,#5b6f6a 55%,#c7a878)";
+const fpsEl = () => $("#val-fps");
+const ocean = startOcean($("#ocean"), { sea: 0.6, sun: 0.62, drift: 1.0,
+  onFps: (f) => { const e = fpsEl(); if (e) e.textContent = f + " fps"; } });
+if (!ocean.ok) { $("#hero").style.background = "linear-gradient(180deg,#1b3550,#5b6f6a 55%,#c7a878)"; $("#simwrap").style.display = "none"; }
 $("#h-cta").onclick = () => $("#app").scrollIntoView({ behavior: "smooth" });
+
+// simulation controls
+const simP = $("#simPanel");
+$("#simToggle").onclick = () => { const o = simP.classList.toggle("open"); $("#simToggle").textContent = o ? tr().simClose : tr().simOpen; };
+function bindSlider(id, prop, valFn) {
+  const el = $(id); if (!ocean.ok) return;
+  el.value = ocean[prop];
+  const upd = () => { ocean[prop] = +el.value; valFn(+el.value); };
+  el.addEventListener("input", upd); upd();
+}
+function paintSim() {
+  const t = tr();
+  $("#simToggle").textContent = simP.classList.contains("open") ? t.simClose : t.simOpen;
+  $("#lbl-sea").textContent = t.simSea; $("#lbl-sun").textContent = t.simSun;
+  $("#lbl-drift").textContent = t.simDrift; $("#lbl-fps").textContent = t.simFps;
+  if (ocean.ok) {
+    $("#val-sea").textContent = Math.round(ocean.sea * 100) + "%";
+    $("#val-sun").textContent = t.tod(ocean.sun);
+    $("#val-drift").textContent = ocean.drift.toFixed(2) + "×";
+  }
+}
+bindSlider("#s-sea", "sea", () => paintSim());
+bindSlider("#s-sun", "sun", () => paintSim());
+bindSlider("#s-drift", "drift", () => paintSim());
 
 function paintHero() {
   const t = tr();
@@ -295,6 +350,7 @@ function paintHero() {
   $("#h-title").textContent = t.heroTitle;
   $("#h-sub").textContent = t.heroSub;
   $("#h-cta-t").textContent = t.heroCta;
+  paintSim();
   document.documentElement.lang = lang;
   for (const box of [$("#lang1"), $("#lang2")])
     box.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
