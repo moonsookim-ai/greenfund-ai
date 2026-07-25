@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Emissions near you · GREEN PROOF</title>
+<meta name="description" content="Type where you live and see the biggest greenhouse-gas emitters around you, ranked, from open Climate TRACE facility data. A GREEN PROOF module of the Environmental Foundation.">
+<link rel="canonical" href="https://greenfund.ai.kr/emissions/">
+<meta name="theme-color" content="#0d1411">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://greenfund.ai.kr/emissions/">
+<meta property="og:title" content="What emits the most around you?">
+<meta property="og:description" content="Type your neighbourhood and see the largest emitters near you, ranked from open Climate TRACE facility data.">
+<meta property="og:image" content="https://greenfund.ai.kr/og.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://greenfund.ai.kr/og.png?v=2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314663a'/%3E%3Cpath d='M9 21c0-6 4-10 10-11-1 7-4 11-10 11z' fill='%233ddc84'/%3E%3Cpath d='M9 23c2-3 5-5 9-6' stroke='%23e9b341' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f6f8f6; --card:#fff; --ink:#14201a; --muted:#5d6f66; --line:#dde5e0;
+  --green:#1f9d55; --green-dk:#14663a; --gold:#b98900; --warn:#c2410c;
+  --shadow:0 1px 3px rgba(20,40,30,.07),0 10px 30px rgba(20,40,30,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0d1411; --card:#141d19; --ink:#e8f0ea; --muted:#93a89c; --line:#243029;
+        --green:#3ddc84; --green-dk:#7ee2ad; --gold:#e3b341; --warn:#fb923c; --shadow:0 1px 3px rgba(0,0,0,.4)}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 90px}
+a{color:inherit}
+header.top{border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:20}
+.top .row{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:13px 20px;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.14em;font-size:13px}
+.brand em{font-style:normal;color:var(--green)}
+.brand small{display:block;letter-spacing:0;font-weight:600;font-size:11px;color:var(--muted);margin-top:2px}
+.top .sp{margin-left:auto}
+.homelink{font-size:12px;font-weight:700;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.lang2{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang2 button{background:transparent;border:0;color:var(--muted);font:inherit;font-weight:700;font-size:12px;padding:6px 12px;cursor:pointer}
+.lang2 button[aria-pressed=true]{background:var(--green);color:#04150c}
+
+.intro{padding:44px 0 6px}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--green);font-weight:800}
+h1{font-size:clamp(24px,4vw,38px);line-height:1.24;margin:12px 0 10px;letter-spacing:-.02em}
+.lede{color:var(--muted);font-size:16px;margin:0;max-width:64ch}
+
+.finder{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 6px}
+.finder input[type=text]{flex:1;min-width:220px;padding:13px 15px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px}
+.finder button{font:inherit;font-weight:700;font-size:14px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:12px 16px;cursor:pointer}
+.finder button.primary{background:var(--green);border-color:var(--green);color:#04150c}
+.radiusrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 0;font-size:13px;color:var(--muted)}
+.radiusrow button{font:inherit;font-size:12px;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:6px 12px;cursor:pointer}
+.radiusrow button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#04150c}
+@media(pointer:coarse){ .finder button,.finder input,.radiusrow button{min-height:44px} }
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:20px 0}
+.card h2{font-size:17px;margin:0 0 4px}
+.card .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+.grid2{display:grid;gap:20px}
+@media(min-width:900px){ .grid2{grid-template-columns:minmax(0,420px) minmax(0,1fr)} }
+
+/* radar */
+.radar{width:100%;max-width:420px;margin:0 auto;display:block;aspect-ratio:1}
+.ring{fill:none;stroke:var(--line)}
+.ringlbl{fill:var(--muted);font-size:10px}
+.spoke{stroke:var(--line);stroke-dasharray:2 4}
+.me{fill:var(--gold)}
+.dot{cursor:pointer;stroke:rgba(0,0,0,.25);stroke-width:.5}
+.dot.hi{stroke:var(--ink);stroke-width:2}
+.compass{fill:var(--muted);font-size:11px;font-weight:700}
+
+/* list */
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 8px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:10px 14px;flex:1;min-width:120px}
+.kpi .k{font-size:11px;color:var(--muted);font-weight:700}
+.kpi .v{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+.flist{list-style:none;margin:0;padding:0}
+.frow{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:11px 8px;border-bottom:1px solid var(--line);cursor:pointer}
+.frow:hover,.frow.hi{background:color-mix(in srgb,var(--green) 8%,transparent)}
+.frank{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center}
+.fname{font-weight:700;font-size:14px}
+.fmeta{font-size:12px;color:var(--muted);margin-top:1px}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.fright{text-align:right}
+.fe{font-weight:800;font-variant-numeric:tabular-nums}
+.feu{font-size:11px;color:var(--muted)}
+.bar{height:5px;border-radius:3px;background:var(--line);margin-top:5px;overflow:hidden;width:120px;margin-left:auto}
+.bar i{display:block;height:100%;background:var(--green)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 10px;font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.empty{color:var(--muted);padding:24px 0;text-align:center}
+details{border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+details summary{cursor:pointer;font-weight:700;font-size:14px}
+details ul{color:var(--muted);font-size:13px;padding-left:18px}
+.note{font-size:13px;color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top"><div class="row">
+  <div class="brand">GREEN <em>PROOF</em><small id="brandsub"></small></div>
+  <span class="sp"></span>
+  <a class="homelink" href="/" id="homelink"></a>
+  <div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div>
+</div></header>
+
+<div class="wrap">
+  <section class="intro">
+    <div class="eyebrow">GREEN PROOF · CLIMATE TRACE</div>
+    <h1 id="h1"></h1>
+    <p class="lede" id="lede"></p>
+    <div class="finder">
+      <input type="text" id="q" list="regions" autocomplete="off">
+      <datalist id="regions"></datalist>
+      <button class="primary" id="go"></button>
+      <button id="geo"></button>
+    </div>
+    <div class="radiusrow"><span id="radlbl"></span>
+      <button data-km="10">10 km</button><button data-km="25">25 km</button>
+      <button data-km="50" aria-pressed="true">50 km</button><button data-km="100">100 km</button>
+    </div>
+  </section>
+  <div id="result"></div>
+</div>
+
+<script>
+const CFG = { file: "data/emissions_kr.json" };
+
+const T = {
+  en: {
+    brandsub: "Environmental Foundation · Emissions near you",
+    home: "← Satellite verification",
+    h1: "What emits the most around you?",
+    lede: "Type where you live, and see the largest greenhouse-gas emitters near you — ranked, from open Climate TRACE facility data. Climate change is not only the planet's problem. It has an address.",
+    ph: "Your city or district (e.g. Suwon, Gangnam-gu)",
+    go: "Show", geo: "📍 Near me", radius: "Within",
+    within: (km) => `Within ${km} km`,
+    found: (n) => `${n} emitters found`,
+    total: "Total near you", topSector: "Largest source", biggest: "Biggest single emitter",
+    rank: "Ranked by estimated annual emissions",
+    dist: (d) => d < 1 ? "under 1 km" : `${d.toFixed(0)} km away`,
+    perYear: "/yr", none: "No facilities found in this radius. Try a wider radius.",
+    locating: "Locating…", geoFail: "Could not get your location. Type a region instead.",
+    notFound: "Region not recognised. Pick one from the list.",
+    method: "Where these numbers come from, and their limits",
+    mSrc: "Source: Climate TRACE, an open coalition that estimates facility-level emissions from satellites, sensors and AI.",
+    mEst: "Every figure is an estimate for a recent year, in tonnes of CO₂-equivalent (100-year). Treat them as order-of-magnitude, not audited accounts.",
+    mExc: "Farms and forests are left out on purpose: they arrive as diffuse grid cells, not facilities, and would bury the map.",
+    mNo: "This is information, not an accusation. A facility appearing here is not doing anything illegal; many are essential industry, and some are cutting emissions year on year.",
+    compass: { N: "N", E: "E", S: "S", W: "W" },
+    foot: "Emissions data: Climate TRACE (climatetrace.org), open data. A module of GREEN PROOF, greenfund.ai.kr.",
+  },
+  ko: {
+    brandsub: "환경재단 · 우리 동네 배출 지도",
+    home: "← 위성 검증소",
+    h1: "우리 동네에서 온실가스를 가장 많이 내뿜는 곳은?",
+    lede: "사는 곳을 입력하면, 내 주변에서 온실가스를 가장 많이 배출하는 시설을 순위로 보여드립니다. 공개된 Climate TRACE 시설 데이터 기반입니다. 기후 문제는 지구만의 일이 아닙니다. 내 동네의 일입니다.",
+    ph: "도시·구 이름 (예: 수원, 강남구)",
+    go: "찾기", geo: "📍 내 위치", radius: "반경",
+    within: (km) => `반경 ${km} km`,
+    found: (n) => `배출원 ${n}곳`,
+    total: "내 주변 합계", topSector: "가장 큰 부문", biggest: "최대 단일 배출원",
+    rank: "연간 추정 배출량 순",
+    dist: (d) => d < 1 ? "1 km 이내" : `${d.toFixed(0)} km`,
+    perYear: "/년", none: "이 반경에는 시설이 없습니다. 반경을 넓혀 보세요.",
+    locating: "위치 확인 중…", geoFail: "위치를 가져오지 못했습니다. 지역명을 입력해 주세요.",
+    notFound: "인식하지 못한 지역입니다. 목록에서 선택해 주세요.",
+    method: "이 숫자의 출처와 한계",
+    mSrc: "출처: Climate TRACE. 위성·센서·AI로 시설 단위 배출량을 추정하는 국제 공개 연합체입니다.",
+    mEst: "모든 값은 최근 연도의 추정치이며 단위는 CO₂ 환산 톤(100년)입니다. 정밀 회계가 아니라 자릿수 규모로 읽어 주세요.",
+    mExc: "농지·산림은 의도적으로 제외했습니다. 시설이 아니라 분산된 격자 셀로 제공돼 지도를 뒤덮기 때문입니다.",
+    mNo: "이것은 정보이지 고발이 아닙니다. 여기 나온 시설이 불법을 저지르는 것이 아니며, 다수는 필수 산업이고 일부는 해마다 배출을 줄이고 있습니다.",
+    compass: { N: "북", E: "동", S: "남", W: "서" },
+    foot: "배출 데이터: Climate TRACE (climatetrace.org), 공개 데이터. GREEN PROOF의 한 모듈, greenfund.ai.kr.",
+  },
+};
+// sector colour
+const COL = { power:"#e3675a", mfg:"#d98b3a", fossil:"#8a6ef0", waste:"#3a9dd9", transp:"#e0b13a", bldg:"#5ab06a" };
+
+let lang = (new URLSearchParams(location.search).get("lang") || localStorage.getItem("gp-lang") || (navigator.language||"en").slice(0,2));
+if (!T[lang]) lang = "en";
+const $ = (s,r=document)=>r.querySelector(s);
+const tr = () => T[lang];
+const nf = () => lang === "ko" ? "ko-KR" : "en-US";
+
+// Korean region gazetteer (approx centroids) for the search box.
+const REGIONS = [
+  ["Seoul 서울",37.566,126.978],["Jongno-gu 종로구",37.573,126.979],["Jung-gu 중구",37.564,126.997],
+  ["Gangnam-gu 강남구",37.517,127.047],["Songpa-gu 송파구",37.514,127.106],["Gangseo-gu 강서구",37.551,126.849],
+  ["Yeongdeungpo-gu 영등포구",37.526,126.896],["Guro-gu 구로구",37.495,126.887],["Nowon-gu 노원구",37.654,127.056],
+  ["Busan 부산",35.180,129.075],["Ulsan 울산",35.539,129.311],["Daegu 대구",35.872,128.601],
+  ["Incheon 인천",37.456,126.705],["Gwangju 광주",35.160,126.851],["Daejeon 대전",36.350,127.385],
+  ["Sejong 세종",36.480,127.289],["Suwon 수원",37.263,127.029],["Yongin 용인",37.241,127.178],
+  ["Seongnam 성남",37.420,127.127],["Goyang 고양",37.658,126.832],["Hwaseong 화성",37.199,126.831],
+  ["Ansan 안산",37.322,126.831],["Anyang 안양",37.394,126.957],["Pyeongtaek 평택",36.992,127.113],
+  ["Cheonan 천안",36.815,127.114],["Asan 아산",36.790,127.002],["Dangjin 당진",36.890,126.646],
+  ["Cheongju 청주",36.642,127.489],["Chungju 충주",36.991,127.926],["Pohang 포항",36.019,129.343],
+  ["Gyeongju 경주",35.856,129.225],["Gumi 구미",36.120,128.344],["Changwon 창원",35.228,128.681],
+  ["Gimhae 김해",35.229,128.889],["Jinju 진주",35.180,128.108],["Yeosu 여수",34.760,127.662],
+  ["Gwangyang 광양",34.940,127.696],["Suncheon 순천",34.951,127.487],["Mokpo 목포",34.812,126.392],
+  ["Gunsan 군산",35.968,126.737],["Jeonju 전주",35.824,127.148],["Wonju 원주",37.342,127.920],
+  ["Chuncheon 춘천",37.881,127.730],["Gangneung 강릉",37.752,128.876],["Jeju 제주",33.500,126.531],
+  ["Boryeong 보령",36.333,126.613],["Taean 태안",36.746,126.298],["Samcheok 삼척",37.450,129.165],
+];
+
+let DATA = null, ME = null, RADIUS = 50, rows = [];
+
+function paintStatic(){
+  const t = tr();
+  document.documentElement.lang = lang;
+  $("#brandsub").textContent = t.brandsub;
+  $("#homelink").textContent = t.home;
+  $("#h1").textContent = t.h1;
+  $("#lede").textContent = t.lede;
+  $("#q").placeholder = t.ph;
+  $("#go").textContent = t.go;
+  $("#geo").textContent = t.geo;
+  $("#radlbl").textContent = t.radius;
+  $("#regions").innerHTML = REGIONS.map(r=>`<option value="${r[0]}">`).join("");
+  $("#lang2").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.l===lang));
+}
+
+function haversine(a, b){
+  const R=6371, dLat=(b.lat-a.lat)*Math.PI/180, dLon=(b.lon-a.lon)*Math.PI/180;
+  const s=Math.sin(dLat/2)**2 + Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(s));
+}
+function fmtE(t){ // tonnes -> readable
+  if (t>=1e6) return [(t/1e6).toLocaleString(nf(),{maximumFractionDigits:1}), "Mt CO₂e"];
+  if (t>=1e3) return [(t/1e3).toLocaleString(nf(),{maximumFractionDigits:0}), "kt CO₂e"];
+  return [t.toLocaleString(nf()), "t CO₂e"];
+}
+
+function compute(){
+  if (!ME || !DATA) return;
+  rows = DATA.facilities.map(f=>({...f, d: haversine(ME, f)}))
+    .filter(f=>f.d <= RADIUS).sort((a,b)=>b.e-a.e);
+  renderResult();
+}
+
+function renderResult(){
+  const t = tr(), sec = DATA.sectors;
+  if (!rows.length){ $("#result").innerHTML = `<div class="card"><p class="empty">${t.none}</p></div>`; return; }
+  const total = rows.reduce((s,f)=>s+f.e,0);
+  const bySector = {};
+  rows.forEach(f=> bySector[f.s]=(bySector[f.s]||0)+f.e);
+  const topSec = Object.entries(bySector).sort((a,b)=>b[1]-a[1])[0];
+  const top = rows[0], maxE = top.e;
+  const [tv,tu] = fmtE(total), [bv,bu] = fmtE(top.e);
+
+  const usedSectors = [...new Set(rows.map(f=>f.s))];
+  const legend = usedSectors.map(s=>`<span><i style="background:${COL[s]}"></i>${sec[s][lang]}</span>`).join("");
+
+  $("#result").innerHTML = `
+  <div class="card">
+    <div class="kpis">
+      <div class="kpi"><div class="k">${t.found(rows.length)}</div><div class="v">${t.within(RADIUS)}</div></div>
+      <div class="kpi"><div class="k">${t.total}</div><div class="v">${tv} <span class="feu">${tu}${t.perYear}</span></div></div>
+      <div class="kpi"><div class="k">${t.topSector}</div><div class="v" style="font-size:17px">${sec[topSec[0]][lang]}</div></div>
+      <div class="kpi"><div class="k">${t.biggest}</div><div class="v" style="font-size:15px">${top.n}</div></div>
+    </div>
+    <div class="grid2">
+      <div>${radar(rows, sec)}</div>
+      <div>
+        <div class="legend">${legend}</div>
+        <ul class="flist">${rows.slice(0,60).map((f,i)=>row(f,i,maxE,sec)).join("")}</ul>
+        ${rows.length>60?`<p class="note" style="margin-top:10px">+ ${rows.length-60} ${lang==="ko"?"곳 더":"more"}</p>`:""}
+      </div>
+    </div>
+    <details><summary>${t.method}</summary>
+      <ul><li>${t.mSrc}</li><li>${t.mEst}</li><li>${t.mExc}</li><li>${t.mNo}</li></ul>
+    </details>
+  </div>
+  <footer>${t.foot} · ${DATA.generated}</footer>`;
+
+  $("#result").querySelectorAll(".frow").forEach(el=>{
+    el.addEventListener("mouseenter", ()=>hi(el.dataset.id, true));
+    el.addEventListener("mouseleave", ()=>hi(el.dataset.id, false));
+  });
+}
+
+function row(f,i,maxE,sec){
+  const [ev,eu]=fmtE(f.e), t=tr();
+  return `<li class="frow" data-id="${f.id}">
+    <div class="frank">${i+1}</div>
+    <div><div class="fname">${f.n}</div>
+      <div class="fmeta"><span class="chip" style="background:${COL[f.s]}22;color:${COL[f.s]}">${sec[f.s][lang]}</span>${t.dist(f.d)}${f.o?" · "+f.o:""}</div>
+      <div class="bar"><i style="width:${Math.max(3,100*f.e/maxE)}%"></i></div>
+    </div>
+    <div class="fright"><div class="fe">${ev}</div><div class="feu">${eu}${t.perYear}</div></div>
+  </li>`;
+}
+
+function radar(rows, sec){
+  const S=420, C=S/2, R=C-26, t=tr();
+  const rings=[0.25,0.5,0.75,1];
+  const maxE = rows[0].e, maxD = RADIUS;
+  // equirectangular offsets (km) -> radar coords
+  const kmPerLon = 111.32*Math.cos(ME.lat*Math.PI/180), kmPerLat = 110.57;
+  const pts = rows.slice(0,80).map(f=>{
+    const dx=(f.lon-ME.lon)*kmPerLon, dy=(f.lat-ME.lat)*kmPerLat;
+    const px=C + dx/maxD*R, py=C - dy/maxD*R;
+    const rr = 4 + 13*Math.sqrt(f.e/maxE);
+    return {f, px, py, rr};
+  });
+  return `<svg class="radar" viewBox="0 0 ${S} ${S}" role="img" aria-label="emitters around you">
+    ${rings.map(r=>`<circle class="ring" cx="${C}" cy="${C}" r="${R*r}"/>
+      <text class="ringlbl" x="${C+4}" y="${C-R*r+12}">${Math.round(maxD*r)} km</text>`).join("")}
+    <line class="spoke" x1="${C}" y1="${C-R}" x2="${C}" y2="${C+R}"/>
+    <line class="spoke" x1="${C-R}" y1="${C}" x2="${C+R}" y2="${C}"/>
+    <text class="compass" x="${C}" y="${C-R-8}" text-anchor="middle">${t.compass.N}</text>
+    <text class="compass" x="${C+R+6}" y="${C+4}">${t.compass.E}</text>
+    <text class="compass" x="${C}" y="${C+R+18}" text-anchor="middle">${t.compass.S}</text>
+    <text class="compass" x="${C-R-16}" y="${C+4}">${t.compass.W}</text>
+    ${pts.map(p=>`<circle class="dot" data-id="${p.f.id}" cx="${p.px.toFixed(1)}" cy="${p.py.toFixed(1)}" r="${p.rr.toFixed(1)}" fill="${COL[p.f.s]}" opacity="0.82"><title>${p.f.n} · ${fmtE(p.f.e).join(" ")}</title></circle>`).join("")}
+    <circle class="me" cx="${C}" cy="${C}" r="5"/>
+  </svg>`;
+}
+
+function hi(id, on){
+  document.querySelectorAll(`.dot[data-id="${id}"]`).forEach(d=>d.classList.toggle("hi",on));
+  document.querySelectorAll(`.frow[data-id="${id}"]`).forEach(d=>d.classList.toggle("hi",on));
+}
+
+function setMe(lat, lon){ ME = {lat, lon}; compute(); }
+function search(){
+  const v = $("#q").value.trim().toLowerCase();
+  if (!v) return;
+  let hit = REGIONS.find(r=>r[0].toLowerCase()===v)
+        || REGIONS.find(r=>r[0].toLowerCase().includes(v))
+        || REGIONS.find(r=>r[0].toLowerCase().split(/[ /]/).some(w=>w.startsWith(v)));
+  if (!hit){ alert(tr().notFound); return; }
+  setMe(hit[1], hit[2]);
+}
+
+$("#go").onclick = search;
+$("#q").addEventListener("keydown", e=>{ if(e.key==="Enter") search(); });
+$("#geo").onclick = ()=>{
+  if (!navigator.geolocation){ alert(tr().geoFail); return; }
+  $("#geo").textContent = tr().locating;
+  navigator.geolocation.getCurrentPosition(
+    p=>{ $("#geo").textContent = tr().geo; setMe(p.coords.latitude, p.coords.longitude); },
+    ()=>{ $("#geo").textContent = tr().geo; alert(tr().geoFail); },
+    { timeout:8000 });
+};
+document.querySelectorAll(".radiusrow button").forEach(b=>b.onclick=()=>{
+  RADIUS = +b.dataset.km;
+  document.querySelectorAll(".radiusrow button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+  compute();
+});
+$("#lang2").addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  lang = b.dataset.l; localStorage.setItem("gp-lang", lang);
+  history.replaceState({},"","?lang="+lang);
+  paintStatic(); if (ME) renderResult();
+});
+
+(async function boot(){
+  paintStatic();
+  DATA = await (await fetch(CFG.file,{cache:"no-store"})).json();
+  // default view: Seoul, so the page is never empty on first load
+  setMe(37.566, 126.978);
+  $("#q").value = lang==="ko" ? "서울" : "Seoul 서울";
+})();
+</script>
+</body>
+</html>

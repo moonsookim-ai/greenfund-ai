@@ -57,8 +57,8 @@ a{color:inherit}
 /* ocean simulation controls */
 .simwrap{position:absolute;right:20px;bottom:20px;z-index:4;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .simtoggle{background:rgba(6,14,18,.42);border:1px solid rgba(255,255,255,.32);color:#fff;font:inherit;font-weight:700;font-size:12px;padding:8px 13px;border-radius:999px;cursor:pointer;backdrop-filter:blur(8px)}
-.simpanel{display:none;width:236px;background:rgba(6,14,18,.5);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 15px;backdrop-filter:blur(10px);color:#eaf3ee}
-.simpanel.open{display:block}
+.simpanel{display:block;width:236px;background:rgba(6,14,18,.5);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 15px;backdrop-filter:blur(10px);color:#eaf3ee}
+.simpanel.closed{display:none}
 .simpanel .r{margin:0 0 11px}
 .simpanel .r:last-child{margin-bottom:0}
 .simpanel label{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#cfe6d8;margin-bottom:4px}
@@ -80,7 +80,11 @@ header.top{border-bottom:1px solid var(--line);background:var(--card);position:s
 .brand em{font-style:normal;color:var(--green)}
 .brand small{display:block;letter-spacing:0;font-weight:600;font-size:11px;color:var(--muted);margin-top:2px}
 .top select{padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;max-width:60vw}
+.modlink{font-size:12px;font-weight:700;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;white-space:nowrap}
+.modlink:hover{color:var(--green-dk);border-color:color-mix(in srgb,var(--green) 45%,transparent)}
 .top .lang2{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.top .modlink{margin-left:auto}
+.top .modlink + .lang2{margin-left:8px}
 .top .lang2 button{background:transparent;border:0;color:var(--muted);font:inherit;font-weight:700;font-size:12px;padding:6px 12px;cursor:pointer}
 .top .lang2 button[aria-pressed=true]{background:var(--green);color:#04150c}
 
@@ -201,6 +205,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
 <header class="top"><div class="row">
   <div class="brand">GREEN <em>PROOF</em><small id="brand-sub"></small></div>
   <select id="siteSel" aria-label="plot"></select>
+  <a class="modlink" id="modEmissions" href="/emissions/"></a>
   <div class="lang2" id="lang2">
     <button data-l="en">EN</button><button data-l="ko">한국어</button>
   </div>
@@ -229,6 +234,7 @@ const T = {
     simOpen: "≈ Adjust the sea", simClose: "× Close",
     simSea: "Sea state", simSun: "Time of day", simDrift: "Wind / drift", simFps: "Render",
     tod: (v) => v < 0.28 ? "sunrise" : v < 0.5 ? "morning" : v < 0.62 ? "midday" : v < 0.8 ? "afternoon" : "sunset",
+    modEmissions: "Emissions near you →",
     brandSub: "Environmental Foundation · Satellite Verification",
     titleSubject: "Three years on, this is what the satellite sees",
     titleControl: "First, we check that the rules are right",
@@ -269,6 +275,7 @@ const T = {
     simOpen: "≈ 바다 조절", simClose: "× 닫기",
     simSea: "파도 세기", simSun: "시간대", simDrift: "바람 / 흐름", simFps: "렌더",
     tod: (v) => v < 0.28 ? "일출" : v < 0.5 ? "아침" : v < 0.62 ? "한낮" : v < 0.8 ? "오후" : "일몰",
+    modEmissions: "우리 동네 배출 지도 →",
     brandSub: "환경재단 · 위성 검증소",
     titleSubject: "3년이 지난 지금, 위성은 이렇게 봅니다",
     titleControl: "먼저 판독 규칙이 맞는지 확인합니다",
@@ -322,7 +329,7 @@ $("#h-cta").onclick = () => $("#app").scrollIntoView({ behavior: "smooth" });
 
 // simulation controls
 const simP = $("#simPanel");
-$("#simToggle").onclick = () => { const o = simP.classList.toggle("open"); $("#simToggle").textContent = o ? tr().simClose : tr().simOpen; };
+$("#simToggle").onclick = () => { const closed = simP.classList.toggle("closed"); $("#simToggle").textContent = closed ? tr().simOpen : tr().simClose; };
 function bindSlider(id, prop, valFn) {
   const el = $(id); if (!ocean.ok) return;
   el.value = ocean[prop];
@@ -331,7 +338,7 @@ function bindSlider(id, prop, valFn) {
 }
 function paintSim() {
   const t = tr();
-  $("#simToggle").textContent = simP.classList.contains("open") ? t.simClose : t.simOpen;
+  $("#simToggle").textContent = simP.classList.contains("closed") ? t.simOpen : t.simClose;
   $("#lbl-sea").textContent = t.simSea; $("#lbl-sun").textContent = t.simSun;
   $("#lbl-drift").textContent = t.simDrift; $("#lbl-fps").textContent = t.simFps;
   if (ocean.ok) {
@@ -350,6 +357,7 @@ function paintHero() {
   $("#h-title").textContent = t.heroTitle;
   $("#h-sub").textContent = t.heroSub;
   $("#h-cta-t").textContent = t.heroCta;
+  { const me = $("#modEmissions"); if (me) me.textContent = t.modEmissions; }
   paintSim();
   document.documentElement.lang = lang;
   for (const box of [$("#lang1"), $("#lang2")])
@@ -396,6 +404,7 @@ function render() {
   // refresh site dropdown labels for language
   $("#siteSel").querySelectorAll("option").forEach(o => {});
   $("#brand-sub").textContent = t.brandSub;
+  const me = $("#modEmissions"); if (me) me.textContent = t.modEmissions;
   $("#title").textContent = isControl ? t.titleControl : t.titleSubject;
   $("#lede").textContent = isControl ? t.ledeControl : t.ledeSubject(R);
 

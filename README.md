@@ -21,6 +21,18 @@ component of an AI programme proposed to a Korean environmental foundation.
 |---|---|
 | [`greenproof/`](greenproof/) | The pipeline and the public web viewer. See its [README](greenproof/README.md). |
 
+Two live modules share the site:
+
+- **Satellite verification** (`/`) — reforestation read from Sentinel-2, the
+  section above.
+- **Emissions near you** (`/emissions/`) — type where you live and see the
+  largest greenhouse-gas emitters around you, ranked, from open Climate TRACE
+  facility data (1,204 Korean facilities, 587 Mt CO₂e). A local radar of nearby
+  emitters plus a ranked list, bilingual, self-contained. Built by
+  `greenproof/tools/build_emissions.py`. Farms and forests are excluded on
+  purpose — they arrive as diffuse grid cells, not facilities — and the page
+  says so. The framing is information, not accusation.
+
 ## What it does, in one run
 
 Working on a mangrove planting area in Dakope, Bangladesh, with no plot
