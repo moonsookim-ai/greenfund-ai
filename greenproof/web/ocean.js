@@ -59,7 +59,8 @@ export function startOcean(canvas, opts = {}) {
   // sharp and troughs are broad. Summing rotated octaves of this builds a
   // believable open-sea heightfield.
   float SEA_HEIGHT;   // set from uSea in main
-  float CHOPPY = 3.4;
+  float CHOPPY;
+  float WAVE_SPEED;
 
   float octave(vec2 uv, float choppy){
     uv += fbm(uv);                       // break the grid
@@ -73,7 +74,7 @@ export function startOcean(canvas, opts = {}) {
     float freq = 0.16, amp = SEA_HEIGHT, choppy = CHOPPY;
     vec2 uv = p; uv.x *= 0.75;
     mat2 M = mat2(1.7, 1.3, -1.3, 1.7);
-    float h = 0.0, t = 1.0 + uTime*0.7;
+    float h = 0.0, t = 1.0 + uTime*WAVE_SPEED;
     for(int i=0;i<6;i++){
       if(i>=steps) break;
       float d  = octave((uv + t)*freq, choppy);
@@ -155,9 +156,10 @@ export function startOcean(canvas, opts = {}) {
     float down = clamp(dot(-rd, n), 0.0, 1.0);
     vec3 body = mix(deep, shallow, down*down);
 
-    // subsurface scattering: crests glow where the sun is behind thin water
-    float height = H_HI(p.xz);
-    float sss = clamp(height*0.85, 0.0, 1.0);
+    // subsurface scattering: crests glow where the sun is behind thin water.
+    // Height is normalised by the sea state so thresholds hold at any setting.
+    float height = H_HI(p.xz) / max(SEA_HEIGHT, 0.2);
+    float sss = clamp(height*0.8, 0.0, 1.0);
     sss *= pow(max(dot(refl, SUN_DIR), 0.0), 2.0);
     body += vec3(0.06, 0.28, 0.20) * sss * 1.4;
 
@@ -167,9 +169,9 @@ export function startOcean(canvas, opts = {}) {
     float spec = pow(max(dot(refl, SUN_DIR), 0.0), 380.0);
     vec3 col = mix(body, reflected, fres) + SUN_COL * spec * 2.6;
 
-    // foam on the sharpest, highest crests
-    float foam = smoothstep(0.62, 1.05, height) * smoothstep(0.35, 0.9, fbm(p.xz*3.0));
-    col = mix(col, vec3(0.9, 0.94, 0.97), clamp(foam, 0.0, 1.0)*0.55);
+    // foam on the sharpest, highest crests; a rough sea shows more whitecap
+    float foam = smoothstep(0.55, 0.95, height) * smoothstep(0.35, 0.9, fbm(p.xz*3.0));
+    col = mix(col, vec3(0.9, 0.94, 0.97), clamp(foam, 0.0, 1.0) * mix(0.4, 0.75, uSea));
 
     // atmospheric fade into the horizon haze — gentle, so near water stays deep
     float fog = 1.0 - exp(-dist*0.0016);
@@ -183,7 +185,11 @@ export function startOcean(canvas, opts = {}) {
   }
 
   void main(){
-    SEA_HEIGHT = mix(0.45, 0.95, uSea);
+    // Sea state drives amplitude, crest sharpness and pace together — a real
+    // rough sea is not just taller, it is steeper and faster.
+    SEA_HEIGHT = mix(0.35, 2.1, uSea*uSea);   // quadratic: top end hits hard
+    CHOPPY     = mix(2.4, 4.6, uSea);
+    WAVE_SPEED = mix(0.55, 1.15, uSea);
     // Time of day -> sun elevation and colour. uSun 0 dawn, 0.5 noon, 1 dusk.
     float elev = mix(0.05, 0.62, sin(clamp(uSun,0.0,1.0)*PI));
     float az   = mix(-0.5, 0.5, uSun);

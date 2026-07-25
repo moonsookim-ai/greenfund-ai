@@ -48,8 +48,16 @@ header.top{border-bottom:1px solid var(--line);background:var(--card);position:s
 h1{font-size:clamp(24px,4vw,38px);line-height:1.24;margin:12px 0 10px;letter-spacing:-.02em}
 .lede{color:var(--muted);font-size:16px;margin:0;max-width:64ch}
 
-.finder{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 6px}
-.finder input[type=text]{flex:1;min-width:220px;padding:13px 15px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px}
+.finder{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 6px;position:relative}
+.qwrap{flex:1;min-width:220px;position:relative}
+.qwrap input[type=text]{width:100%;padding:13px 15px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px}
+.sug{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:none}
+.sug.open{display:block}
+.sug button{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:11px 14px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.sug button:last-child{border-bottom:0}
+.sug button:hover,.sug button.sel{background:color-mix(in srgb,var(--green) 10%,transparent)}
+.sug .sido{font-size:12px;color:var(--muted)}
+.sug .none{padding:12px 14px;font-size:13px;color:var(--muted)}
 .finder button{font:inherit;font-weight:700;font-size:14px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:12px 16px;cursor:pointer}
 .finder button.primary{background:var(--green);border-color:var(--green);color:#04150c}
 .radiusrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 0;font-size:13px;color:var(--muted)}
@@ -115,8 +123,10 @@ footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;font-si
     <h1 id="h1"></h1>
     <p class="lede" id="lede"></p>
     <div class="finder">
-      <input type="text" id="q" list="regions" autocomplete="off">
-      <datalist id="regions"></datalist>
+      <div class="qwrap">
+        <input type="text" id="q" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sug">
+        <div class="sug" id="sug" role="listbox"></div>
+      </div>
       <button class="primary" id="go"></button>
       <button id="geo"></button>
     </div>
@@ -137,7 +147,7 @@ const T = {
     home: "← Satellite verification",
     h1: "What emits the most around you?",
     lede: "Type where you live, and see the largest greenhouse-gas emitters near you — ranked, from open Climate TRACE facility data. Climate change is not only the planet's problem. It has an address.",
-    ph: "Your city or district (e.g. Suwon, Gangnam-gu)",
+    ph: "Your district — every si/gun/gu works (e.g. Seodaemun-gu, Suwon)",
     go: "Show", geo: "📍 Near me", radius: "Within",
     within: (km) => `Within ${km} km`,
     found: (n) => `${n} emitters found`,
@@ -160,7 +170,7 @@ const T = {
     home: "← 위성 검증소",
     h1: "우리 동네에서 온실가스를 가장 많이 내뿜는 곳은?",
     lede: "사는 곳을 입력하면, 내 주변에서 온실가스를 가장 많이 배출하는 시설을 순위로 보여드립니다. 공개된 Climate TRACE 시설 데이터 기반입니다. 기후 문제는 지구만의 일이 아닙니다. 내 동네의 일입니다.",
-    ph: "도시·구 이름 (예: 수원, 강남구)",
+    ph: "시·군·구 이름 (예: 서대문구, 수원시) — 전국 어디든 됩니다",
     go: "찾기", geo: "📍 내 위치", radius: "반경",
     within: (km) => `반경 ${km} km`,
     found: (n) => `배출원 ${n}곳`,
@@ -188,27 +198,11 @@ const $ = (s,r=document)=>r.querySelector(s);
 const tr = () => T[lang];
 const nf = () => lang === "ko" ? "ko-KR" : "en-US";
 
-// Korean region gazetteer (approx centroids) for the search box.
-const REGIONS = [
-  ["Seoul 서울",37.566,126.978],["Jongno-gu 종로구",37.573,126.979],["Jung-gu 중구",37.564,126.997],
-  ["Gangnam-gu 강남구",37.517,127.047],["Songpa-gu 송파구",37.514,127.106],["Gangseo-gu 강서구",37.551,126.849],
-  ["Yeongdeungpo-gu 영등포구",37.526,126.896],["Guro-gu 구로구",37.495,126.887],["Nowon-gu 노원구",37.654,127.056],
-  ["Busan 부산",35.180,129.075],["Ulsan 울산",35.539,129.311],["Daegu 대구",35.872,128.601],
-  ["Incheon 인천",37.456,126.705],["Gwangju 광주",35.160,126.851],["Daejeon 대전",36.350,127.385],
-  ["Sejong 세종",36.480,127.289],["Suwon 수원",37.263,127.029],["Yongin 용인",37.241,127.178],
-  ["Seongnam 성남",37.420,127.127],["Goyang 고양",37.658,126.832],["Hwaseong 화성",37.199,126.831],
-  ["Ansan 안산",37.322,126.831],["Anyang 안양",37.394,126.957],["Pyeongtaek 평택",36.992,127.113],
-  ["Cheonan 천안",36.815,127.114],["Asan 아산",36.790,127.002],["Dangjin 당진",36.890,126.646],
-  ["Cheongju 청주",36.642,127.489],["Chungju 충주",36.991,127.926],["Pohang 포항",36.019,129.343],
-  ["Gyeongju 경주",35.856,129.225],["Gumi 구미",36.120,128.344],["Changwon 창원",35.228,128.681],
-  ["Gimhae 김해",35.229,128.889],["Jinju 진주",35.180,128.108],["Yeosu 여수",34.760,127.662],
-  ["Gwangyang 광양",34.940,127.696],["Suncheon 순천",34.951,127.487],["Mokpo 목포",34.812,126.392],
-  ["Gunsan 군산",35.968,126.737],["Jeonju 전주",35.824,127.148],["Wonju 원주",37.342,127.920],
-  ["Chuncheon 춘천",37.881,127.730],["Gangneung 강릉",37.752,128.876],["Jeju 제주",33.500,126.531],
-  ["Boryeong 보령",36.333,126.613],["Taean 태안",36.746,126.298],["Samcheok 삼척",37.450,129.165],
-];
+// Region gazetteer: every si/gun/gu in the country, geocoded at build time
+// (tools/build_gazetteer.py, OpenStreetMap Nominatim). Loaded from JSON.
+let REGIONS = [];
 
-let DATA = null, ME = null, RADIUS = 50, rows = [];
+let DATA = null, ME = null, MYNAME = "", RADIUS = 50, rows = [];
 
 function paintStatic(){
   const t = tr();
@@ -221,7 +215,6 @@ function paintStatic(){
   $("#go").textContent = t.go;
   $("#geo").textContent = t.geo;
   $("#radlbl").textContent = t.radius;
-  $("#regions").innerHTML = REGIONS.map(r=>`<option value="${r[0]}">`).join("");
   $("#lang2").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.l===lang));
 }
 
@@ -259,7 +252,8 @@ function renderResult(){
   $("#result").innerHTML = `
   <div class="card">
     <div class="kpis">
-      <div class="kpi"><div class="k">${t.found(rows.length)}</div><div class="v">${t.within(RADIUS)}</div></div>
+      <div class="kpi"><div class="k">${MYNAME || t.found(rows.length)}</div><div class="v">${t.within(RADIUS)}</div>
+        ${MYNAME ? `<div class="k" style="margin-top:2px">${t.found(rows.length)}</div>` : ""}</div>
       <div class="kpi"><div class="k">${t.total}</div><div class="v">${tv} <span class="feu">${tu}${t.perYear}</span></div></div>
       <div class="kpi"><div class="k">${t.topSector}</div><div class="v" style="font-size:17px">${sec[topSec[0]][lang]}</div></div>
       <div class="kpi"><div class="k">${t.biggest}</div><div class="v" style="font-size:15px">${top.n}</div></div>
@@ -327,19 +321,68 @@ function hi(id, on){
   document.querySelectorAll(`.frow[data-id="${id}"]`).forEach(d=>d.classList.toggle("hi",on));
 }
 
-function setMe(lat, lon){ ME = {lat, lon}; compute(); }
+function setMe(lat, lon, name){ ME = {lat, lon}; MYNAME = name || ""; compute(); }
+
+/* ---- suggestion picker: the user always confirms a concrete district ---- */
+const sug = $("#sug");
+let sugItems = [], sugSel = -1;
+
+function norm(s){ return s.toLowerCase().replace(/\s+/g,""); }
+function matches(v){
+  const q = norm(v);
+  if (!q) return [];
+  const scored = [];
+  for (const r of REGIONS){
+    const ko = norm(r.ko), gun = norm(r.gun||""), en = norm(r.en||""), sido = norm(r.sido);
+    let score = -1;
+    if (ko === q || gun === q || en === q) score = 0;               // exact
+    else if (gun.startsWith(q) || ko.startsWith(q)) score = 1;      // prefix
+    else if (ko.includes(q) || gun.includes(q) || en.includes(q) || (sido+gun).includes(q)) score = 2;
+    if (score >= 0) scored.push([score, r]);
+  }
+  scored.sort((a,b)=>a[0]-b[0] || a[1].ko.localeCompare(b[1].ko, "ko"));
+  return scored.slice(0,8).map(x=>x[1]);
+}
+function openSug(list){
+  sugItems = list; sugSel = -1;
+  if (!list.length){ sug.innerHTML = `<div class="none">${tr().notFound}</div>`; }
+  else sug.innerHTML = list.map((r,i)=>
+    `<button role="option" data-i="${i}"><span>${r.ko}</span><span class="sido">${lang==="ko"? r.sido : (r.en || r.sido)}</span></button>`).join("");
+  sug.classList.add("open"); $("#q").setAttribute("aria-expanded","true");
+}
+function closeSug(){ sug.classList.remove("open"); $("#q").setAttribute("aria-expanded","false"); sugSel=-1; }
+function pick(r){
+  $("#q").value = r.ko; closeSug();
+  setMe(r.lat, r.lon, r.ko);
+}
+sug.addEventListener("mousedown", e=>{           // mousedown: fires before input blur
+  const b = e.target.closest("button[data-i]"); if(!b) return;
+  e.preventDefault(); pick(sugItems[+b.dataset.i]);
+});
+$("#q").addEventListener("input", ()=>{ const v=$("#q").value.trim(); v? openSug(matches(v)) : closeSug(); });
+$("#q").addEventListener("focus", ()=>{ const v=$("#q").value.trim(); if(v) openSug(matches(v)); });
+$("#q").addEventListener("blur", ()=>setTimeout(closeSug,150));
+$("#q").addEventListener("keydown", e=>{
+  if (e.key==="ArrowDown"||e.key==="ArrowUp"){
+    if(!sug.classList.contains("open")) openSug(matches($("#q").value.trim()));
+    if(!sugItems.length) return;
+    e.preventDefault();
+    sugSel = (sugSel + (e.key==="ArrowDown"?1:-1) + sugItems.length) % sugItems.length;
+    sug.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("sel", i===sugSel));
+  } else if (e.key==="Enter"){
+    e.preventDefault(); search();
+  } else if (e.key==="Escape"){ closeSug(); }
+});
 function search(){
-  const v = $("#q").value.trim().toLowerCase();
+  const v = $("#q").value.trim();
   if (!v) return;
-  let hit = REGIONS.find(r=>r[0].toLowerCase()===v)
-        || REGIONS.find(r=>r[0].toLowerCase().includes(v))
-        || REGIONS.find(r=>r[0].toLowerCase().split(/[ /]/).some(w=>w.startsWith(v)));
-  if (!hit){ alert(tr().notFound); return; }
-  setMe(hit[1], hit[2]);
+  if (sugSel >= 0 && sugItems[sugSel]){ pick(sugItems[sugSel]); return; }
+  const list = matches(v);
+  if (list.length === 1){ pick(list[0]); return; }
+  openSug(list);                                  // several or none: make the user choose
 }
 
 $("#go").onclick = search;
-$("#q").addEventListener("keydown", e=>{ if(e.key==="Enter") search(); });
 $("#geo").onclick = ()=>{
   if (!navigator.geolocation){ alert(tr().geoFail); return; }
   $("#geo").textContent = tr().locating;
@@ -362,10 +405,15 @@ $("#lang2").addEventListener("click", e=>{
 
 (async function boot(){
   paintStatic();
-  DATA = await (await fetch(CFG.file,{cache:"no-store"})).json();
-  // default view: Seoul, so the page is never empty on first load
-  setMe(37.566, 126.978);
-  $("#q").value = lang==="ko" ? "서울" : "Seoul 서울";
+  const [em, rg] = await Promise.all([
+    fetch(CFG.file,{cache:"no-store"}).then(r=>r.json()),
+    fetch("data/regions_kr.json",{cache:"no-store"}).then(r=>r.json()).catch(()=>({regions:[]})),
+  ]);
+  DATA = em; REGIONS = rg.regions || [];
+  // default view: central Seoul, so the page is never empty on first load
+  const seoul = REGIONS.find(r=>r.ko==="서울 중구");
+  if (seoul) { $("#q").value = seoul.ko; setMe(seoul.lat, seoul.lon, seoul.ko); }
+  else setMe(37.566, 126.978, "Seoul");
 })();
 </script>
 </body>
