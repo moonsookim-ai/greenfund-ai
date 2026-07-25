@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .env
 out/
+
+# internal proposal (Korean, not for the public repo)
+기획서.md

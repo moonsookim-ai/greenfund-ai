@@ -18,7 +18,7 @@ from rasterio.windows import from_bounds
 
 from .analysis import NDVI_CANOPY
 
-OUT_W = 720
+OUT_W = 1280
 
 
 def read_rgb(scenes, bbox, out_shape=None) -> np.ndarray | None:

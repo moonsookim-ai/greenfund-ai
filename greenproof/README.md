@@ -1,25 +1,27 @@
-# 그린프루프 위성 검증소
+# GreenProof satellite verification
 
-**실서비스 https://greenfund.ai.kr**
+**Live: https://greenfund.ai.kr**
 
-환경재단 AI 전환 기획서 Ⅴ장 1번 사업의 작동하는 구현체.
-
-조림 구획을 유럽 코페르니쿠스 Sentinel-2 위성 영상으로 검증하고, 후원자가 자기 구획의
-변화를 직접 확인하는 웹 화면까지 낸다. **새로 촬영하지 않는다. 이미 찍혀 있는 것을 읽는다.**
+The working implementation of the satellite-verification component. It verifies a
+planting plot against free Copernicus Sentinel-2 imagery and produces the public
+web viewer where a supporter watches their own plot change over years.
+**Nothing is captured on demand — it reads what the satellite already recorded.**
 
 ---
 
-## 지금 무엇이 작동하는가
+## What runs today
 
-실데이터로 전 과정이 돈다. 아래는 2026년 7월 25일 실행 결과다.
+The whole pipeline runs on real data. Figures below are from a run on
+2026-07-25.
 
-**탐색 (`scan`)** · 방글라데시 쿨나주 다코페 일대 약 25×25km 를 20m 격자로 훑어
-2023년 대비 2026년에 새로 식생이 된 구획을 찾았다. 지역 전체 신규 식생 비율 1.1%,
-상위 후보 4곳. 1·2위가 인접해 하나로 묶으니 50ha 구획이 나왔다.
+**Find (`scan`)** — the foundation does not hold plot coordinates yet, so this
+sweeps ~25×25 km around Dakope, Khulna, Bangladesh on a 20 m grid for ground that
+was not vegetated in 2023 and is canopy in 2026. Four candidate cells; the top
+two are adjacent and merge into a 50 ha plot.
 
-**검증 (`verify`)** · 그 구획의 5개 건기 시점을 읽었다.
+**Verify (`verify`)** — five dry-season dates for that plot:
 
-| 관측일 | 임관 피복 | NDVI 평균 |
+| Observed | Canopy cover | Mean NDVI |
 |---|---|---|
 | 2022-03-10 | 5.4% | 0.115 |
 | 2023-01-09 | 16.0% | 0.167 |
@@ -27,114 +29,129 @@
 | 2025-03-29 | 77.1% | 0.512 |
 | 2026-03-04 | 83.6% | 0.590 |
 
-임관 면적 2.72ha → 41.82ha, 증가 +39.10ha(범위 +34.72 ~ +42.34),
-연간 추세 +21.7%P(R² 0.89), 흡수 추정 369 tCO₂(범위 235 ~ 528).
+Canopy area 2.72 → 41.82 ha, gain +39.10 ha (range 34.72–42.34), trend
++21.7 pp/year (R² 0.89), sequestered carbon 369 tCO₂ (range 235–528).
 
-**대조군** · 순다르반스 성숙 맹그로브림을 같은 규칙으로 읽으면 임관 99.9%, 5년간 +0.04ha,
-상록성 1.00 이 나온다. 예상대로다. 판독 규칙이 정상 작동한다는 뜻이다.
+**Control** — reading the mature Sundarbans mangrove forest with the same rules
+returns canopy 99.9%, +0.04 ha over five years, evergreen 1.00. Exactly as
+expected: it shows the classification rules work.
 
-**상록성 검사** · 후보 구획은 우기 임관이 건기의 0.54 배였다. 판정은 "부분 낙엽".
-맹그로브는 상록수라 두 계절 모두 푸르러야 한다. 시스템은 이 구획을 맹그로브로 단정하지
-않고 현장 확인을 요구한다. 이것이 이 도구의 핵심 성질이다. **많이 답하는 것보다 틀리지
-않는 것이 중요하다.**
+**Evergreen test** — the candidate plot's wet-season canopy was 0.54× its dry
+season, so the verdict is "partly deciduous, field verification required." The
+system does not assert this plot is mangrove. That restraint is the point.
+Vegetation indices cannot tell one green from another; without this test a
+greening paddy would be reported as a planted forest.
 
 ---
 
-## 설치와 실행
+## Install and run
 
 ```bash
 pip install rasterio numpy pillow
 ```
 
 ```bash
-python greenproof.py list                        # 설정 확인
-python greenproof.py scan --region dakope        # 녹화 신호 상위 구획 탐색
-python greenproof.py verify --site dakope-demo   # 구획 검증 + 프레임 생성
+python greenproof.py list                        # show configuration
+python greenproof.py scan --region dakope         # find candidate plots
+python greenproof.py verify --site dakope-demo    # verify a plot, render frames
 python greenproof.py verify --site dakope-demo --aoi 89.454,22.666,89.459,22.675
 ```
 
-웹 화면은 `web/` 을 정적 서빙하면 된다. 미리보기 설정 `greenproof` (포트 4810).
+Serve `web/` statically for the viewer. A supporter link is `?plot=<id>`.
 
 ```bash
-python -m http.server 4810 --directory greenfund-ai/greenproof/web
+python -m http.server 4810 --directory web
 ```
 
-후원자별 링크는 `?plot=<구획ID>` 로 준다.
+The viewer has a language toggle (English / Korean); the pipeline writes verdict
+codes and every code carries both renderings, so the record is translatable
+without re-running the analysis.
 
 ---
 
-## 산출물
+## Output
 
 ```
-web/data/<구획ID>/report.json     검증 원장 (관측 장면·수치·방법·한계 전부)
-web/data/<구획ID>/NN_YYYY.jpg     판정 음영을 겹친 프레임
-web/data/<구획ID>/raw_NN_YYYY.jpg 위성 원본 프레임
-web/data/<구획ID>/timelapse.mp4   언론 배포용 (ffmpeg 있을 때)
-out/scan_<지역>.json              탐색 결과
+web/data/<id>/report.json      the ledger: scenes, figures, method, limits
+web/data/<id>/NN_YYYY.jpg       frames with the canopy classification overlaid
+web/data/<id>/raw_NN_YYYY.jpg   the unmodified satellite frames
+web/data/<id>/timelapse.mp4     press cut (when ffmpeg is present)
+web/og.png                      social card, built from the real frames
+out/scan_<region>.json          scan results
 ```
 
-웹 화면은 타임랩스, 전후 비교 슬라이더, 판정 음영 토글, 임관 추이 그래프,
-상록성 검사 결과, **쓰인 위성 장면 식별자를 전부 공개하는 관측 원장**을 담는다.
-누구든 같은 장면으로 같은 계산을 다시 할 수 있어야 검증이 된다.
+---
+
+## How it reads
+
+**Source** Copernicus Sentinel-2 L2A, the free AWS Open Data mirror. No API key.
+No whole-file downloads: an HTTP range request pulls only the plot rectangle.
+
+**Index** NDVI = (B08 − B04) / (B08 + B04). Canopy threshold 0.30; the range
+estimate sweeps 0.25–0.35 to bracket the area.
+
+**Cloud handling** Cloud, shadow and no-data pixels are removed with the SCL
+scene-classification band. Scene-level cloud cover is only a hint, so the plot is
+read and re-measured for cloud sitting over it.
+
+**Season** Dry season only (Dec–Mar). The monsoon brings cloud, and high tides
+distort readings over tidal flats.
+
+**Tile mosaic** When a plot straddles a tile boundary, adjacent tiles from the
+same orbital pass are stitched — same capture time, no mismatch.
+
+**Evergreen test** Cross-checks a wet-season scene. Mangrove holds canopy in both
+seasons; rice does not.
 
 ---
 
-## 어떻게 읽는가
+## Limits (shipped with every output)
 
-**원천** Copernicus Sentinel-2 L2A, AWS Open Data 공개본. 인증 키가 필요 없다.
-파일 전체를 받지 않고 HTTP 범위 요청으로 구획에 해당하는 사각형만 잘라 읽는다.
-50ha 구획 5개 시점 전체가 수 MB 수준이다.
-
-**지수** NDVI = (B08 − B04) / (B08 + B04). 임관 판정 기준 0.30,
-범위 판정은 0.25 ~ 0.35 로 흔들어 면적의 상·하한을 만든다.
-
-**구름 처리** SCL 장면분류에서 구름·그림자·결측 화소를 뺀다. 장면 단위 구름량은
-참고값일 뿐이라 실제로 잘라 읽어 구획 안의 구름을 다시 잰다.
-
-**계절** 건기(12~3월)만 쓴다. 우기는 구름이 덮고 조위가 높아 갯벌 판독이 흔들린다.
-
-**타일 이음** 구획이 위성 타일 경계에 걸치면 한 타일만으로는 절반이 결측이다.
-같은 날 인접 타일을 이어 붙인다. 같은 궤도 통과라 시점 불일치가 없다.
-
-**상록성 검사** 마지막 연도의 우기 장면과 대조한다. 맹그로브는 두 계절 모두 푸르고,
-벼는 한 계절에만 푸르다. 이 검사가 없으면 논을 숲으로 세는 사고가 난다.
+- Seedlings smaller than the 10 m grid are invisible; early establishment is a
+  lower bound.
+- Tide level changes exposed flat area and moves NDVI; only same-season scenes
+  are compared.
+- Sequestered carbon is inferred from canopy area and does not replace field
+  measurement.
+- The carbon coefficient (4.0–9.0 tCO₂/ha/yr) is **provisional**; do not quote it
+  as settled until a review panel fixes it. Change it in `config/sites.json`.
+- Until coordinates are confirmed, results describe a candidate plot.
 
 ---
 
-## 한계 (산출물에 항상 함께 싣는다)
+## When coordinates arrive
 
-- 10m 격자보다 작은 어린 묘목은 잡히지 않는다. **초기 정착률은 하한으로 읽어야 한다.**
-- 조위에 따라 갯벌 노출 면적이 달라져 NDVI 가 흔들린다. 같은 건기 장면끼리만 비교했다.
-- 흡수 탄소는 임관 면적에서 역산한 추정치다. 현장 실측을 대체하지 않는다.
-- 탄소 계수 4.0 ~ 9.0 tCO₂/ha/yr 는 **잠정값**이다. 재단 검증위원회 확정 전까지
-  확정 수치로 인용하지 않는다. 값은 `config/sites.json` 에서 바꾼다.
-- 좌표가 확정되기 전 결과는 후보 구획에 대한 것이다.
-
----
-
-## 구획 좌표가 도착하면
-
-이 도구의 성격이 바뀐다. 탐색 도구에서 검증 도구가 된다.
-
-1. `config/sites.json` 의 `aoi` 를 실제 식재 구획 경계로 바꾼다.
-2. `coords_status` 를 `confirmed`, `planted_ha` 와 `planted_trees` 를 실제 값으로 채운다.
-3. `python greenproof.py verify --site <구획ID>` 를 다시 돌린다.
-4. 재단이 받은 좌표와 `scan` 이 찾은 녹화 지점이 겹치는지 대조한다. 어긋나면
-   그 자체가 확인해야 할 사실이다.
-
-현지 파트너에게 요청할 것은 딱 하나, **구획별 경계 좌표**다.
-GeoJSON 이면 가장 좋고, 없으면 꼭짓점 경위도 목록이면 된다.
+This tool changes role: from finding plots to checking them. Set the real
+boundary as `aoi` in `config/sites.json`, set `coords_status` to `confirmed`,
+fill `planted_ha` and `planted_trees`, and re-run `verify`. Then check whether the
+supplied boundary and the greening the satellite saw actually overlap. All the
+partner needs to send is the plot boundary — GeoJSON, or a list of corner
+lon/lat.
 
 ---
 
-## 실측 함정 기록
+## Field notes (measured, kept for whoever runs this next)
 
-- **타일 경계 결측** 다코페는 45QYE / 45QYF 두 타일 경계에 걸친다. 한 타일만 읽으면
-  결측 80~90% 가 나와 "판독 가능한 장면 없음" 으로 끝난다. 같은 날 모자이크가 필수다.
-- **구름 0% 인데 결측 90%** STAC 이 돌려주는 `eo:cloud_cover` 는 타일 전체 기준이라
-  구획 밖 상황이다. 잘라 읽고 결측·구름을 다시 재야 한다.
-- **GDAL 원격 읽기 속도** `GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR` 를 안 걸면
-  디렉터리를 훑느라 몇 배 느려진다. `gp/stac.py` 상단에서 잡아 둔다.
-- **초록은 다 같은 초록** NDVI 만으로는 논과 맹그로브가 갈리지 않는다. 상록성 검사가
-  없으면 경작지 녹화를 조림 성과로 발표하는 사고가 난다.
-- **대조군 없는 검증은 검증이 아니다** 성숙림에서 예상값이 안 나오면 규칙을 먼저 의심한다.
+- **Tile-edge no-data** Dakope sits on the 45QYE / 45QYF tile boundary. Reading
+  one tile returns 80–90% no-data. Same-day mosaicking is required.
+- **Cloud 0% yet 90% no-data** The STAC `eo:cloud_cover` is a whole-tile figure,
+  irrelevant to the plot. Read the rectangle and re-measure.
+- **Remote-read speed** Without `GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR`, remote
+  reads are several times slower. Set in `gp/stac.py`.
+- **Green is not green** NDVI cannot separate paddy from mangrove. Without the
+  evergreen test, a greening crop reads as afforestation.
+- **A verifier needs a control** If the mature forest does not return the
+  expected value, suspect the rules before the forest.
+
+---
+
+## Ocean intro
+
+The landing page opens on a full-screen procedural ocean — a self-contained
+WebGL2 shader (`web/ocean.js`), no libraries or assets: a raymarched heightfield
+of choppy multi-octave swell, an analytic sky shared by the dome and the water
+reflection, Fresnel, sun glitter, subsurface crest scatter, foam and horizon
+haze, closed with ACES tone mapping. WebGL2 rather than WebGPU on purpose: the
+whole point of the site is that anyone can see the proof, and WebGPU still fails
+on many browsers. It pauses off-screen and on hidden tabs, caps device pixel
+ratio, and renders a single static frame under `prefers-reduced-motion`.

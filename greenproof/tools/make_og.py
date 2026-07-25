@@ -63,27 +63,27 @@ def main():
         x0 = i * pw
         d.rectangle([x0, H - 74, x0 + pw, H], fill=(0, 0, 0, 170))
         d.text((x0 + 18, H - 64), str(s["year"]), font=font(28, True), fill=INK)
-        d.text((x0 + 18, H - 30), f"임관 피복 {s['canopy_frac']*100:.0f}%",
+        d.text((x0 + 18, H - 30), f"Canopy {s['canopy_frac']*100:.0f}%",
                font=font(17), fill=GREEN if i else MUTED)
 
-    # 오른쪽 본문
+    # Right-side text block
     tx = pw * 2 + 52
-    d.text((tx, 92), "GREEN PROOF", font=font(21, True), fill=GREEN)
-    d.text((tx + 162, 94), "환경재단 위성 검증소", font=font(17), fill=MUTED)
-    d.text((tx, 152), "3년 전 심은 나무,", font=font(41, True), fill=INK)
-    d.text((tx, 208), "지금 위성에서", font=font(41, True), fill=GOLD)
-    d.text((tx, 262), "이렇게 보입니다", font=font(41, True), fill=GOLD)
+    d.text((tx, 84), "GREEN PROOF", font=font(21, True), fill=GREEN)
+    d.text((tx + 162, 86), "Satellite Verification", font=font(17), fill=MUTED)
+    d.text((tx, 140), "The trees you", font=font(37, True), fill=INK)
+    d.text((tx, 186), "paid for — are", font=font(37, True), fill=INK)
+    d.text((tx, 232), "they still alive?", font=font(37, True), fill=GOLD)
 
-    d.line([tx, 348, tx + 90, 348], fill=GREEN, width=3)
+    d.line([tx, 312, tx + 90, 312], fill=GREEN, width=3)
     for j, line in enumerate([
-        "유럽 코페르니쿠스 Sentinel-2 위성이",
-        f"{d0['date']} 부터 {d1['date']} 까지",
-        "찍어 둔 것을 읽었습니다.",
+        "Read from Copernicus Sentinel-2",
+        f"imagery, {d0['date']} to {d1['date']}.",
+        f"Canopy {d0['canopy_frac']*100:.0f}% to {d1['canopy_frac']*100:.0f}%.",
     ]):
-        d.text((tx, 374 + j * 30), line, font=font(19), fill=MUTED)
+        d.text((tx, 338 + j * 30), line, font=font(19), fill=MUTED)
 
     d.text((tx, H - 62), "greenfund.ai.kr", font=font(19, True), fill=INK)
-    d.text((tx, H - 34), "관측에 쓴 위성 장면을 전부 공개합니다", font=font(16), fill=MUTED)
+    d.text((tx, H - 34), "Every satellite scene used is disclosed", font=font(16), fill=MUTED)
 
     out = ROOT / "web" / "og.png"
     img.save(out, optimize=True)
