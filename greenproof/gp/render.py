@@ -1,8 +1,8 @@
-"""프레임 생성. 위성 실사(TCI) 위에 임관 판정을 겹쳐 그린다.
+"""Frame rendering: the canopy classification drawn over true-colour imagery.
 
-영상 파일을 만들지 않는다. PNG 프레임을 내보내고 웹 뷰어가 이어 붙인다.
-그래야 후원자가 스크러버로 특정 시점을 직접 확인할 수 있다.
-증거는 재생되는 것보다 멈춰 세울 수 있는 쪽이 강하다.
+This does not produce a video. It writes still frames and lets the viewer
+stitch them, so a supporter can stop on any single date and look at it.
+Evidence you can pause beats evidence that only plays.
 """
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ OUT_W = 720
 
 
 def read_rgb(scenes, bbox, out_shape=None) -> np.ndarray | None:
-    """실사(TCI)를 읽는다. 같은 날 인접 타일이 있으면 이어 붙인다."""
+    """Read true-colour imagery, mosaicking neighbouring tiles from the same day."""
     out = None
     for sc in scenes:
         href = sc.assets.get("visual", {}).get("href")
@@ -58,7 +58,7 @@ def _font(size: int):
 
 
 def _stretch(rgb: np.ndarray) -> np.ndarray:
-    """갯벌은 어둡고 물은 더 어둡다. 그대로 두면 아무것도 안 보인다."""
+    """Mudflat is dark and water is darker. Without a stretch you see nothing."""
     out = np.zeros_like(rgb, dtype="float32")
     for c in range(3):
         band = rgb[:, :, c].astype("float32")
@@ -106,7 +106,7 @@ def write_frames(frames: list[tuple[str, Image.Image]], outdir: Path, prefix: st
 
 
 def make_video(outdir: Path, names: list[str], out: Path, seconds: float = 15.0) -> bool:
-    """언론 배포용 mp4. 실패해도 웹 뷰어는 프레임으로 동작하므로 치명적이지 않다."""
+    """An mp4 for press use. Optional: the viewer runs on the frames regardless."""
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         for p in Path.home().glob("AppData/Local/Microsoft/WinGet/Links/ffmpeg.exe"):

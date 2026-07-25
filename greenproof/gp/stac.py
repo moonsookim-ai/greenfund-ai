@@ -1,8 +1,9 @@
-"""Sentinel-2 장면 검색과 창(window) 단위 판독.
+"""Scene discovery and windowed reads of Sentinel-2 imagery.
 
-원천은 AWS Open Data 의 Sentinel-2 L2A COG 이다. 인증 키가 필요 없고
-파일 전체를 받지 않는다. HTTP 범위 요청으로 관심영역(AOI)에 해당하는
-사각형만 잘라 읽는다. 60ha 한 구획이면 한 밴드당 수백 KB 수준이다.
+The source is the Sentinel-2 L2A cloud-optimised GeoTIFF mirror on AWS Open
+Data. No API key, and no whole-file downloads: an HTTP range request pulls
+only the rectangle covering the area of interest. For a 60 ha plot that is a
+few hundred kilobytes per band.
 """
 from __future__ import annotations
 
@@ -12,7 +13,8 @@ import urllib.request
 from dataclasses import dataclass
 from datetime import date
 
-# GDAL 이 디렉터리 목록을 훑지 않도록 막는다. 이걸 켜두면 원격 읽기가 몇 배 느려진다.
+# Stop GDAL from listing the remote directory. Leaving this on makes every
+# remote read several times slower.
 os.environ.setdefault("GDAL_DISABLE_READDIR_ON_OPEN", "EMPTY_DIR")
 os.environ.setdefault("AWS_NO_SIGN_REQUEST", "YES")
 os.environ.setdefault("GDAL_HTTP_MULTIPLEX", "YES")
@@ -28,8 +30,9 @@ from rasterio.windows import from_bounds  # noqa: E402
 STAC_URL = "https://earth-search.aws.element84.com/v1/search"
 COLLECTION = "sentinel-2-l2a"
 
-# SCL(장면 분류) 코드 가운데 판독에 쓸 수 있는 값.
-# 4 식생, 5 나지, 6 수면, 7 미분류. 나머지는 구름·그림자·결측이다.
+# Usable values of the SCL scene-classification band:
+# 4 vegetation, 5 bare soil, 6 water, 7 unclassified.
+# Everything else is cloud, shadow or no data.
 SCL_CLEAR = (4, 5, 6, 7)
 SCL_NODATA = 0
 
@@ -47,7 +50,7 @@ class Scene:
 
 
 def search(bbox, start: str, end: str, max_cloud: float = 30.0, limit: int = 40) -> list[Scene]:
-    """AOI 를 덮는 장면 목록을 구름량 오름차순으로 돌려준다."""
+    """Scenes covering the AOI, ordered by scene-level cloud cover."""
     body = {
         "collections": [COLLECTION],
         "bbox": list(bbox),
@@ -72,7 +75,7 @@ def search(bbox, start: str, end: str, max_cloud: float = 30.0, limit: int = 40)
 
 
 def _read(href: str, bbox, out_shape=None):
-    """COG 에서 AOI 사각형만 잘라 읽는다. out_shape 를 주면 오버뷰로 축소해 읽는다."""
+    """Read only the AOI rectangle from a COG. out_shape reads a decimated overview."""
     with rasterio.open("/vsicurl/" + href) as src:
         b = transform_bounds("EPSG:4326", src.crs, *bbox)
         win = from_bounds(*b, transform=src.transform)
@@ -84,11 +87,11 @@ def _read(href: str, bbox, out_shape=None):
 
 
 def _mosaic(scenes: list[Scene], key: str, bbox, out_shape):
-    """같은 날 인접 타일을 이어 붙인다.
+    """Mosaic neighbouring tiles from the same day.
 
-    AOI 가 타일 경계에 걸치면 한 타일만 읽어서는 절반이 결측으로 나온다.
-    Sentinel-2 는 같은 궤도 통과에서 인접 타일을 같은 시각에 찍으므로
-    이어 붙여도 시점 불일치가 없다.
+    When an AOI straddles a tile boundary, reading one tile returns half a
+    frame of no-data. Sentinel-2 captures adjacent tiles in the same orbital
+    pass, so stitching them introduces no time mismatch.
     """
     out = None
     for sc in scenes:
@@ -111,9 +114,9 @@ def _mosaic(scenes: list[Scene], key: str, bbox, out_shape):
 
 
 def read_day(scenes: list[Scene], bbox, out_shape=None):
-    """같은 날짜의 장면들에서 NDVI 와 유효 마스크를 만든다.
+    """Build NDVI and a validity mask from every scene captured on one date.
 
-    반환: dict(ndvi, valid, scl, nodata_frac, cloud_frac) 또는 None(판독 불가).
+    Returns dict(ndvi, valid, scl, nodata_frac, cloud_frac), or None if unreadable.
     """
     red = _mosaic(scenes, "red", bbox, out_shape)
     nir = _mosaic(scenes, "nir", bbox, out_shape)
@@ -149,7 +152,7 @@ def read_day(scenes: list[Scene], bbox, out_shape=None):
 
 @dataclass
 class DayObs:
-    """한 날짜의 관측. 타일이 여러 장일 수 있다."""
+    """One day of observation, possibly spanning several tiles."""
     day: str
     scenes: list
 
@@ -177,17 +180,18 @@ def group_by_day(scenes: list[Scene]) -> list[DayObs]:
 
 def best_scene(bbox, start: str, end: str, out_shape=None, max_nodata=0.10, max_cloud_aoi=0.15,
                tries: int = 8, log=print):
-    """기간 안에서 AOI 를 실제로 덮고 구름이 적은 관측일 하나를 고른다.
+    """Pick one observation date inside the window that truly covers the AOI.
 
-    장면 단위 구름량은 참고값일 뿐이다. 타일 가장자리 결측과 AOI 국지 구름은
-    실제로 잘라 읽어 봐야 알 수 있으므로, 후보를 순서대로 검사한다.
+    Scene-level cloud cover is only a hint: tile-edge no-data and cloud sitting
+    over this particular plot only show up once the rectangle is actually read.
+    So candidates are read and tested in order.
     """
     for obs in group_by_day(search(bbox, start, end))[:tries]:
         data = read_day(obs.scenes, bbox, out_shape)
         if data is None:
             continue
         if data["nodata_frac"] > max_nodata or data["cloud_frac"] > max_cloud_aoi:
-            log(f"    건너뜀 {obs.day} (타일 {len(obs.scenes)}) 결측 {data['nodata_frac']:.0%} 구름 {data['cloud_frac']:.0%}")
+            log(f"    skip {obs.day} ({len(obs.scenes)} tile) no-data {data['nodata_frac']:.0%} cloud {data['cloud_frac']:.0%}")
             continue
         return obs, data
     return None, None

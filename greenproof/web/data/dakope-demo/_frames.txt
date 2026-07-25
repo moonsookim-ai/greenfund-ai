@@ -1,0 +1,11 @@
+file 'raw_00_2022.jpg'
+duration 1.000
+file 'raw_01_2023.jpg'
+duration 1.000
+file 'raw_02_2024.jpg'
+duration 1.000
+file 'raw_03_2025.jpg'
+duration 1.000
+file 'raw_04_2026.jpg'
+duration 1.000
+file 'raw_04_2026.jpg'
