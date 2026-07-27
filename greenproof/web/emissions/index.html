@@ -41,7 +41,8 @@ body{margin:0;background:var(--bg);color:var(--ink);
 a{color:inherit}
 header.top{border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:20}
 .top .row{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:13px 20px;flex-wrap:wrap}
-.brand{font-weight:800;letter-spacing:.14em;font-size:13px}
+.brand{font-weight:800;letter-spacing:.14em;font-size:13px;color:var(--ink);text-decoration:none;display:inline-block}
+.brand:hover{opacity:.75}
 .brand em{font-style:normal;color:var(--green)}
 .brand small{display:block;letter-spacing:0;font-weight:600;font-size:11px;color:var(--muted);margin-top:2px}
 .top .sp{margin-left:auto}
@@ -119,7 +120,7 @@ footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;font-si
 </head>
 <body>
 <header class="top"><div class="row">
-  <div class="brand">GREEN <em>PROOF</em><small id="brandsub"></small></div>
+  <a class="brand" id="brandhome" href="/">GREEN <em>PROOF</em><small id="brandsub"></small></a>
   <span class="sp"></span>
   <a class="homelink" href="/" id="homelink"></a>
   <div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div>
