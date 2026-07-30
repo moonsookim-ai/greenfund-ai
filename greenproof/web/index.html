@@ -269,6 +269,10 @@ const T = {
     chartSub: "Dry-season scenes only. The monsoon brings cloud, and high tides distort readings over tidal flats.",
     mangroveTitle: "Is this really mangrove?",
     mangroveSub: "Vegetation indices cannot tell one green from another. To avoid counting a paddy as forest, we cross-check the seasons.",
+    plantingTitle: "Planting record",
+    plantingSub: "Every plot in the field partner's planting ledger, as reported — location, area and seedlings planted.",
+    thLocation: "Location", thPlots: "Plots", thArea: "Area", thTrees: "Seedlings",
+    plantingTotal: "Total", plantingAll: "Full plot ledger", thPlot: "Plot",
     ledgerTitle: "Observation ledger",
     ledgerSub: "Every satellite scene used is disclosed. Anyone can repeat the same calculation on the same scenes.",
     thYear: "Year", thDate: "Observed", thCanopy: "Canopy", thNdvi: "Mean NDVI", thCloud: "AOI cloud", thScene: "Scene id",
@@ -276,7 +280,7 @@ const T = {
     mSource: "Source", mIndex: "Index", mCanopyThresh: "Canopy threshold", mCloud: "Cloud handling", mCoef: "Carbon coefficient",
     wetObs: (d, p) => `wet-season observation ${d}, canopy ${p}`,
     footContains: "Contains modified Copernicus Sentinel data",
-    generated: "Generated", plotBounds: "Plot bounds",
+    generated: "Generated", plotBounds: "Site",
   },
   ko: {
     heroKick: "그린프루프 · 환경재단",
@@ -310,6 +314,10 @@ const T = {
     chartSub: "건기 장면만 씁니다. 우기는 구름이 덮고 조위가 높아 갯벌 판독이 흔들립니다.",
     mangroveTitle: "이것이 정말 맹그로브인가",
     mangroveSub: "위성 지수만으로는 초록을 구분하지 못합니다. 논밭을 숲으로 세지 않기 위해 계절을 교차 확인합니다.",
+    plantingTitle: "식재 기록",
+    plantingSub: "현장 파트너의 식재 대장에 있는 플롯 전부를 그대로 싣습니다. 위치·면적·식재 주수.",
+    thLocation: "위치", thPlots: "플롯 수", thArea: "면적", thTrees: "식재 주수",
+    plantingTotal: "합계", plantingAll: "플롯별 전체 대장", thPlot: "플롯",
     ledgerTitle: "관측 원장",
     ledgerSub: "쓰인 위성 장면을 전부 공개합니다. 누구든 같은 장면으로 같은 계산을 다시 할 수 있습니다.",
     thYear: "연도", thDate: "관측일", thCanopy: "임관 피복", thNdvi: "NDVI 평균", thCloud: "AOI 구름", thScene: "장면 식별자",
@@ -317,7 +325,7 @@ const T = {
     mSource: "원천", mIndex: "지수", mCanopyThresh: "임관 판정", mCloud: "구름 처리", mCoef: "탄소 계수",
     wetObs: (d, p) => `우기 관측 ${d}, 임관 ${p}`,
     footContains: "Contains modified Copernicus Sentinel data",
-    generated: "생성", plotBounds: "관측 구획",
+    generated: "생성", plotBounds: "식재지",
   },
 };
 
@@ -498,6 +506,24 @@ function render() {
     <p class="note" style="margin:0">${ev[lang]?.note || ""}${ev.wet_date ? ` (${t.wetObs(ev.wet_date, pct(ev.wet_canopy_frac))})` : ""}</p>
   </section>
 
+  ${R.planting ? `
+  <section class="card">
+    <h2>${t.plantingTitle}</h2>
+    <p class="sub">${t.plantingSub}</p>
+    <div class="scroll"><table>
+      <tr><th>${t.thYear}</th><th>${t.thLocation}</th><th>${t.thPlots}</th><th>${t.thArea}</th><th>${t.thTrees}</th></tr>
+      ${R.planting.years.map(y => `<tr><td>${y.year}</td><td>${y.locations[lang] || y.locations.en}</td><td>${y.plots}</td><td>${fmt(y.area_ha, 2)} ha</td><td>${fmt(y.trees, 0)}</td></tr>`).join("")}
+      <tr><td><b>${t.plantingTotal}</b></td><td></td><td><b>${R.planting.total.plots}</b></td><td><b>${fmt(R.planting.total.area_ha, 2)} ha</b></td><td><b>${fmt(R.planting.total.trees, 0)}</b></td></tr>
+    </table></div>
+    <details><summary>${t.plantingAll}</summary>
+      <div class="scroll"><table>
+        <tr><th>${t.thPlot}</th><th>${t.thArea}</th><th>${t.thTrees}</th></tr>
+        ${R.planting.years.flatMap(y => y.plot_rows).map(p => `<tr><td>${p.name}</td><td>${p.area}</td><td>${p.trees == null ? "—" : fmt(p.trees, 0)}</td></tr>`).join("")}
+      </table></div>
+    </details>
+    <p class="note" style="margin:10px 0 0">${R.planting.source[lang] || R.planting.source.en}</p>
+  </section>` : ""}
+
   <section class="card">
     <h2>${t.ledgerTitle}</h2>
     <p class="sub">${t.ledgerSub}</p>
@@ -518,7 +544,7 @@ function render() {
 
   <footer>
     ${t.generated} ${(R.generated_at || "").replace("T", " ").replace("+00:00", " UTC")} ·
-    ${t.plotBounds} ${R.aoi.map(x => x.toFixed(4)).join(", ")} ·
+    ${t.plotBounds} ${R.address ? (R.address[lang] || R.address.en) : R.aoi.map(x => x.toFixed(4)).join(", ")} ·
     ${t.footContains} ${R.series[0].year}–${R.series.at(-1).year}
   </footer>`;
 

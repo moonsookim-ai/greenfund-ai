@@ -3,18 +3,10 @@
     {
       "id": "dakope-demo",
       "label": {
-        "en": "Dakope greening plot (candidate)",
-        "ko": "다코페 녹화 구획 (탐색 후보)"
+        "en": "Dacope mangrove planting sites, Khulna (2023–2025)",
+        "ko": "방글라데시 쿨나주 다코페 식재지 (2023–2025)"
       },
       "coords_status": "estimated"
-    },
-    {
-      "id": "sundarbans-control",
-      "label": {
-        "en": "Sundarbans mature mangrove (control)",
-        "ko": "순다르반스 기존 맹그로브림 (대조군)"
-      },
-      "coords_status": "control"
     }
   ],
   "generated_at": "2026-07-25T06:17:58+00:00"

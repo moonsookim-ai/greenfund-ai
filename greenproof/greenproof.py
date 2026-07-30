@@ -162,6 +162,8 @@ def cmd_verify(args):
         "planted_year": site["planted_year"],
         "planted_ha": site.get("planted_ha"),
         "planted_trees": site.get("planted_trees"),
+        "address": site.get("address"),
+        "planting": site.get("planting"),
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "series": series,
         "frames": names,

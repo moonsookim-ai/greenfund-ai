@@ -1,6 +1,5 @@
 {
   "_note": "Plot boundaries come from the field partner. Until coords_status reads 'confirmed', every output describes a candidate plot.",
-
   "carbon_coefficient": {
     "unit": "tCO2/ha/yr",
     "low": 4.0,
@@ -14,33 +13,330 @@
       "source": "잠정값. 열대 맹그로브 조림지 흡수량 문헌 범위를 보수적으로 잡았다. 재단 검증위원회 확정 전까지 확정 수치로 인용하지 않는다."
     }
   },
-
   "regions": {
     "dakope": {
       "label": {
         "en": "Dakope, Khulna, Bangladesh",
         "ko": "방글라데시 쿨나주 다코페"
       },
-      "bbox": [89.42, 22.44, 89.66, 22.68],
+      "bbox": [
+        89.42,
+        22.44,
+        89.66,
+        22.68
+      ],
       "note": "Mangrove planting area. Search extent used while exact plot boundaries are outstanding."
     }
   },
-
   "sites": {
     "dakope-demo": {
       "label": {
-        "en": "Dakope greening plot (candidate)",
-        "ko": "다코페 녹화 구획 (탐색 후보)"
+        "en": "Dacope mangrove planting sites, Khulna (2023–2025)",
+        "ko": "방글라데시 쿨나주 다코페 식재지 (2023–2025)"
       },
       "region": "dakope",
-      "partner": "to be confirmed",
-      "aoi": [89.45406, 22.66643, 89.45893, 22.67548],
+      "partner": "HYBE",
+      "aoi": [
+        89.45406,
+        22.66643,
+        89.45893,
+        22.67548
+      ],
       "coords_status": "estimated",
       "planted_year": 2023,
-      "planted_ha": null,
-      "planted_trees": null,
+      "planted_ha": 60.91,
+      "planted_trees": 462160,
       "role": "subject",
-      "note": "The two strongest greening cells found by 'greenproof scan', merged. Replace with the real planting boundary once it arrives."
+      "note": "AOI is still the scan-derived box. The planting ledger (Green CSR Center xlsx, 2026-07) gives plot names, areas and seedling counts; replace the AOI once plot polygons arrive.",
+      "address": {
+        "en": "Dacope Upazila, Khulna, Bangladesh",
+        "ko": "방글라데시 쿨나주 다코페 우파질라"
+      },
+      "planting": {
+        "source": {
+          "en": "Source: Green CSR Center planting ledger, Korea Green Foundation × HYBE (Bangladesh Eco-village programme).",
+          "ko": "출처: 환경재단 그린CSR센터 식재데이터 취합 (방글라데시 에코빌리지 · 후원 HYBE)."
+        },
+        "sponsor": "HYBE",
+        "total": {
+          "plots": 47,
+          "area_ha": 60.91,
+          "trees": 462160
+        },
+        "years": [
+          {
+            "year": 2023,
+            "plots": 13,
+            "area_ha": 20.0,
+            "trees": 205056,
+            "locations": {
+              "en": "Bajua Ghat & Laudove · Chunkuri · Orabunia (Dacope, Khulna)",
+              "ko": "바주아 가트·라우도브 · 춘쿠리 · 오라부니아 (쿨나주 다코페)"
+            },
+            "plot_rows": [
+              {
+                "name": "KGF 2023-1 Bajua Ghat, Laudove, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 17210
+              },
+              {
+                "name": "KGF 2023-2 Bajua Ghat, Laudove, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 17288
+              },
+              {
+                "name": "KGF 2023-3 Chunkuri launch Ghat, Bajua, Dacope, Khulna",
+                "area": "4ha",
+                "trees": 48556
+              },
+              {
+                "name": "KGF 2023-4 Chunkuri posurdar, Bajua, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 16056
+              },
+              {
+                "name": "KGF 2023-5 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 11750
+              },
+              {
+                "name": "KGF 2023-6 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "1.5ha",
+                "trees": 8437
+              },
+              {
+                "name": "KGF 2023-7 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 14237
+              },
+              {
+                "name": "KGF 2023-8 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "2ha",
+                "trees": 16779
+              },
+              {
+                "name": "KGF 2023-9 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 12237
+              },
+              {
+                "name": "KGF 2023-10 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "1.5ha",
+                "trees": 13950
+              },
+              {
+                "name": "KGF 2023-11 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "2ha",
+                "trees": 14556
+              },
+              {
+                "name": "KGF 2023-12 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "1ha",
+                "trees": 9000
+              },
+              {
+                "name": "KGF 2023-13 Orabunia, Chunkuri Posurdar, Dacope, Khulna",
+                "area": "2ha",
+                "trees": 5000
+              }
+            ]
+          },
+          {
+            "year": 2024,
+            "plots": 25,
+            "area_ha": 20.915,
+            "trees": 134604,
+            "locations": {
+              "en": "Chunkuri Poshurdar · Dacope Moddhopara · Tengrar Char · Ramnagar (Koilashgonj) · Gunari (Sutarkhali) · Kamarkhola",
+              "ko": "춘쿠리 포슈르다르 · 다코페 모드호파라 · 텡라르 차르 · 람나가르(코일라시곤지) · 구나리(수타르칼리) · 카마르콜라"
+            },
+            "plot_rows": [
+              {
+                "name": "KGF 2024-14 Chunkuri Poshurdar, Bajua",
+                "area": "1ha",
+                "trees": 6697
+              },
+              {
+                "name": "KGF 2024-15 Chunkuri Poshurdar, Bajua",
+                "area": "0.92ha",
+                "trees": 5150
+              },
+              {
+                "name": "KGF 2024-16 Chunkuri Poshurdar, Bajua",
+                "area": "0.35ha",
+                "trees": 2450
+              },
+              {
+                "name": "KGF 2024-17 Chunkuri Poshurdar, Bajua",
+                "area": "2ha",
+                "trees": 10900
+              },
+              {
+                "name": "KGF 2024-18 Dacope Moddhopara",
+                "area": "0.131ha",
+                "trees": 1681
+              },
+              {
+                "name": "KGF 2024-19 MDacope Moddhopara",
+                "area": "0.256ha",
+                "trees": 2682
+              },
+              {
+                "name": "KGF 2024-20 Dacope Moddhopara",
+                "area": "1ha",
+                "trees": 8359
+              },
+              {
+                "name": "KGF 2024-21 Dacope Moddhopara",
+                "area": "0.896ha",
+                "trees": 6335
+              },
+              {
+                "name": "KGF 2024-22Dacope Moddhopara",
+                "area": "0.186ha",
+                "trees": 1849
+              },
+              {
+                "name": "KGF 2024-23 Dacope Moddhopara",
+                "area": "0.274ha",
+                "trees": 3537
+              },
+              {
+                "name": "KGF 2024-24 Dacope Moddhopara",
+                "area": "0.22ha",
+                "trees": 2333
+              },
+              {
+                "name": "KGF 2024-25 Dacope Tengrar char",
+                "area": "0.174ha",
+                "trees": 1900
+              },
+              {
+                "name": "KGF 2024-26 Dacope Tengrar char",
+                "area": "2.187ha",
+                "trees": 13460
+              },
+              {
+                "name": "KGF 2024-27 Dacope Tengrar char",
+                "area": "0.5ha",
+                "trees": 3950
+              },
+              {
+                "name": "KGF 2024-28 Ramnagar, Koilashgonj",
+                "area": "0.164ha",
+                "trees": 1767
+              },
+              {
+                "name": "KGF 2024-29 Ramnagar, Koilashgonj",
+                "area": "0.67ha",
+                "trees": 4481
+              },
+              {
+                "name": "KGF 2024-30 Ramnagar, Koilashgonj",
+                "area": "0.769ha",
+                "trees": 4953
+              },
+              {
+                "name": "KGF 2024-31 Ramnagar, Koilashgonj",
+                "area": "1.142ha",
+                "trees": 8434
+              },
+              {
+                "name": "KGF 2024-32 Gunari, Sutarkhali",
+                "area": "0.256ha",
+                "trees": 1906
+              },
+              {
+                "name": "KGF 2024-33 Gunari, Sutarkhali",
+                "area": "2.78ha",
+                "trees": 14380
+              },
+              {
+                "name": "KGF 2024-34 Gunari, Sutarkhali",
+                "area": "1ha",
+                "trees": 5800
+              },
+              {
+                "name": "KGF 2024-35 Gunari, Sutarkhali",
+                "area": "1ha",
+                "trees": 5900
+              },
+              {
+                "name": "KGF 2024-36 Kamarkhola",
+                "area": "0.34ha",
+                "trees": 2100
+              },
+              {
+                "name": "KGF 2024-37 Kamarkhola",
+                "area": "1.35ha",
+                "trees": 6950
+              },
+              {
+                "name": "KGF 2024-38 Kamarkhola",
+                "area": "1.35ha",
+                "trees": 6650
+              }
+            ]
+          },
+          {
+            "year": 2025,
+            "plots": 9,
+            "area_ha": 20.0,
+            "trees": 122500,
+            "locations": {
+              "en": "Kakrabunia · Nalbunia · Katakhali · Andharmanik · Jharkhali (Banishanta)",
+              "ko": "카크라부니아 · 날부니아 · 카타칼리 · 안다르마니크 · 자르칼리 (바니샨타)"
+            },
+            "plot_rows": [
+              {
+                "name": "KGF 2025-39 Kakrabunia, Banishanta",
+                "area": "1.5ha",
+                "trees": 10500
+              },
+              {
+                "name": "KGF 2025-40 Kakrabunia, Banishanta",
+                "area": "1.5ha",
+                "trees": 10500
+              },
+              {
+                "name": "KGF 2025-41 Nalbunia, Banishanta",
+                "area": "3ha",
+                "trees": 19000
+              },
+              {
+                "name": "KGF 2025-42 Katakhali, Banishanta",
+                "area": "2ha",
+                "trees": 13000
+              },
+              {
+                "name": "KGF 2025-43 Katakhali, Banishanta",
+                "area": "3ha",
+                "trees": 17500
+              },
+              {
+                "name": "KGF 2025-44 Katakhali, Banishanta",
+                "area": "2ha",
+                "trees": 12000
+              },
+              {
+                "name": "KGF 2025-45 Andharmanik, Banishanta",
+                "area": "2ha",
+                "trees": 12000
+              },
+              {
+                "name": "KGF 2025-46 Andharmanik, Banishanta",
+                "area": "3ha",
+                "trees": 16500
+              },
+              {
+                "name": "KGF 2025-47 Jharkhali, Banishanta",
+                "area": "2ha",
+                "trees": 11500
+              }
+            ]
+          }
+        ]
+      }
     },
     "sundarbans-control": {
       "label": {
@@ -49,7 +345,12 @@
       },
       "region": "dakope",
       "partner": "control",
-      "aoi": [89.518, 22.226, 89.5249, 22.2325],
+      "aoi": [
+        89.518,
+        22.226,
+        89.5249,
+        22.2325
+      ],
       "coords_status": "control",
       "planted_year": 2000,
       "planted_ha": null,
@@ -58,10 +359,20 @@
       "note": "Mature forest. If the classification rules are right, canopy should read high and flat with an evergreen result. An anomaly here means the rules are wrong, not the forest."
     }
   },
-
   "observation": {
-    "season_windows": [["12-01", "03-31"]],
+    "season_windows": [
+      [
+        "12-01",
+        "03-31"
+      ]
+    ],
     "season_note": "Dry season only. The monsoon brings cloud, and high tides distort readings over tidal flats.",
-    "years": [2022, 2023, 2024, 2025, 2026]
+    "years": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ]
   }
 }

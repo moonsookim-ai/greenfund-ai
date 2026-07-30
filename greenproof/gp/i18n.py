@@ -104,7 +104,7 @@ METHOD = {
             "Seedlings smaller than the 10 m grid are invisible. Early establishment rates must be read as a lower bound.",
             "Tide level changes how much flat is exposed, which moves NDVI. Only same-season scenes are compared.",
             "Sequestered carbon is inferred from canopy area. It does not replace field measurement.",
-            "Until coordinates are confirmed, results describe a candidate plot.",
+            "Exact plot polygons are still being collected from the field partner; the satellite window is a provisional box near the planting sites.",
         ],
     },
     "ko": {
@@ -116,7 +116,7 @@ METHOD = {
             "10m 격자보다 작은 어린 묘목은 잡히지 않는다. 초기 정착률은 하한으로 읽어야 한다.",
             "조위에 따라 갯벌 노출 면적이 달라져 NDVI 가 흔들린다. 같은 건기 장면끼리만 비교했다.",
             "흡수 탄소는 임관 면적에서 역산한 추정치다. 현장 실측을 대체하지 않는다.",
-            "좌표가 확정되기 전 결과는 후보 구획에 대한 것이다.",
+            "플롯 경계 좌표는 현장 파트너로부터 취합 중이며, 위성 관측 구획은 식재지 인근의 잠정 구획이다.",
         ],
     },
 }
