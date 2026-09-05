@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>네팔상황실 · 위성으로 보는 홍수와 지원 현황 | GREEN PROOF AI환경연구소</title>
-  <meta name="description" content="환경재단이 운영하는 AI환경연구소 GREEN PROOF. GPT-6 Astra로 공개 근거를 분석하고 식수·위생 지원 우선순위를 검토합니다.">
+  <title>네팔상황실 · 현장 구조·지원 안내 | GREEN PROOF AI환경연구소</title>
+  <meta name="description" content="환경재단이 운영하는 AI환경연구소 GREEN PROOF. GPT-6 Astra로 공개 근거를 분석하고 현장 구조 요청 전달과 식수·위생 지원 판단을 돕습니다.">
   <meta name="theme-color" content="#123c35">
   <link rel="canonical" href="https://greenfund.ai.kr/nepal/">
   <meta property="og:type" content="website">
@@ -14,22 +14,28 @@
   <meta property="og:url" content="https://greenfund.ai.kr/nepal/">
   <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="./style.css?v=3">
-  <link rel="stylesheet" href="./response.css?v=1">
+  <link rel="stylesheet" href="./response.css?v=2">
+  <link rel="stylesheet" href="./rescue.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">본문으로 건너뛰기</a>
 <header class="site-header"><div class="header-inner">
   <a class="brand" href="/">GREEN <span>PROOF</span><small>환경재단이 운영하는 AI환경연구소</small></a>
-  <nav aria-label="주 메뉴"><a href="/#app">위성 검증</a><a href="/emissions/">배출 지도</a><a href="/nepal/" aria-current="page">네팔상황실</a></nav>
+  <nav aria-label="주 메뉴"><a href="/nepal/" aria-current="page">네팔상황실</a><a href="/#app">맹그로브 성장 기록</a><a href="/emissions/">우리 동네 온실가스 배출</a></nav>
 </div></header>
 <main id="main">
   <section class="response-intro" aria-labelledby="page-title">
     <div class="intro-meta"><span>네팔상황실 · 2026년 8월 26일 홍수</span><span class="ai-credit">GPT-6 Astra로 자료 분석·모델 설계</span></div>
     <h1 id="page-title">네팔 홍수, <em>도움이 필요한 곳</em></h1>
-    <p>위성 사진으로 홍수 전후를 살펴보고, 피해 지역에 어떤 도움이 필요한지 확인하세요.</p>
+    <p>긴급 연락처와 구조 요청 전달 도구, 지역별 우선 행동을 확인하세요. 위성 사진과 공개 보고서로 피해 상황도 살펴볼 수 있습니다.</p>
     <div class="response-date">자료 확인 2026.09.05 · 보테코시·트리슐리강 유역 <a href="#sources">출처 보기</a></div>
     <div class="focus-strip"><strong>우선 살펴볼 지역</strong><a href="#urgent-rasuwa">라수와 ↘</a><a href="#urgent-nuwakot">누와코트 ↘</a><span>IFRC 주요 피해지역 보고 기준 · 8월 26일</span></div>
   </section>
+  <div class="rescue-quick" aria-label="긴급 구조 연락">
+    <div><strong>사람이 고립됐거나 생명이 위험하다면, 먼저 신고하세요</strong><p>네팔 내 <a href="tel:100">경찰 100</a> · <a href="tel:102">구급차 102</a> · 양식을 다 채우지 않아도 연락할 수 있습니다.</p></div>
+    <div class="actions"><a class="button primary" href="#emergency-contacts">긴급 연락처</a><a class="button" href="#field-support">구조 요청 정리</a></div>
+  </div>
+  <nav class="rescue-jumps" aria-label="구조·지원 도구 바로가기"><a href="#strategy">무엇부터 할까</a><a href="#regional-actions">지역별 행동</a><a href="#field-support">요청서·확인표</a><a href="./field/" lang="en">Field kit · English ↗</a></nav>
   <div class="response-overview">
     <figure class="satellite-panel" aria-labelledby="satellite-title">
       <div class="satellite-heading"><h2 id="satellite-title">위성으로 본 홍수 전후</h2><span>ESA · Sentinel-2</span></div>
@@ -53,9 +59,49 @@
       <p class="urgent-intro">국제적십자사연맹(IFRC)이 큰 피해를 보고한 두 지역입니다. 식수 공급과 고립된 마을에 대한 접근이 시급한 과제로 꼽힙니다. <a href="#source-ifrc">보고서 ↗</a></p>
       <div id="urgent-regions"><p>지역별 피해와 필요한 지원을 불러오고 있습니다.</p></div>
       <p class="urgent-limit">공개 보고서로 확인한 주요 피해지역입니다. 두 지역 사이의 지원 순위는 아직 정하지 않았습니다.</p>
-      <a class="button primary" href="#evidence">다른 피해지역도 살펴보기 ↓</a>
+      <a class="button primary" href="#regional-actions">지역별로 먼저 할 일 보기 ↓</a>
     </aside>
   </div>
+  <section id="strategy" class="section rescue-section" aria-labelledby="strategy-title">
+    <div class="section-head"><div><span class="section-no">먼저 할 일</span><h2 id="strategy-title">신고에서 구조·지원 인계까지</h2><p>환경재단과 현지 파트너가 협의해 적용할 실행안입니다. 실제 출동 지시나 진행 실적이 아니며, 현지 재난당국이 구조와 이동을 판단합니다.</p></div></div>
+    <div class="decision-note"><strong>생명 위험이 보고되면 지역·지원 점수와 관계없이 즉시 공식 기관에 전달합니다.</strong><p>위치와 인원이 불확실하면 그 사실도 함께 알립니다. 아래 식수·위생 모델 A는 구조 순서나 의료 처치 순서를 정하는 도구가 아닙니다.</p></div>
+    <div class="strategy-grid">
+      <article class="strategy-card"><span class="strategy-step">01 · 지금 / 최초 연락</span><h3>고립된 사람의 위치부터 전달</h3><ol><li>마을·지형물, 관찰 시각, 고립·부상 등 확인한 상황을 경찰 또는 재난상황실에 알립니다.</li><li>좌표를 모르면 찾기 쉬운 지형물을 전달합니다. 제보자의 위치와 구조 대상의 위치를 구분합니다.</li><li>의료 이송이 필요하면 구급차와 수용 의료시설을 연결해 달라고 요청합니다.</li></ol><dl><dt>제안 역할</dt><dd>현지 연락 담당 → 경찰·재난상황실 / 의료기관</dd><dt>다음 단계로 넘길 기록</dt><dd>위치·관찰 시각·요청 내용, 연락한 기관, 수신 확인 내용</dd></dl><a class="button" href="#emergency-contacts">연락할 기관 보기 ↓</a></article>
+      <article class="strategy-card"><span class="strategy-step">02 · 접수 후 / 현장 조정</span><h3>담당 기관과 인계 지점을 확인</h3><ol><li>기관에 요청이 전달됐는지 확인하고 접수번호 또는 답변을 남깁니다. 연락 시도와 접수 확인을 구분합니다.</li><li>도로·교량 통제, 기상·홍수 안내, 수용시설, 팀 연락 방법을 현지 기관과 확인합니다.</li><li>접근이 막히면 필요한 대체 운송·장비를 지휘기관에 요청합니다. 민간팀의 자체 진입으로 해결하지 않습니다.</li></ol><dl><dt>제안 역할</dt><dd>현지 지휘기관·훈련된 구조팀·의료기관 / 파트너 조정 담당</dd><dt>다음 단계로 넘길 기록</dt><dd>담당 기관 답변, 인계할 곳, 구간별 접근 확인 시각, 다음 연락 시각</dd></dl><a class="button" href="#field-support">요청·인계 기록 만들기 ↓</a></article>
+      <article class="strategy-card"><span class="strategy-step">03 · 구조와 병행 / 당일 지원 협의</span><h3>식수·위생 지원이 끊기지 않게</h3><ol><li>안전하게 연락 가능한 대피소부터 필요 가구·이미 받은 지원·다음 공급 시점을 확인합니다.</li><li>아동·고령자·장애인·임산부가 있는 가구의 수요와 현장 접근 제약을 함께 검토합니다.</li><li>물품 발송 후 실제 수령을 확인합니다. 중복 지원을 대조하고 다음 공급 책임자를 정합니다.</li></ol><dl><dt>제안 역할</dt><dd>현지 파트너 물류·식수위생 담당 / 환경재단 지원 조정 담당</dd><dt>다음 단계로 넘길 기록</dt><dd>미지원 가구 수, 지원 품목·수량, 수령 확인, 다음 공급 계획</dd></dl><a class="button" href="#simulator">식수·위생 지원 기준 검토 ↓</a></article>
+    </div>
+    <p class="field-note">시간 표현은 실행 순서를 설명하는 제안입니다. 구조 도착 시간이나 기관의 처리 기한을 보장하지 않습니다. 완료 시각보다 접수·인계·수령이 실제 확인됐는지를 기록하세요.</p>
+  </section>
+  <section id="regional-actions" class="section rescue-section" aria-labelledby="regional-action-title">
+    <div class="section-head"><div><span class="section-no">지역별 실행안</span><h2 id="regional-action-title">현지 파트너에게 먼저 요청할 것</h2><p>공개 보고서에서 드러난 문제에 대응하는 제안입니다. 지역 순서는 구조 순위가 아니며, 새로운 인명 위험 신고가 들어오면 어느 지역이든 즉시 공식 기관에 전달합니다.</p></div></div>
+    <div class="table-wrap"><table class="region-action-table"><caption>공개 근거 → 우선 행동 → 확인할 결과</caption><thead><tr><th scope="col">지역</th><th scope="col">보고된 문제</th><th scope="col">먼저 할 행동</th><th scope="col">현지에서 확인할 결과</th></tr></thead><tbody>
+      <tr><th scope="row">라수와<br><small>Rasuwa</small></th><td>도로·교량 피해와 고립된 지역 접근 제약. <a href="#source-ifrc">IFRC · 8.26</a></td><td>재난상황실에 마을별 미해결 구조 요청과 접근 제약을 확인합니다. 도로 통제 구간은 원문 공지와 통화로 대조합니다.</td><td>요청 위치·관찰 시각·담당 기관, 구간별 접근 확인 기록. <small>Syafrubesi·Timure·Mailung 보건시설 상황은 <a href="#source-heoc">HEOC · 9.4</a> 보고 후 변동 여부를 재확인.</small></td></tr>
+      <tr><th scope="row">누와코트<br><small>Nuwakot</small></th><td>주요 피해와 식수·위생 지원 수요. Devighat 현장 피해 관찰. <a href="#source-ifrc">IFRC · 8.26</a> / <a href="#source-wvi">World Vision · 8.30</a></td><td>지구청 최신 상황과 현지 파트너의 미해결 요청을 대조합니다. Devighat·Bidur 일대의 현재 고립 여부와 대피소 수요를 확인합니다.</td><td>공식 접수 여부, 대피소별 연락 지점, 지원 필요·수령 가구와 다음 공급 시점. <small>마을 관찰을 지구 전체 피해 규모로 확대하지 않음.</small></td></tr>
+      <tr><th scope="row">다딩<br><small>Dhading</small></th><td>Galchhi·Benighat 일대 보건시설 피해와 접근 제약. <a href="#source-heoc">HEOC · 9.4</a></td><td>의료기관에 현재 진료 가능 여부와 환자 인계 방법을 확인합니다. 현지 당국에 이동 구간별 통행 상황을 요청합니다.</td><td>환자를 받을 기관의 답변, 인계 연락처, 의료·구조팀의 이동 판단. <small>이 페이지에는 수용 가능한 병상을 실시간 표시하지 않음.</small></td></tr>
+      <tr><th scope="row">그 외 지역</th><td>고르카·타나훈·치트완은 영향 지역으로 언급되나 비교 자료가 부족함. <a href="#source-who">WHO</a></td><td>연락 가능한 현지 파트너를 정하고 미해결 구조 요청, 대피소, 지원 공백부터 확인합니다.</td><td>확인 담당·기준 시각·미확인 항목을 명시한 상황 기록. <small>정보 부족을 지원 불필요로 판단하지 않음.</small></td></tr>
+    </tbody></table></div>
+    <details><summary>환경재단이 첫 조정 회의에서 정할 네 가지</summary><ol><li><strong>연락 창구:</strong> 지역별 현지 파트너와 연락 대행자를 정하고, 연결되지 않을 때 사용할 공식 기관을 확인합니다.</li><li><strong>미해결 요청:</strong> 위치·시각·상황이 같은 제보는 중복 여부를 확인하되, 확실하지 않으면 삭제하지 않고 기관에 알립니다.</li><li><strong>지원 자원:</strong> 파트너가 요청한 통신·현지 운송·식수·위생 물품의 수량과 인계 장소를 확인해 지원안을 정합니다. 임의의 예산 배분율은 적용하지 않습니다.</li><li><strong>다음 확인:</strong> 담당자와 다음 연락 시각을 정합니다. 접수 미확인, 인계 미완료, 공급 중단 항목을 먼저 다시 점검합니다.</li></ol></details>
+  </section>
+  <section id="emergency-contacts" class="section rescue-section" aria-labelledby="contact-title">
+    <div class="section-head"><div><span class="section-no">공식 연락처</span><h2 id="contact-title">구조·의료·구호 요청을 전달할 곳</h2><p>2026년 9월 5일 공식 웹페이지에서 번호를 확인했습니다. 단축번호는 네팔 안에서 사용하는 번호이며, 통신망에 따른 연결과 현장 서비스 가능 여부는 통화로 확인해야 합니다.</p></div></div>
+    <!-- FIELD_CONTACTS_START -->
+<div class="contact-grid">
+<article class="contact-card"><h3>경찰 · 긴급 신고</h3><small>네팔 내 단축번호</small><a class="contact-number" href="tel:100" aria-label="전화 경찰 · 긴급 신고 100">100</a><p>고립·인명 위험을 신고하고 관할 구조기관 연결을 요청하세요.</p><small><a href="https://nepalpolice.gov.np/contactus/" target="_blank" rel="noopener noreferrer">Nepal Police ↗</a> · 2026-09-05</small></article>
+<article class="contact-card"><h3>구급차 요청</h3><small>네팔 내 단축번호</small><a class="contact-number" href="tel:102" aria-label="전화 구급차 요청 102">102</a><p>의료 평가·이송이 필요할 때 연락하세요. 차량과 수용 병원은 통화로 확인하세요.</p><small><a href="https://heoc.mohp.gov.np/" target="_blank" rel="noopener noreferrer">Health Emergency Operation Center ↗</a> · 2026-09-05</small></article>
+<article class="contact-card"><h3>라수와 재난상황실</h3><small>24시간 운영 안내 · 라수와</small><a class="contact-number" href="tel:+97710540131" aria-label="전화 라수와 재난상황실 010-540131">010-540131</a><a class="alternate" href="tel:+97710540019">010-540019</a><p>구조기관 조정과 도로·교량 접근 상황을 확인하세요. 국제전화: +977-10-540131 / +977-10-540019.</p><small><a href="https://daorasuwa.moha.gov.np/en" target="_blank" rel="noopener noreferrer">District Administration Office, Rasuwa ↗</a> · 2026-09-05</small></article>
+<article class="contact-card"><h3>기상·홍수 안내</h3><small>네팔 내 단축번호 · DHM</small><a class="contact-number" href="tel:1155" aria-label="전화 기상·홍수 안내 1155">1155</a><p>연결 후 1번은 기상, 2번은 홍수 조기경보 안내입니다.</p><small><a href="https://www.dhm.gov.np/" target="_blank" rel="noopener noreferrer">Department of Hydrology and Meteorology ↗</a> · 2026-09-05</small></article>
+<article class="contact-card"><h3>네팔적십자 · 구호 문의</h3><small>네팔 내 단축번호 · NRCS</small><a class="contact-number" href="tel:1130" aria-label="전화 네팔적십자 · 구호 문의 1130">1130</a><p>구호 지원과 현지 적십자 연결을 문의하세요. 긴급 구조는 경찰·재난상황실에 먼저 연락하세요.</p><small><a href="https://nrcs.org/contact/" target="_blank" rel="noopener noreferrer">Nepal Red Cross Society ↗</a> · 2026-09-05</small></article>
+</div>
+    <!-- FIELD_CONTACTS_END -->
+    <div class="official-updates"><strong>이동 전 공식 안내를 다시 확인하세요</strong><p><a href="https://www.dhm.gov.np/" target="_blank" rel="noopener noreferrer">DHM 기상·홍수 안내 ↗</a> · <a href="https://daorasuwa.moha.gov.np/en/post/sa-cana-b-dha-sadaka-mara-mata-ka-ra-yaka-l-ga-sava-ra-aava-gamana-aa-sha-ka-ra" target="_blank" rel="noopener noreferrer">라수와 도로 보수에 따른 부분 통제 공지 · 9.5 ↗</a> · <a href="https://daonuwakot.moha.gov.np/" target="_blank" rel="noopener noreferrer">누와코트 지구청 최신 상황·재난 연락 안내 ↗</a></p><p>통제 구간과 시간은 공지 원문을 확인하고 현지 기관에 재확인하세요. 이 페이지의 위성 사진은 8월 촬영 자료이며, 현재의 통행 가능 경로나 대피 경로를 나타내지 않습니다.</p></div>
+    <p class="field-note">연결되지 않으면 다른 공식 연락처나 연락 가능한 현지 파트너를 통해 전달을 요청하세요. 담당 기관에 수신 여부를 재확인하고, 다시 연락할 시각을 기록하세요. 기관 목록 확인일은 실제 통화·출동 확인일과 다릅니다.</p>
+  </section>
+  <section id="field-support" class="section rescue-section" aria-labelledby="field-title">
+    <div class="section-head"><div><span class="section-no">현장 전달 도구</span><h2 id="field-title">위치·상황·접수 확인을 한 장에</h2><p>구조 요청과 인계에 필요한 내용을 정리합니다. 기관에 자동 접수되거나 구조팀이 출동하는 기능은 없습니다.</p></div></div>
+    <div class="field-callout"><div><h3>현지에서 바로 쓸 수 있는 영문 현장 도구</h3><p>사진 없이 가볍게 열고, 파일로 저장하면 연결이 끊겨도 작성할 수 있습니다.</p></div><div class="actions"><a class="button" href="./field/" lang="en">Open field kit ↗</a><a class="button" href="./field/index.html" download="greenproof-nepal-field-kit.html">오프라인 HTML 저장 ↓</a></div></div>
+    <div data-field-tool data-lang="ko"><p>구조 요청 도구를 불러오고 있습니다. 긴급 연락처는 위에서 바로 확인할 수 있습니다.</p></div>
+    <noscript><p>도구로 작성하려면 JavaScript가 필요합니다. 전화로 <strong>장소·확인 시각·고립/부상 상황·인원·필요한 도움·다시 연락할 번호</strong>를 알리고 접수 여부를 확인하세요.</p></noscript>
+  </section>
   <section class="section" aria-labelledby="readout-title">
     <div class="section-head"><div><span class="section-no">01 / 피해 현황</span><h2 id="readout-title">깨끗한 물과 위생 지원이 필요합니다</h2></div></div>
     <div id="context" class="metrics"><p>공개 자료를 불러오는 중입니다.</p></div>
@@ -112,5 +158,6 @@
 <footer><div><a class="brand" href="/">GREEN <span>PROOF</span><small>환경재단이 운영하는 AI환경연구소</small></a><p>데이터로 살펴보고, 환경을 위해 행동합니다.</p></div><div><p>분석·모델 설계·구현에 GPT-6 Astra 활용<br>모델 A v1.0 · 자료 확인일 2026.09.05</p><a href="https://github.com/moonsookim-ai/greenfund-ai" target="_blank" rel="noopener noreferrer">계산 방법과 소스 코드 ↗</a></div><small class="research-contact">연구 문의 · 연구책임자 김문수 교수 · <a href="mailto:mskim@ceobizschool.kr">mskim@ceobizschool.kr</a></small></footer>
 <script type="module" src="./satellite.mjs?v=1"></script>
 <script type="module" src="./app.mjs?v=2"></script>
+<script type="module" src="./field.mjs?v=1"></script>
 </body>
 </html>

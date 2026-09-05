@@ -7,3 +7,6 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 .lab-footer{flex-wrap:wrap}.research-contact{display:block;flex-basis:100%;font-size:12px;font-weight:400;color:var(--muted);line-height:1.7}
+
+.lab-main-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.lab-main-nav .lab-nav{margin-left:0}.lab-main-nav [aria-current="page"]{background:var(--green);color:#04150c;border-color:var(--green)}
+@media(max-width:700px){.lab-main-nav{width:100%;gap:8px}.lab-main-nav .lab-nav{font-size:12px;padding:8px 10px}}

@@ -4,21 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>GREEN PROOF · 환경재단이 운영하는 AI환경연구소</title>
-<meta name="description" content="환경재단이 운영하는 AI환경연구소 GREEN PROOF. 위성 검증, 배출 지도, GPT-6 Astra 기반 네팔상황실로 환경 행동의 근거를 공개합니다.">
+<meta name="description" content="환경재단이 운영하는 AI환경연구소 GREEN PROOF. 맹그로브 성장 기록, 우리 동네 온실가스 배출, GPT-6 Astra 기반 네팔상황실로 환경 행동의 근거를 공개합니다.">
 <link rel="canonical" href="https://greenfund.ai.kr/">
 <meta name="theme-color" content="#08131a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GREEN PROOF · 환경재단이 운영하는 AI환경연구소">
 <meta property="og:url" content="https://greenfund.ai.kr/">
 <meta property="og:title" content="GREEN PROOF · 환경재단이 운영하는 AI환경연구소">
-<meta property="og:description" content="위성으로 확인하는 환경 변화, 우리 동네 배출 지도, GPT-6 Astra로 분석하는 네팔상황실.">
+<meta property="og:description" content="위성으로 확인하는 환경 변화, 우리 동네 온실가스 배출, GPT-6 Astra로 분석하는 네팔상황실.">
 <meta property="og:image" content="https://greenfund.ai.kr/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The same coastal plot in 2022 and 2026 from satellite. Bare mud on the left, green mangrove canopy on the right.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="GREEN PROOF · 환경재단이 운영하는 AI환경연구소">
-<meta name="twitter:description" content="환경재단이 운영하는 AI환경연구소. 위성 검증·배출 지도·네팔상황실의 공개 근거를 확인하세요.">
+<meta name="twitter:description" content="환경재단이 운영하는 AI환경연구소. 맹그로브 성장 기록·우리 동네 온실가스 배출·네팔상황실의 공개 근거를 확인하세요.">
 <meta name="twitter:image" content="https://greenfund.ai.kr/og.png?v=2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314663a'/%3E%3Cpath d='M9 21c0-6 4-10 10-11-1 7-4 11-10 11z' fill='%233ddc84'/%3E%3Cpath d='M9 23c2-3 5-5 9-6' stroke='%23e9b341' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
@@ -154,7 +154,7 @@ details ul{color:var(--muted);font-size:13px;padding-left:18px}
 footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-size:12px;color:var(--muted)}
 .err{padding:40px 0;color:var(--warn);font-weight:700}
 </style>
-<link rel="stylesheet" href="/lab.css?v=2">
+<link rel="stylesheet" href="/lab.css?v=3">
 </head>
 <body>
 
@@ -173,8 +173,8 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
     <p id="h-sub">환경재단이 운영하는 AI환경연구소 GREEN PROOF. 공개 데이터와 AI로 환경의 변화를 읽고, 현장의 의사결정을 돕습니다.</p>
     <div class="ctarow">
       <a class="cta primary" href="/nepal/" id="h-nepal">네팔상황실 · GPT-6 Astra ↗</a>
-      <button class="cta" id="h-cta"><span id="h-cta-t">위성 검증 보기</span><span class="arw">↓</span></button>
-      <a class="cta" id="h-cta2" href="/emissions/"><span id="h-cta2-t">배출 지도</span><span>→</span></a>
+      <button class="cta" id="h-cta"><span id="h-cta-t">맹그로브 성장 기록 보기</span><span class="arw">↓</span></button>
+      <a class="cta" id="h-cta2" href="/emissions/"><span id="h-cta2-t">우리 동네 온실가스 배출</span><span>→</span></a>
     </div>
   </div></div>
 </section>
@@ -182,9 +182,12 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
 <!-- ===================== APP ===================== -->
 <header class="top"><div class="row">
   <div class="brand">GREEN <em>PROOF</em><small id="brand-sub">환경재단이 운영하는 AI환경연구소</small></div>
-  <select id="siteSel" aria-label="plot"></select>
-  <a class="modlink" id="modEmissions" href="/emissions/">배출 지도</a>
-  <a class="lab-nav" href="/nepal/">네팔상황실</a>
+  <nav class="lab-main-nav" aria-label="주 메뉴">
+    <a class="lab-nav" href="/nepal/">네팔상황실</a>
+    <a class="lab-nav" href="/#app" aria-current="page">맹그로브 성장 기록</a>
+    <a class="lab-nav" id="modEmissions" href="/emissions/">우리 동네 온실가스 배출</a>
+  </nav>
+  <select id="siteSel" aria-label="식재지 선택"></select>
   <div class="lang2" id="lang2">
     <button data-l="en">EN</button><button data-l="ko">한국어</button>
   </div>
@@ -200,7 +203,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
   <div id="body"></div>
 </div>
 
-<footer class="lab-footer"><div><strong>GREEN PROOF</strong><br>환경재단이 운영하는 AI환경연구소</div><nav aria-label="연구 메뉴"><a href="/#app">위성 검증</a><a href="/emissions/">배출 지도</a><a href="/nepal/">네팔상황실</a></nav><small class="research-contact">연구 문의 · 연구책임자 김문수 교수 · <a href="mailto:mskim@ceobizschool.kr">mskim@ceobizschool.kr</a></small></footer>
+<footer class="lab-footer"><div><strong>GREEN PROOF</strong><br>환경재단이 운영하는 AI환경연구소</div><nav aria-label="연구 메뉴"><a href="/nepal/">네팔상황실</a><a href="/#app">맹그로브 성장 기록</a><a href="/emissions/">우리 동네 온실가스 배출</a></nav><small class="research-contact">연구 문의 · 연구책임자 김문수 교수 · <a href="mailto:mskim@ceobizschool.kr">mskim@ceobizschool.kr</a></small></footer>
 
 <script type="module">
 /* ---------------- i18n dictionary ---------------- */
@@ -209,8 +212,8 @@ const T = {
     heroKick: "GREEN PROOF · AI ENVIRONMENTAL RESEARCH INSTITUTE",
     heroTitle: "Evidence for environmental action.",
     heroSub: "GREEN PROOF is the AI Environmental Research Institute operated by the Environmental Foundation. We use open data and AI to understand environmental change and inform decisions in the field.",
-    heroCta: "Satellite verification",
-    modEmissions: "Emissions near you →",
+    heroCta: "Mangrove growth",
+    modEmissions: "Local greenhouse gas emissions",
     brandSub: "AI Environmental Research Institute · Environmental Foundation",
     titleSubject: "Three years on, this is what the satellite sees",
     titleControl: "First, we check that the rules are right",
@@ -251,8 +254,8 @@ const T = {
     heroKick: "GREEN PROOF · AI환경연구소",
     heroTitle: "환경을 위한 행동에, 확인할 수 있는 근거를.",
     heroSub: "환경재단이 운영하는 AI환경연구소 GREEN PROOF. 공개 데이터와 AI로 환경의 변화를 읽고, 현장의 의사결정을 돕습니다.",
-    heroCta: "위성 검증 보기",
-    modEmissions: "우리 동네 배출 지도 →",
+    heroCta: "맹그로브 성장 기록 보기",
+    modEmissions: "우리 동네 온실가스 배출",
     brandSub: "환경재단이 운영하는 AI환경연구소",
     titleSubject: "3년이 지난 지금, 위성은 이렇게 봅니다",
     titleControl: "먼저 판독 규칙이 맞는지 확인합니다",

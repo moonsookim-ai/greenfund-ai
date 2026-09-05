@@ -10,6 +10,8 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / 'greenproof/web'
+snapshot=json.loads((WEB/'nepal/data/snapshot.json').read_text(encoding='utf-8'))
+dynamic_nepal_ids = {f"source-{s['id']}" for s in snapshot['sources']} | {f"region-{r['id']}" for r in snapshot['regions']} | {f"urgent-{r['id']}" for r in snapshot['focus']['regions']}
 
 class Page(HTMLParser):
     def __init__(self):
@@ -23,7 +25,7 @@ class Page(HTMLParser):
             if field in attrs:
                 self.refs.append(attrs[field])
 
-pages = [WEB/'index.html',WEB/'emissions/index.html',WEB/'nepal/index.html']
+pages = [WEB/'index.html',WEB/'emissions/index.html',WEB/'nepal/index.html',WEB/'nepal/field/index.html']
 for file in pages:
     source = file.read_text(encoding='utf-8')
     page = Page()
@@ -32,11 +34,14 @@ for file in pages:
     assert not duplicates, (file,duplicates)
     assert '환경재단이 운영하는 AI환경연구소' in source, file
     assert 'mskim@ceobizschool.kr' in source and '김문수 교수' in source, file
-    assert 'href="/nepal/"' in source, file
+    assert 'href="/nepal/"' in source or 'href="https://greenfund.ai.kr/nepal/"' in source, file
     assert not re.search(r'ocean\.js|startOcean|paintSim|id="ocean"',source), file
     # Ignore literal template expressions in inline scripts, but check every static local asset.
     for ref in page.refs:
         parsed=urlparse(ref)
+        if not parsed.path and parsed.fragment and '${' not in ref:
+            possible_ids = set(page.ids) | (dynamic_nepal_ids if file == WEB/'nepal/index.html' else set())
+            assert unquote(parsed.fragment) in possible_ids, (file,ref,'missing page anchor')
         if parsed.scheme or parsed.netloc or not parsed.path or '${' in ref:
             continue
         target=(WEB/parsed.path.lstrip('/')) if parsed.path.startswith('/') else file.parent/parsed.path
@@ -64,3 +69,9 @@ for src in snapshot['sources']:
 assert not (WEB/'ocean.js').exists()
 assert not any(p.stat().st_size>25*1024*1024 for p in WEB.rglob('*') if p.is_file()), 'Cloudflare Pages per-file size limit'
 print('PASS public source URLs, removed ocean file, static asset size limits')
+
+field_kit=(WEB/'nepal/field/index.html').read_text(encoding='utf-8')
+assert not re.search(r'<(?:img|link)\b[^>]*(?:src=|stylesheet)|<script\b[^>]+src=',field_kit), 'Offline kit must be standalone'
+assert not re.search(r'\b(?:fetch|localStorage|sessionStorage|indexedDB)\b',field_kit), 'No background requests or persistent personal records'
+assert len(field_kit.encode('utf-8')) < 100_000, 'Keep field kit lightweight'
+print('PASS standalone field kit: no asset dependencies, network fetches or automatic record storage')

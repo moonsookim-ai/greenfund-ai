@@ -31,6 +31,15 @@
 /nepal/response.css
   Cache-Control: public, max-age=300
 
+/nepal/rescue.css
+  Cache-Control: public, max-age=300
+
+/nepal/field/
+  Cache-Control: no-cache, no-transform
+
+/nepal/field/index.html
+  Cache-Control: no-cache, no-transform
+
 /nepal/images/*
   Cache-Control: public, max-age=86400
 
