@@ -4,8 +4,8 @@ export const PRESETS = {
   balanced: [1, 1, 1], gap: [1, 2, 1], damage: [2, 1, 1], vulnerability: [1, 1, 2]
 };
 export const LABELS = {
-  affected: "평가구역 내 영향 가구", severe: "주거 불능 가구", needs: "식수·위생 지원 필요 가구",
-  served: "최소 지원 기준 충족 가구", vulnerable: "필요 가구 중 취약가구"
+  affected: "홍수의 영향을 받은 가구", severe: "집에 거주할 수 없는 가구", needs: "식수·위생 지원이 필요한 가구",
+  served: "정해진 지원을 받은 가구", vulnerable: "지원 필요 가구 중 취약가구"
 };
 export function normaliseWeights(weights) {
   if (!Array.isArray(weights) || weights.length !== 3 || weights.some(v => typeof v !== "number" || !Number.isFinite(v) || v < 0) || weights.reduce((a,b) => a+b,0) <= 0) {

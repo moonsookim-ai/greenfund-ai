@@ -5,3 +5,5 @@
 .lab-footer nav{display:flex;gap:18px;flex-wrap:wrap}.lab-footer a{text-underline-offset:4px}
 @media(max-width:700px){.lab-footer{flex-direction:column;gap:20px}.top .row{gap:10px}.top .brand{flex-basis:100%}.top .modlink,.top .sp{margin-left:0}.top .lang2{margin-left:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.lab-footer{flex-wrap:wrap}.research-contact{display:block;flex-basis:100%;font-size:12px;font-weight:400;color:var(--muted);line-height:1.7}

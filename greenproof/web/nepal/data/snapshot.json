@@ -7,29 +7,311 @@
   "contact": "mskim@ceobizschool.kr",
   "scope": "공개 자료에서 피해가 언급된 6개 지구의 초기 검토. 전체 피해지역의 완전한 목록이 아님.",
   "sources": [
-    {"id":"heoc","title":"네팔 HEOC 보건 대응 상황보고 10호","publisher":"네팔 보건 당국","date":"2026-09-04","url":"https://heoc.mohp.gov.np/events/2026-rasuwa-flash-floods/document/91066/inline","locator":"영문 부분 3~4쪽 및 7쪽","type":"정부 상황보고","note":"보건시설 피해와 지원 활동. 수혜 건수는 중복 제거한 식수·위생 지원 가구 수가 아니다."},
-    {"id":"who","title":"WHO Nepal 2026 Rasuwa flash floods","publisher":"WHO","date":null,"retrieved":"2026-09-05","url":"https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods","locator":"Overview","type":"국제기구 상황 설명","note":"치트완을 포함한 영향 지역 확인. 페이지의 정확한 갱신일은 표시되지 않아 확인일을 사용."},
-    {"id":"unicef","title":"식수·위생 지원이 필요한 네팔 아동","publisher":"UNICEF","date":"2026-09-03","url":"https://www.unicef.org/press-releases/more-one-week-nepals-floods-thousands-children-remain-without-safe-water-and-face","locator":"본문 첫 문단 및 지원 현황","type":"국제기구 발표","note":"최소 22,000명은 아동의 식수·위생 지원 수요. 지역별 가구 수로 배분할 수 없다."},
-    {"id":"unicef-logistics","title":"From warehouses to families in need","publisher":"UNICEF Nepal","date":"2026-09-02","url":"https://www.unicef.org/nepal/stories/warehouses-families-need","locator":"수요 및 물품 발송 설명","type":"국제기구 현장 보고","note":"약 13,000가구 수요는 영향 지역 전체 추정. 약 19,000명분 물품 발송은 실제 수령·최소 지원 완료와 다르다."},
-    {"id":"wvi","title":"Devighat 현장 방문 기록","publisher":"World Vision International Nepal","date":"2026-08-30","observed":"2026-08-27","url":"https://www.wvi.org/stories/nepal/community-no-longer-recognizable-nepal-flash-floods-response-2026","locator":"Field notes from Devighat","type":"구호기관 현장 관찰","note":"Bidur-5의 접근·주거·아동 관련 관찰. 누와코트 전체 비율로 일반화하지 않는다."},
-    {"id":"mofa","title":"네팔 외교부 9월 5일 상황보고","publisher":"네팔 외교부","date":"2026-09-05","url":"https://www.mofa.gov.np/content/1877/daily-situation-update-on-bhote-koshi-river/","locator":"14:00 NST, Latest Figures / RDNA","type":"정부 상황보고","note":"재난 전체 잠정 집계. 시신 수습 지점은 거주지 또는 사망 발생지가 아니다."}
+    {
+      "id": "heoc",
+      "title": "네팔 HEOC 보건 대응 상황보고 10호",
+      "publisher": "네팔 보건 당국",
+      "date": "2026-09-04",
+      "url": "https://heoc.mohp.gov.np/events/2026-rasuwa-flash-floods/document/91066/inline",
+      "locator": "영문 부분 3~4쪽 및 7쪽",
+      "type": "정부 상황보고",
+      "note": "보건시설 피해와 지원 활동. 수혜 건수는 중복 제거한 식수·위생 지원 가구 수가 아니다."
+    },
+    {
+      "id": "who",
+      "title": "WHO Nepal 2026 Rasuwa flash floods",
+      "publisher": "WHO",
+      "date": null,
+      "retrieved": "2026-09-05",
+      "url": "https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods",
+      "locator": "Overview",
+      "type": "국제기구 상황 설명",
+      "note": "치트완을 포함한 영향 지역 확인. 페이지의 정확한 갱신일은 표시되지 않아 확인일을 사용."
+    },
+    {
+      "id": "unicef",
+      "title": "식수·위생 지원이 필요한 네팔 아동",
+      "publisher": "UNICEF",
+      "date": "2026-09-03",
+      "url": "https://www.unicef.org/press-releases/more-one-week-nepals-floods-thousands-children-remain-without-safe-water-and-face",
+      "locator": "본문 첫 문단 및 지원 현황",
+      "type": "국제기구 발표",
+      "note": "최소 22,000명은 아동의 식수·위생 지원 수요. 지역별 가구 수로 배분할 수 없다."
+    },
+    {
+      "id": "unicef-logistics",
+      "title": "From warehouses to families in need",
+      "publisher": "UNICEF Nepal",
+      "date": "2026-09-02",
+      "url": "https://www.unicef.org/nepal/stories/warehouses-families-need",
+      "locator": "수요 및 물품 발송 설명",
+      "type": "국제기구 현장 보고",
+      "note": "약 13,000가구 수요는 영향 지역 전체 추정. 약 19,000명분 물품 발송은 실제 수령·최소 지원 완료와 다르다."
+    },
+    {
+      "id": "wvi",
+      "title": "Devighat 현장 방문 기록",
+      "publisher": "World Vision International Nepal",
+      "date": "2026-08-30",
+      "observed": "2026-08-27",
+      "url": "https://www.wvi.org/stories/nepal/community-no-longer-recognizable-nepal-flash-floods-response-2026",
+      "locator": "Field notes from Devighat",
+      "type": "구호기관 현장 관찰",
+      "note": "Bidur-5의 접근·주거·아동 관련 관찰. 누와코트 전체 비율로 일반화하지 않는다."
+    },
+    {
+      "id": "mofa",
+      "title": "네팔 외교부 9월 5일 상황보고",
+      "publisher": "네팔 외교부",
+      "date": "2026-09-05",
+      "url": "https://www.mofa.gov.np/content/1877/daily-situation-update-on-bhote-koshi-river/",
+      "locator": "14:00 NST, Latest Figures / RDNA",
+      "type": "정부 상황보고",
+      "note": "재난 전체 잠정 집계. 시신 수습 지점은 거주지 또는 사망 발생지가 아니다."
+    },
+    {
+      "id": "ifrc",
+      "title": "네팔 홍수 긴급 구호 지원 발표",
+      "publisher": "IFRC 국제적십자사연맹",
+      "date": "2026-08-26",
+      "url": "https://www.ifrc.org/press-release/nepal-ifrc-releases-emergency-funds-flash-floods-leave-communities-isolated",
+      "locator": "Rasuwa·Nuwakot 피해와 구호 우선 과제 설명",
+      "type": "국제 구호기관 발표",
+      "note": "라수와·누와코트에서 큰 피해를 보고했으며 특히 라수와의 접근 어려움을 설명한다. 두 지역 사이의 순위나 현재 미지원 가구 수를 제시한 자료는 아니다."
+    },
+    {
+      "id": "esa",
+      "title": "위성으로 확인한 네팔 홍수 전후",
+      "publisher": "ESA 유럽우주국",
+      "date": "2026-08-31",
+      "url": "https://www.esa.int/ESA_Multimedia/Images/2026/08/Sentinel-2_captures_before_and_after_Nepal_flash_flood",
+      "locator": "8월 12일·27일 Sentinel-2 자연색 영상, CREDIT / LICENCE",
+      "type": "위성 영상",
+      "note": "ESA가 처리한 2026년 Copernicus Sentinel-2 영상. 구름에 가린 지역과 개별 가구의 지원 여부는 사진만으로 확인할 수 없다."
+    }
   ],
   "context": [
-    {"label":"아동 식수·위생 지원 수요","value":22000,"qualifier":"최소","unit":"명","date":"2026-09-03","source":"unicef"},
-    {"label":"전체 영향 지역 식수·위생 지원 수요","value":13000,"qualifier":"약","unit":"가구","date":"2026-09-02","source":"unicef-logistics"}
+    {
+      "label": "아동 식수·위생 지원 수요",
+      "value": 22000,
+      "qualifier": "최소",
+      "unit": "명",
+      "date": "2026-09-03",
+      "source": "unicef"
+    },
+    {
+      "label": "전체 영향 지역 식수·위생 지원 수요",
+      "value": 13000,
+      "qualifier": "약",
+      "unit": "가구",
+      "date": "2026-09-02",
+      "source": "unicef-logistics"
+    }
   ],
   "regions": [
-    {"id":"rasuwa","name":"라수와","nameEn":"Rasuwa","province":"Bagmati","inputs":{"affected":null,"severe":null,"needs":null,"served":null,"vulnerable":null},"inputSources":{},"review":null,"evidence":[{"text":"Syafrubesi·Timure·Mailung 등의 보건시설 피해가 보고됐다.","source":"heoc"},{"text":"식수·위생 물품 발송 대상에 포함됐다. 지역별 실제 수령 가구 수는 확인되지 않았다.","source":"unicef-logistics"}],"question":"보건시설·대피소별 급수 상태와 물품 수령 가구를 확인","access":"현 경로별 통행 상태 재확인 필요"},
-    {"id":"nuwakot","name":"누와코트","nameEn":"Nuwakot","province":"Bagmati","inputs":{"affected":null,"severe":null,"needs":null,"served":null,"vulnerable":null},"inputSources":{},"review":null,"evidence":[{"text":"Bidur-5 Devighat에서 주거 피해와 접근 경로 단절이 현장 관찰됐다.","source":"wvi"},{"text":"물품 발송과 보건 지원 활동이 보고됐으나, 중복 제거한 지원 완료 가구 집계는 없다.","source":"unicef-logistics"}],"question":"Bidur·Devighat의 실제 수요와 지원 완료 가구를 대조","access":"발표 당시 접근 제약. 현재 운송 경로 재확인 필요"},
-    {"id":"dhading","name":"다딩","nameEn":"Dhading","province":"Bagmati","inputs":{"affected":null,"severe":null,"needs":null,"served":null,"vulnerable":null},"inputSources":{},"review":null,"evidence":[{"text":"Galchhi·Benighat의 보건시설 피해와 Dhading Hospital 접근 지장이 보고됐다.","source":"heoc"}],"question":"하천변 마을의 식수·위생 수요와 보건 접근 상황 확인","access":"시설 접근 지장 보고. 경로별 통행 상태 미확인"},
-    {"id":"gorkha","name":"고르카","nameEn":"Gorkha","province":"Gandaki","inputs":{"affected":null,"severe":null,"needs":null,"served":null,"vulnerable":null},"inputSources":{},"review":null,"evidence":[{"text":"HEOC와 WHO가 영향 지역으로 명시했다. 검토한 자료에는 모델 입력용 가구 집계가 없다.","source":"who"}],"question":"영향 마을 목록과 동일 기준의 가구별 수요 조사 확보","access":"미확인"},
-    {"id":"tanahun","name":"타나훈","nameEn":"Tanahun","province":"Gandaki","inputs":{"affected":null,"severe":null,"needs":null,"served":null,"vulnerable":null},"inputSources":{},"review":null,"evidence":[{"text":"HEOC와 WHO가 영향 지역으로 명시했다. 지역별 지원 공백을 비교할 자료가 부족하다.","source":"who"}],"question":"주거 피해·지원 필요·수령 기록의 공통 집계 확보","access":"미확인"},
-    {"id":"chitwan","name":"치트완","nameEn":"Chitwan","province":"Bagmati","inputs":{"affected":null,"severe":null,"needs":null,"served":null,"vulnerable":null},"inputSources":{},"review":null,"evidence":[{"text":"WHO가 영향 지역에 포함했다. 일부 초기 5개 지구 보고와 범위가 달라 별도 확인이 필요하다.","source":"who"}],"question":"실제 영향 행정구역과 수요 집계의 공간 범위를 확인","access":"미확인"}
+    {
+      "id": "rasuwa",
+      "name": "라수와",
+      "nameEn": "Rasuwa",
+      "province": "Bagmati",
+      "inputs": {
+        "affected": null,
+        "severe": null,
+        "needs": null,
+        "served": null,
+        "vulnerable": null
+      },
+      "inputSources": {},
+      "review": null,
+      "evidence": [
+        {
+          "text": "Syafrubesi·Timure·Mailung 등의 보건시설 피해가 보고됐다.",
+          "source": "heoc"
+        },
+        {
+          "text": "식수·위생 물품 발송 대상에 포함됐다. 지역별 실제 수령 가구 수는 확인되지 않았다.",
+          "source": "unicef-logistics"
+        }
+      ],
+      "question": "보건시설·대피소별 급수 상태와 물품 수령 가구를 확인",
+      "access": "현재 통행 가능한 경로 확인 필요"
+    },
+    {
+      "id": "nuwakot",
+      "name": "누와코트",
+      "nameEn": "Nuwakot",
+      "province": "Bagmati",
+      "inputs": {
+        "affected": null,
+        "severe": null,
+        "needs": null,
+        "served": null,
+        "vulnerable": null
+      },
+      "inputSources": {},
+      "review": null,
+      "evidence": [
+        {
+          "text": "Bidur-5 Devighat에서 주거 피해와 접근 경로 단절이 현장 방문에서 확인됐다.",
+          "source": "wvi"
+        },
+        {
+          "text": "물품 발송과 보건 지원 활동이 보고됐으나, 중복 제거한 지원 완료 가구 집계는 확인되지 않았다.",
+          "source": "unicef-logistics"
+        }
+      ],
+      "question": "Bidur·Devighat의 실제 수요와 지원 완료 가구를 대조",
+      "access": "발표 당시 접근 제약. 현재 운송 경로 재확인 필요"
+    },
+    {
+      "id": "dhading",
+      "name": "다딩",
+      "nameEn": "Dhading",
+      "province": "Bagmati",
+      "inputs": {
+        "affected": null,
+        "severe": null,
+        "needs": null,
+        "served": null,
+        "vulnerable": null
+      },
+      "inputSources": {},
+      "review": null,
+      "evidence": [
+        {
+          "text": "Galchhi·Benighat의 보건시설 피해와 Dhading Hospital 접근 지장이 보고됐다.",
+          "source": "heoc"
+        }
+      ],
+      "question": "하천변 마을의 식수·위생 수요와 보건 접근 상황 확인",
+      "access": "시설 접근 지장 보고. 경로별 통행 상태 아직 확인되지 않음"
+    },
+    {
+      "id": "gorkha",
+      "name": "고르카",
+      "nameEn": "Gorkha",
+      "province": "Gandaki",
+      "inputs": {
+        "affected": null,
+        "severe": null,
+        "needs": null,
+        "served": null,
+        "vulnerable": null
+      },
+      "inputSources": {},
+      "review": null,
+      "evidence": [
+        {
+          "text": "HEOC와 WHO가 영향 지역으로 명시했다. 검토한 자료에서는 피해 가구 수를 확인할 수 없다.",
+          "source": "who"
+        }
+      ],
+      "question": "영향 마을 목록과 동일 기준의 가구별 수요 조사 확보",
+      "access": "아직 확인되지 않음"
+    },
+    {
+      "id": "tanahun",
+      "name": "타나훈",
+      "nameEn": "Tanahun",
+      "province": "Gandaki",
+      "inputs": {
+        "affected": null,
+        "severe": null,
+        "needs": null,
+        "served": null,
+        "vulnerable": null
+      },
+      "inputSources": {},
+      "review": null,
+      "evidence": [
+        {
+          "text": "HEOC와 WHO가 영향 지역으로 명시했다. 지역별 미지원 가구 수를 비교할 자료가 부족하다.",
+          "source": "who"
+        }
+      ],
+      "question": "주거 피해·지원 필요·수령 기록의 가구 수를 같은 기준으로 확인",
+      "access": "아직 확인되지 않음"
+    },
+    {
+      "id": "chitwan",
+      "name": "치트완",
+      "nameEn": "Chitwan",
+      "province": "Bagmati",
+      "inputs": {
+        "affected": null,
+        "severe": null,
+        "needs": null,
+        "served": null,
+        "vulnerable": null
+      },
+      "inputSources": {},
+      "review": null,
+      "evidence": [
+        {
+          "text": "WHO가 영향 지역에 포함했다. 일부 초기 5개 지구 보고와 범위가 달라 별도 확인이 필요하다.",
+          "source": "who"
+        }
+      ],
+      "question": "실제로 피해를 입은 마을과 지원이 필요한 가구 확인",
+      "access": "아직 확인되지 않음"
+    }
   ],
   "exclusions": [
     "전국·유역 합계를 인구 비율로 나눠 지역별 가구 수로 대체하지 않음",
     "2021년 인구조사 기반 노출 추정은 실제 피해 가구 또는 미지원 가구로 사용하지 않음",
     "물품 발송·보건 진료 건수는 동일한 최소 식수·위생 패키지를 수령한 고유 가구 수로 사용하지 않음",
     "지역별 자료 미확인은 피해 없음이나 낮은 지원 우선순위를 뜻하지 않음"
-  ]
+  ],
+  "focus": {
+    "basis": "IFRC가 큰 피해를 보고한 두 지역을 먼저 보여준다. 점수나 확정된 지원 순위에 따른 정렬이 아니다.",
+    "source": "ifrc",
+    "regions": [
+      {
+        "id": "rasuwa",
+        "needs": [
+          "고립 지역 접근",
+          "식수·위생"
+        ],
+        "summary": "도로·교량 피해로 구호 접근이 어렵고, 보건시설 피해도 보고됐습니다.",
+        "action": "마을별 급수 상태와 구호품이 실제 도착했는지 확인이 필요합니다.",
+        "sources": [
+          "ifrc",
+          "heoc"
+        ]
+      },
+      {
+        "id": "nuwakot",
+        "needs": [
+          "식수·위생",
+          "임시 거처"
+        ],
+        "summary": "주거 피해가 보고된 지역으로, 식수·위생 물품 지원이 진행 중입니다.",
+        "action": "지원이 필요한 가구와 실제 물품을 받은 가구를 대조해야 합니다.",
+        "sources": [
+          "wvi",
+          "unicef-logistics"
+        ]
+      }
+    ]
+  },
+  "imagery": {
+    "source": "esa",
+    "satellite": "Copernicus Sentinel-2",
+    "processing": "ESA",
+    "credit": "Contains modified Copernicus Sentinel data (2026), processed by ESA",
+    "license": "CC BY-SA 3.0 IGO",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/igo/",
+    "scope": "트리슐리강 유역과 카트만두 주변. 피해지역의 행정 경계나 지원 우선순위 지도가 아니다.",
+    "modification": "ESA 제공 JPEG를 변경하지 않고 사용. 웹 비교 화면에서만 일시적으로 겹쳐 표시.",
+    "before": {
+      "date": "2026-08-12",
+      "file": "images/sentinel2-2026-08-12.jpg",
+      "url": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2026/08/sentinel-2_images_area_of_nepal_prior_to_flash_flood/27442429-1-eng-GB/Sentinel-2_images_area_of_Nepal_prior_to_flash_flood_article.jpg"
+    },
+    "after": {
+      "date": "2026-08-27",
+      "file": "images/sentinel2-2026-08-27.jpg",
+      "url": "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2026/08/sentinel-2_captures_before_and_after_nepal_flash_flood/27442595-1-eng-GB/Sentinel-2_captures_before_and_after_Nepal_flash_flood_article.jpg"
+    }
+  }
 }

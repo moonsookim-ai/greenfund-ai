@@ -28,6 +28,12 @@
 /nepal/style.css
   Cache-Control: public, max-age=300
 
+/nepal/response.css
+  Cache-Control: public, max-age=300
+
+/nepal/images/*
+  Cache-Control: public, max-age=86400
+
 /lab.css
   Cache-Control: public, max-age=300
 

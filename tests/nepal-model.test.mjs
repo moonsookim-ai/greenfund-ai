@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile, stat} from 'node:fs/promises';
 import {FIELDS, assess, evaluateRegions, sensitivity, normaliseWeights, PRESETS} from '../greenproof/web/nepal/model.mjs';
 
 // Invented fixtures are used only in tests. They are never published as Nepal data.
@@ -79,4 +79,23 @@ test('published snapshot keeps all unknown inputs null and links evidence to reg
   for(const r of data.regions){assert.deepEqual(Object.keys(r.inputs),FIELDS);for(const f of FIELDS) assert.equal(r.inputs[f],null);r.evidence.forEach(e=>assert.ok(ids.has(e.source)));}
   data.context.forEach(c=>assert.ok(ids.has(c.source)));
   evaluateRegions(data.regions).forEach(r=>{assert.equal(r.status,'missing');assert.equal(r.rank,null);assert.equal(r.score,null);});
+});
+test('featured areas have evidence, not invented ranks; satellite dates and assets have provenance',async()=>{
+  const base=new URL('../greenproof/web/nepal/',import.meta.url);
+  const data=JSON.parse(await readFile(new URL('data/snapshot.json',base),'utf8'));
+  const ids=new Set(data.sources.map(s=>s.id));
+  assert.deepEqual(data.focus.regions.map(r=>r.id),['rasuwa','nuwakot']);
+  assert.ok(ids.has(data.focus.source));
+  for(const focus of data.focus.regions){
+    assert.ok(data.regions.some(r=>r.id===focus.id));
+    focus.sources.forEach(id=>assert.ok(ids.has(id)));
+    assert.equal(focus.rank,undefined);assert.equal(focus.score,undefined);
+  }
+  assert.equal(data.imagery.before.date,'2026-08-12');
+  assert.equal(data.imagery.after.date,'2026-08-27');
+  assert.ok(ids.has(data.imagery.source));assert.equal(data.imagery.license,'CC BY-SA 3.0 IGO');
+  for(const image of [data.imagery.before,data.imagery.after]){
+    const asset=await stat(new URL(image.file,base));assert.ok(asset.size>0&&asset.size<1024*1024);
+    assert.equal(new URL(image.url).hostname,'www.esa.int');
+  }
 });
