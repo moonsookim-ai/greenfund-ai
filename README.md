@@ -1,6 +1,13 @@
-# GreenProof
+# GREEN PROOF · AI환경연구소
 
 **Live: https://greenfund.ai.kr**
+**환경재단이 운영하는 AI환경연구소 GREEN PROOF**
+연구책임자 김문수 교수 · <mskim@ceobizschool.kr>
+
+The site brings together satellite verification, an emissions map, and the
+[Nepal situation room](https://greenfund.ai.kr/nepal/). The Nepal public evidence
+register and Model A were researched, designed, visualised and implemented with
+**GPT-6 Astra**. Read the [model definitions and limitations](docs/nepal-model-a.md).
 
 Satellite verification for reforestation. It answers one question about a
 planting project: *are the trees actually alive?*
@@ -12,8 +19,9 @@ and publishes canopy cover, establishment rate and sequestered carbon — each
 with an error range, and with every satellite scene it used disclosed so anyone
 can repeat the calculation.
 
-This repository is the working prototype behind the **satellite verification**
-component of an AI programme proposed to a Korean environmental foundation.
+The following sections describe the original **satellite verification** pipeline
+within GREEN PROOF, the AI Environmental Research Institute operated by the
+Environmental Foundation.
 
 ## What is here
 
@@ -21,7 +29,7 @@ component of an AI programme proposed to a Korean environmental foundation.
 |---|---|
 | [`greenproof/`](greenproof/) | The pipeline and the public web viewer. See its [README](greenproof/README.md). |
 
-Two live modules share the site:
+Three live modules share the site:
 
 - **Satellite verification** (`/`) — reforestation read from Sentinel-2, the
   section above.
@@ -32,6 +40,11 @@ Two live modules share the site:
   `greenproof/tools/build_emissions.py`. Farms and forests are excluded on
   purpose — they arrive as diffuse grid cells, not facilities — and the page
   says so. The framing is information, not accusation.
+- **네팔상황실 / Nepal situation room** (`/nepal/`) — source-backed evidence for
+  the August–September 2026 flood and a WASH aid-priority scenario calculator.
+  Missing public inputs stay null; no unsupported official ranking is published.
+  Includes sensitivity to policy weights, input/result export, and source notes.
+  Research lead: 김문수 교수. Built with GPT-6 Astra.
 
 ## What it does, in one run
 

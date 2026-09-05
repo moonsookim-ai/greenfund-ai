@@ -5,3 +5,6 @@ out/
 
 # internal proposal (Korean, not for the public repo)
 기획서.md
+
+# Local Cloudflare CLI state
+.wrangler/

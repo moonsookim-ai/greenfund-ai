@@ -12,8 +12,24 @@
 /emissions/
   Cache-Control: no-cache
 
-/ocean.js
-  Cache-Control: public, max-age=60
+/nepal/
+  Cache-Control: no-cache
+
+/nepal/index.html
+  Cache-Control: no-cache
+
+/nepal/*.mjs
+  Content-Type: text/javascript; charset=utf-8
+  Cache-Control: public, max-age=300
+
+/nepal/data/*
+  Cache-Control: no-cache
+
+/nepal/style.css
+  Cache-Control: public, max-age=300
+
+/lab.css
+  Cache-Control: public, max-age=300
 
 /data/*
   Cache-Control: public, max-age=300

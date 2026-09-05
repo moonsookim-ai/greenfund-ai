@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>우리 동네 배출 지도 · GREEN PROOF</title>
-<meta name="description" content="시·군·구 이름을 입력하면 내 주변에서 온실가스를 가장 많이 배출하는 시설이 순위로 나옵니다. 전국 1,204개 시설, 공개 Climate TRACE 데이터. 환경재단 GREEN PROOF.">
+<title>우리 동네 배출 지도 · GREEN PROOF AI환경연구소</title>
+<meta name="description" content="시·군·구 이름을 입력하면 내 주변에서 온실가스를 가장 많이 배출하는 시설이 순위로 나옵니다. 전국 1,204개 시설, 공개 Climate TRACE 데이터. 환경재단이 운영하는 AI환경연구소 GREEN PROOF.">
 <link rel="canonical" href="https://greenfund.ai.kr/emissions/">
 <meta name="theme-color" content="#0d1411">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="GREEN PROOF · 환경재단">
+<meta property="og:site_name" content="GREEN PROOF · 환경재단이 운영하는 AI환경연구소">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:url" content="https://greenfund.ai.kr/emissions/">
@@ -117,12 +117,14 @@ details ul{color:var(--muted);font-size:13px;padding-left:18px}
 .note{font-size:13px;color:var(--muted)}
 footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;font-size:12px;color:var(--muted)}
 </style>
+<link rel="stylesheet" href="/lab.css?v=1">
 </head>
 <body>
 <header class="top"><div class="row">
-  <a class="brand" id="brandhome" href="/">GREEN <em>PROOF</em><small id="brandsub"></small></a>
+  <a class="brand" id="brandhome" href="/">GREEN <em>PROOF</em><small id="brandsub">환경재단이 운영하는 AI환경연구소</small></a>
   <span class="sp"></span>
   <a class="homelink" href="/" id="homelink"></a>
+  <a class="lab-nav" href="/nepal/">네팔상황실</a>
   <div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div>
 </div></header>
 
@@ -147,12 +149,13 @@ footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;font-si
   <div id="result"></div>
 </div>
 
+<footer class="lab-footer"><div><strong>GREEN PROOF</strong><br>환경재단이 운영하는 AI환경연구소</div><nav aria-label="연구 메뉴"><a href="/#app">위성 검증</a><a href="/emissions/">배출 지도</a><a href="/nepal/">네팔상황실</a></nav><div>연구책임자 김문수 교수<br><a href="mailto:mskim@ceobizschool.kr">mskim@ceobizschool.kr</a></div></footer>
 <script>
 const CFG = { file: "data/emissions_kr.json" };
 
 const T = {
   en: {
-    brandsub: "Environmental Foundation · Emissions near you",
+    brandsub: "AI Environmental Research Institute · Environmental Foundation",
     home: "← Satellite verification",
     h1: "What emits the most around you?",
     lede: "Type where you live, and see the largest greenhouse-gas emitters near you — ranked, from open Climate TRACE facility data. Climate change is not only the planet's problem. It has an address.",
@@ -175,7 +178,7 @@ const T = {
     foot: "Emissions data: Climate TRACE (climatetrace.org), open data. A module of GREEN PROOF, greenfund.ai.kr.",
   },
   ko: {
-    brandsub: "환경재단 · 우리 동네 배출 지도",
+    brandsub: "환경재단이 운영하는 AI환경연구소",
     home: "← 위성 검증소",
     h1: "우리 동네에서 온실가스를 가장 많이 내뿜는 곳은?",
     lede: "사는 곳을 입력하면, 내 주변에서 온실가스를 가장 많이 배출하는 시설을 순위로 보여드립니다. 공개된 Climate TRACE 시설 데이터 기반입니다. 기후 문제는 지구만의 일이 아닙니다. 내 동네의 일입니다.",

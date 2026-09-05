@@ -145,13 +145,16 @@ lon/lat.
 
 ---
 
-## Ocean intro
+## Research institute and Nepal situation room
 
-The landing page opens on a full-screen procedural ocean — a self-contained
-WebGL2 shader (`web/ocean.js`), no libraries or assets: a raymarched heightfield
-of choppy multi-octave swell, an analytic sky shared by the dome and the water
-reflection, Fresnel, sun glitter, subsurface crest scatter, foam and horizon
-haze, closed with ACES tone mapping. WebGL2 rather than WebGPU on purpose: the
-whole point of the site is that anyone can see the proof, and WebGPU still fails
-on many browsers. It pauses off-screen and on hidden tabs, caps device pixel
-ratio, and renders a single static frame under `prefers-reduced-motion`.
+GREEN PROOF is the AI Environmental Research Institute operated by the
+Environmental Foundation (환경재단이 운영하는 AI환경연구소). The home page uses a
+static introduction; the WebGL ocean and its render loop have been removed.
+
+`web/nepal/` contains the source-backed 2026 Nepal flood evidence register and
+Model A, an interactive WASH support-priority scenario tool developed with
+GPT-6 Astra. Public household inputs remain null until verified. See
+[`../docs/nepal-model-a.md`](../docs/nepal-model-a.md) for definitions, sources,
+validation, and release instructions.
+
+Research lead: 김문수 교수 — <mskim@ceobizschool.kr>.

@@ -1,0 +1,7 @@
+.lab-nav{font-size:13px;font-weight:700;text-decoration:none;color:var(--green-dk);padding:8px 12px;border:1px solid var(--line);border-radius:7px;white-space:nowrap}
+.lab-nav:hover{background:var(--bg)}
+.lab-footer{max-width:1120px;margin:0 auto;padding:28px 20px 40px;display:flex;justify-content:space-between;align-items:flex-start;gap:25px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.lab-footer strong{font-size:17px;letter-spacing:.06em;color:var(--ink)}
+.lab-footer nav{display:flex;gap:18px;flex-wrap:wrap}.lab-footer a{text-underline-offset:4px}
+@media(max-width:700px){.lab-footer{flex-direction:column;gap:20px}.top .row{gap:10px}.top .brand{flex-basis:100%}.top .modlink,.top .sp{margin-left:0}.top .lang2{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
