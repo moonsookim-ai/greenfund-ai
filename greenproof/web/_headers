@@ -34,6 +34,15 @@
 /nepal/rescue.css
   Cache-Control: public, max-age=300
 
+/nepal/briefing.css
+  Cache-Control: public, max-age=300
+
+/nepal/handoff/
+  Cache-Control: no-cache, no-transform
+
+/nepal/handoff/index.html
+  Cache-Control: no-cache, no-transform
+
 /nepal/field/
   Cache-Control: no-cache, no-transform
 

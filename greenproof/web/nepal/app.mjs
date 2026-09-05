@@ -13,6 +13,7 @@ function sourceRef(id) {
   return `<a class="source-ref" href="#source-${esc(id)}">[${esc(source.publisher)}]</a>`;
 }
 function renderFocus() {
+  if (!$('#urgent-regions')) return;
   $('#urgent-regions').innerHTML = snapshot.focus.regions.map(f => {
     const region = snapshot.regions.find(r=>r.id===f.id);
     return `<article class="urgent-region" id="urgent-${esc(f.id)}"><div class="urgent-region-top"><h3>${esc(region.name)}</h3><a href="#region-${esc(f.id)}">지역 상세 ↓</a></div><div class="need-tags">${f.needs.map(n=>`<span>${esc(n)}</span>`).join('')}</div><p>${esc(f.summary)} ${f.sources.map(sourceRef).join(' ')}</p><small>${esc(f.action)}</small></article>`;
@@ -113,7 +114,7 @@ try {
 } catch(error) {
   console.error('Nepal situation room:',error);
   $('#context').textContent='자료를 불러오지 못했습니다.';
-  $('#urgent-regions').textContent='지역별 상세 자료를 불러오지 못했습니다. 위의 IFRC 보고서에서 피해 상황을 확인할 수 있습니다.';
+  if ($('#urgent-regions')) $('#urgent-regions').textContent='지역별 상세 자료를 불러오지 못했습니다. 위의 IFRC 보고서에서 피해 상황을 확인할 수 있습니다.';
   $('#load-error').hidden=false;
   $('#load-error').textContent='지역별 자료를 불러오지 못했습니다. 연결을 확인하고 새로고침해 주세요. 문제가 계속되면 페이지 하단의 문의처로 알려 주세요.';
   $('#scenario-form').querySelectorAll('input,select,button').forEach(el=>{el.disabled=true;});

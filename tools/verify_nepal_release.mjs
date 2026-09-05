@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
-const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=2','/lab.css?v=3','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
+const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=3','/nepal/briefing.mjs?v=1','/nepal/briefing.css?v=1','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
 const results=await Promise.allSettled(paths.map(async path=>{
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});
   assert.equal(response.status,200,path);
@@ -24,17 +24,22 @@ const results=await Promise.allSettled(paths.map(async path=>{
     assert.ok(nav.indexOf('맹그로브 성장 기록')<nav.indexOf('우리 동네 온실가스 배출'));
     if(path==='/nepal/'){
       for(const id of ['strategy','regional-actions','emergency-contacts','field-support','satellite-after'])assert.ok(text.includes(`id="${id}"`),id);
-      assert.ok(text.includes('tel:100'));assert.ok(text.includes('field.mjs?v=1'));
+      assert.ok(text.includes('tel:1234'));assert.ok(text.includes('briefing.mjs?v=1'));
+      assert.ok(text.includes('한국 구조대원'));
+      assert.ok(!/<(?:div|section)\b[^>]*\bdata-field-tool/.test(text));
       assert.ok(text.indexOf('id="strategy"')<text.indexOf('id="method"'));
     }
-    if(path.includes('/field/')){
-      assert.ok(text.includes('NOT_SENT_BY_THIS_TOOL'));
-      assert.ok(text.includes('data-lang="en"'));
+    if(path.includes('/field/') || path.includes('/handoff/')){
+      if(path.includes('/field/')) {
+        assert.ok(text.includes('<html lang="ko">'));
+        assert.ok(text.includes('data-brief-filter'));
+        assert.ok(!/<form\b/.test(text));
+      } else assert.ok(text.includes('NOT_SENT_BY_THIS_TOOL'));
       assert.ok(!/<script\b[^>]*\bsrc=/.test(text),'Saved field tool must not depend on injected scripts');
       assert.ok(!/\bdata-cfemail=/.test(text),'Offline contact must not need email decode script');
       assert.ok(text.includes('mailto:mskim@ceobizschool.kr'));
       const servedScript=/<script type="module">([\s\S]*?)<\/script>/.exec(text)?.[1];
-      const localHTML=readFileSync(new URL('../greenproof/web/nepal/field/index.html',import.meta.url),'utf8');
+      const localHTML=readFileSync(new URL(`../greenproof/web/nepal/${path.includes('/handoff/')?'handoff':'field'}/index.html`,import.meta.url),'utf8');
       const localScript=/<script type="module">([\s\S]*?)<\/script>/.exec(localHTML)?.[1];
       assert.equal(servedScript?.replace(/\r\n/g,'\n'),localScript?.replace(/\r\n/g,'\n'),'Exact bundled logic deployed');
     }
@@ -44,6 +49,8 @@ const results=await Promise.allSettled(paths.map(async path=>{
     assert.equal(text.replace(/\r\n/g,'\n'),local.replace(/\r\n/g,'\n'),path+' deployed source');
   }else if(path.includes('field-contacts')){
     const data=JSON.parse(text);assert.equal(data.verifiedOn,'2026-09-05');assert.equal(data.contacts.length,5);
+  }else if(path.includes('responder-briefing')){
+    const data=JSON.parse(text);assert.ok(data.audience.includes('한국 구조대원'));assert.ok(data.medical.every(m=>m.capacity===null));
   }else if(path.includes('snapshot')){
     const data=JSON.parse(text);assert.ok(data.regions.every(r=>Object.values(r.inputs).every(v=>v===null)));
   }

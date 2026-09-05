@@ -25,7 +25,7 @@ class Page(HTMLParser):
             if field in attrs:
                 self.refs.append(attrs[field])
 
-pages = [WEB/'index.html',WEB/'emissions/index.html',WEB/'nepal/index.html',WEB/'nepal/field/index.html']
+pages = [WEB/'index.html',WEB/'emissions/index.html',WEB/'nepal/index.html',WEB/'nepal/field/index.html',WEB/'nepal/handoff/index.html']
 for file in pages:
     source = file.read_text(encoding='utf-8')
     page = Page()
@@ -75,3 +75,6 @@ assert not re.search(r'<(?:img|link)\b[^>]*(?:src=|stylesheet)|<script\b[^>]+src
 assert not re.search(r'\b(?:fetch|localStorage|sessionStorage|indexedDB)\b',field_kit), 'No background requests or persistent personal records'
 assert len(field_kit.encode('utf-8')) < 100_000, 'Keep field kit lightweight'
 print('PASS standalone field kit: no asset dependencies, network fetches or automatic record storage')
+handoff=(WEB/'nepal/handoff/index.html').read_text(encoding='utf-8')
+assert not re.search(r'<script\b[^>]+src=',handoff), 'Secondary handoff must remain standalone'
+assert '<html lang="ko">' in field_kit and not re.search(r'<form\b',field_kit), 'Primary offline page is a Korean information brief'

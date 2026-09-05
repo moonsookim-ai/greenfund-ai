@@ -1,0 +1,188 @@
+{
+  "audience": "한국 구조대원 및 파견팀 지휘·연락·의료·물류 담당",
+  "checkedOn": "2026-09-05",
+  "status": "공개 자료 기반 사전 브리핑. 현장 실시간 정보나 임무 배정표가 아님.",
+  "sources": [
+    {
+      "id": "heoc",
+      "name": "네팔 HEOC 상황보고 10호",
+      "date": "2026-09-04",
+      "locator": "영문 1쪽(환자 현황, 17:00 기준), 3쪽(감시), 7쪽(시설 피해), 8쪽(조정 연락처)",
+      "url": "https://heoc.mohp.gov.np/events/2026-rasuwa-flash-floods/document/91066/inline"
+    },
+    {
+      "id": "icimod",
+      "name": "ICIMOD 홍수·후속 위험 분석",
+      "date": "2026-08-26",
+      "locator": "8월 27일 추가 내용 포함. 토사·암석 이동, 상류 하천 막힘과 관측소 피해 관련 설명",
+      "url": "https://www.icimod.org/press-release/major-flash-flood-sweeps-through-nepals-rasuwa-district-raising-fears-of-further-downstream-flooding/"
+    },
+    {
+      "id": "ifrc",
+      "name": "IFRC 주요 피해·접근 제약 보고",
+      "date": "2026-08-26",
+      "locator": "Rasuwa·Nuwakot 피해와 Rasuwa 접근 제약",
+      "url": "https://www.ifrc.org/press-release/nepal-ifrc-releases-emergency-funds-flash-floods-leave-communities-isolated"
+    },
+    {
+      "id": "wvi",
+      "name": "World Vision Devighat 현장 관찰",
+      "date": "2026-08-30",
+      "locator": "8월 27일 Devighat·Bidur-5 방문",
+      "url": "https://www.wvi.org/stories/nepal/community-no-longer-recognizable-nepal-flash-floods-response-2026"
+    },
+    {
+      "id": "roads",
+      "name": "라수와 도로 보수·부분 통제 공지",
+      "date": "2026-09-05",
+      "locator": "제목·게시일 확인. 스캔 첨부의 정확한 통제 구간·시간은 이 브리핑에 전사하지 않음",
+      "url": "https://daorasuwa.moha.gov.np/en/post/sa-cana-b-dha-sadaka-mara-mata-ka-ra-yaka-l-ga-sava-ra-aava-gamana-aa-sha-ka-ra"
+    },
+    {
+      "id": "embassy",
+      "name": "주네팔 대한민국 대사관 연락처",
+      "date": null,
+      "locator": "공식 연락처 페이지 검색 색인 확인. 본문 직접 열기는 실패했으며 실제 통화하지 않음",
+      "url": "https://np.mofa.go.kr/np-ko/wpge/m_1713/contents.do"
+    },
+    {
+      "id": "insarag",
+      "name": "INSARAG 공식 지침·한국어판 안내",
+      "date": null,
+      "locator": "공식 사이트는 2020 지침을 현행으로 안내. 신규 지침은 2027-01-01 발효 예정. 한국어판 링크 확인, 원문 전체를 재검토·재번역한 것은 아님",
+      "url": "https://insarag.org/methodology/insarag-guidelines/"
+    },
+    {
+      "id": "field-guide",
+      "name": "INSARAG 2020 현장 운영 지침",
+      "date": "2020",
+      "locator": "8~11쪽(파견·도착), 24~29쪽(의료), 31~39쪽(물류·안전). 국제 조정 참고용이며 급류 구조 전술의 근거로 사용하지 않음",
+      "url": "https://insarag.org/wp-content/uploads/2021/06/INSARAG20Guidelines20Vol20III.pdf"
+    }
+  ],
+  "regions": [
+    {
+      "id": "rasuwa",
+      "name": "라수와",
+      "english": "Rasuwa",
+      "headline": "상류 접근 제약과 보건 거점 피해",
+      "places": "둔체 Dhunche · 샤프루베시 Syafrubesi · 티무레 Timure · 마일룽 Mailung",
+      "facts": [
+        {
+          "text": "IFRC는 도로·교량 피해로 라수와 접근이 특히 어렵다고 보고했다.",
+          "source": "ifrc"
+        },
+        {
+          "text": "Syafrubesi·Timure·Mailung 보건 거점은 HEOC의 피해·접근 제약 목록에 포함된다.",
+          "source": "heoc"
+        },
+        {
+          "text": "9월 5일 지구청에 도로 보수에 따른 부분 통제 공지가 게시됐다.",
+          "source": "roads"
+        }
+      ],
+      "implication": "차량 이동과 현지 의료 지원을 전제로 수색 계획을 고정하기 어렵다. 도로 확인 담당과 의료 연락 담당의 정보를 함께 받아야 하는 지역이다.",
+      "unknown": "현재 진입 가능한 도로 구간·차종, 전진기지 위치, 미수색 구역, 구조팀 배치와 헬기 가용성",
+      "counterpart": "Rasuwa DEOC → 현장 지휘기관 / 의료 조정은 1115",
+      "sourceIds": [
+        "ifrc",
+        "heoc",
+        "roads"
+      ]
+    },
+    {
+      "id": "nuwakot",
+      "name": "누와코트",
+      "english": "Nuwakot",
+      "headline": "피해지와 환자 진료·지원 거점이 함께 보고된 지역",
+      "places": "비두르 Bidur · 데비가트 Devighat · 피팔타르 Pipaltar / Pipaltaar",
+      "facts": [
+        {
+          "text": "Devighat·Bidur-5의 피해가 8월 27일 현장 관찰에 기록됐다.",
+          "source": "wvi"
+        },
+        {
+          "text": "HEOC 환자 현황에 Trishuli Hospital(Bidur)과 Ayurvedic Hospital(Pipaltaar)이 포함된다.",
+          "source": "heoc"
+        },
+        {
+          "text": "Trishuli Hospital은 같은 보고서의 피해·접근 제약 목록에도 등장한다.",
+          "source": "heoc"
+        }
+      ],
+      "implication": "‘환자를 진료한 병원이 있다’는 사실과 ‘지금 환자를 받을 수 있다’는 판단을 구분해야 한다. 피해지 수색과 환자 인계 정보를 같은 지명으로 대조하기 좋다.",
+      "unknown": "현재 병원 수용 여력, 이송 구간 통행, 대피소별 현황, 한국팀에 배정된 작업 구역",
+      "counterpart": "Nuwakot 지구청·현장 지휘기관 / HEOC·PHEOC 의료 조정",
+      "sourceIds": [
+        "ifrc",
+        "wvi",
+        "heoc"
+      ]
+    },
+    {
+      "id": "dhading",
+      "name": "다딩",
+      "english": "Dhading",
+      "headline": "하류 구간과 보건시설 접근 제약",
+      "places": "갈치 Galchhi / Galchi · 베니가트 Benighat · 차라우디 Charaudhi",
+      "facts": [
+        {
+          "text": "ICIMOD는 보테코시에서 트리슐리로 이어진 홍수의 하류 영향 가능성을 설명했다.",
+          "source": "icimod"
+        },
+        {
+          "text": "Baireni Hospital(Galchi), Charaudhi 보건시설(Benighat), Dhading Hospital 등이 HEOC의 피해·접근 제약 목록에 포함된다.",
+          "source": "heoc"
+        }
+      ],
+      "implication": "하류 지역도 상류 상황과 경보 전달을 함께 봐야 한다. 지도상의 병원 위치만으로 환자 인계나 보급 계획을 확정하기 어렵다.",
+      "unknown": "현재 수위·통행 상태, 수색 구역별 작업 조건, 의료시설별 진료·수용 가능 여부",
+      "counterpart": "관할 지휘기관·DHM / HEOC·PHEOC 의료 조정",
+      "sourceIds": [
+        "icimod",
+        "heoc"
+      ]
+    }
+  ],
+  "medical": [
+    {
+      "name": "라수와 지구병원",
+      "english": "Rasuwa District Hospital",
+      "place": "둔체 Dhunche, Rasuwa",
+      "note": "9월 4일 환자 현황에 진료·전원 기록이 있음",
+      "source": "heoc",
+      "capacity": null
+    },
+    {
+      "name": "트리슐리 병원",
+      "english": "Trishuli Hospital",
+      "place": "비두르 Bidur, Nuwakot",
+      "note": "환자 현황과 피해·접근 제약 목록에 모두 등장",
+      "source": "heoc",
+      "capacity": null
+    },
+    {
+      "name": "국립외상센터",
+      "english": "National Trauma Center",
+      "place": "마하부다 Mahabouddha, Kathmandu",
+      "note": "9월 4일 환자 현황에 포함",
+      "source": "heoc",
+      "capacity": null
+    },
+    {
+      "name": "트리부반대학교 교육병원",
+      "english": "TUTH / Tribhuvan University Teaching Hospital",
+      "place": "Kathmandu",
+      "note": "9월 4일 환자 현황에 포함",
+      "source": "heoc",
+      "capacity": null
+    }
+  ],
+  "operationalUnknowns": [
+    "국제 구조대 접수·조정소의 실제 설치 위치",
+    "한국 구조대의 파견·임무 배정 상태",
+    "현재 차량 통행·헬기·병상 가용성",
+    "현장 수색 완료·미수색 구역과 생존자 위치"
+  ],
+  "koreanGuideUrl": "https://insarag.org/wp-content/uploads/2026/08/Korean-Version-of-the-2020-INSARAG-Guidelines.pdf"
+}
