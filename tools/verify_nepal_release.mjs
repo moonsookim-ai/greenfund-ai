@@ -1,13 +1,23 @@
 // Read-only HTTP release verification; no calls to emergency agencies or browser APIs.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
 const commonHeaderCSS='/site-header.css?v=1';
-const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
-const results=await Promise.allSettled([...paths,commonHeaderCSS].map(async path=>{
+const terrainManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/terrain/manifest.json',import.meta.url),'utf8'));
+const terrainPaths=['/nepal/terrain.mjs?v=1','/nepal/terrain-model.mjs?v=1','/nepal/terrain.css?v=1',...['manifest.json',...Object.keys(terrainManifest.files)].map(f=>'/nepal/data/terrain/'+f)];
+const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=3','/nepal/satellite.mjs?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
+const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths].map(async path=>{
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});
   assert.equal(response.status,200,path);
   const type=response.headers.get('content-type') || '';
+  if(path.startsWith('/nepal/data/terrain/')){
+    const bytes=new Uint8Array(await response.arrayBuffer());
+    const local=readFileSync(new URL('../greenproof/web'+path,import.meta.url));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),createHash('sha256').update(local).digest('hex'),path+' exact terrain data deployed');
+    if(path.endsWith('.u16'))assert.match(type,/application\/octet-stream/);
+    return `${path}: verified ${bytes.length} bytes`;
+  }
   if(path.endsWith('.jpg')){
     assert.match(type,/image\/jpeg/);
     const bytes=new Uint8Array(await response.arrayBuffer());
@@ -39,6 +49,9 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS].map(async path
       assert.ok(!/<a\b[^>]*class="brief-source"[^>]*target=/.test(text));
     }
     if(path==='/nepal/'){
+      assert.ok(text.indexOf('id="terrain"')<text.indexOf('id="project-preface"'));
+      assert.ok(text.includes('id="terrain-canvas"'));
+      for(const area of terrainManifest.scenes)assert.ok(text.includes(`data-terrain-table="${area.id}"`));
       for(const id of ['strategy','regional-actions','emergency-contacts','field-support','satellite-after'])assert.ok(text.includes(`id="${id}"`),id);
       assert.ok(text.includes('tel:1234'));assert.ok(text.includes('briefing.mjs?v=2'));
       assert.ok(text.includes('한국 구조대원'));

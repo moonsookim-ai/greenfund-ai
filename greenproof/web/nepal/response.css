@@ -9,3 +9,6 @@
 @media(max-width:700px){.focus-strip{gap:8px 12px}.focus-strip span{flex-basis:100%}}
 
 .site-header nav{flex-wrap:wrap;gap:12px 18px}.site-header nav a{white-space:nowrap}
+
+/* Drag the comparison directly on the image; vertical touch scrolling remains available. */
+.satellite-view.is-comparing{touch-action:pan-y;cursor:ew-resize;user-select:none}.satellite-view img{user-select:none;-webkit-user-drag:none}.satellite-view .comparison-divider{cursor:ew-resize;touch-action:pan-y}.comparison-divider:before{content:"";position:absolute;top:0;bottom:0;left:50%;width:44px;transform:translateX(-50%)}.comparison-divider:focus-visible{outline:3px solid #166b50;outline-offset:3px}.comparison-divider:focus-visible:after,.is-dragging .comparison-divider:after{box-shadow:0 0 0 3px #166b50}.is-comparing .comparison-divider:after{width:44px;height:44px}

@@ -7,16 +7,22 @@ const status=document.querySelector('#image-status');
 const error=document.querySelector('#satellite-error');
 const original=document.querySelector('#satellite-original');
 const buttons=[...document.querySelectorAll('[data-image-mode]')];
+const view=document.querySelector('#satellite-view');
 let request=0,mode='after';
+let dragPointer=null;
 
 function moveDivider() {
   const value=Number(slider.value);
   before.style.clipPath=`inset(0 ${100-value}% 0 0)`;
   divider.style.left=`${value}%`;
   document.querySelector('#divider-value').textContent=`${value}%`;
+  divider.setAttribute('aria-valuenow',String(value));
+  divider.setAttribute('aria-valuetext',`홍수 전 사진 ${value}%, 홍수 후 사진 ${100-value}%`);
 }
 function show(next) {
+  stopDrag();
   mode=next;
+  view.classList.toggle('is-comparing',mode==='compare');
   before.hidden=mode==='after';
   divider.hidden=control.hidden=mode!=='compare';
   if(mode==='compare') moveDivider();
@@ -51,5 +57,37 @@ async function choose(next) {
 }
 buttons.forEach(button=>button.addEventListener('click',()=>choose(button.dataset.imageMode)));
 slider.addEventListener('input',moveDivider);
+function positionDivider(clientX) {
+  const bounds=view.getBoundingClientRect();
+  if(bounds.width<=0)return;
+  slider.value=String(Math.round(Math.max(0,Math.min(100,(clientX-bounds.left)/bounds.width*100))));
+  moveDivider();
+}
+function stopDrag() {
+  if(dragPointer!==null && view.hasPointerCapture(dragPointer))view.releasePointerCapture(dragPointer);
+  dragPointer=null;view.classList.remove('is-dragging');
+}
+view.addEventListener('pointerdown',event=>{
+  if(mode!=='compare'||event.button!==0||dragPointer!==null)return;
+  dragPointer=event.pointerId;view.setPointerCapture(dragPointer);
+  view.classList.add('is-dragging');positionDivider(event.clientX);
+});
+view.addEventListener('pointermove',event=>{
+  if(event.pointerId===dragPointer && mode==='compare')positionDivider(event.clientX);
+});
+view.addEventListener('pointerup',event=>{
+  if(event.pointerId!==dragPointer)return;
+  positionDivider(event.clientX);stopDrag();
+});
+view.addEventListener('pointercancel',stopDrag);
+view.addEventListener('lostpointercapture',()=>{dragPointer=null;view.classList.remove('is-dragging');});
+divider.addEventListener('keydown',event=>{
+  const changes={ArrowLeft:-1,ArrowDown:-1,ArrowRight:1,ArrowUp:1,PageDown:-10,PageUp:10};
+  if(!(event.key in changes)&&event.key!=='Home'&&event.key!=='End')return;
+  event.preventDefault();
+  slider.value=String(event.key==='Home'?0:event.key==='End'?100:Math.max(0,Math.min(100,Number(slider.value)+changes[event.key])));
+  moveDivider();
+});
+for(const image of [before,after])image.draggable=false;
 after.addEventListener('error',()=>{error.hidden=false;});
 if(after.complete&&!after.naturalWidth) error.hidden=false;

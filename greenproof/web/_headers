@@ -37,6 +37,13 @@
 /nepal/briefing.css
   Cache-Control: public, max-age=300
 
+/nepal/terrain.css
+  Cache-Control: public, max-age=300
+
+/nepal/data/terrain/*.u16
+  Content-Type: application/octet-stream
+  Cache-Control: no-cache
+
 /nepal/handoff/
   Cache-Control: no-cache, no-transform
 
