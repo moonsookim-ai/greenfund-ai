@@ -4,6 +4,8 @@
 **환경재단이 운영하는 AI환경연구소 GREEN PROOF**
 연구책임자 김문수 교수 · <mskim@ceobizschool.kr>
 
+이 사이트는 환경재단 홈페이지의 [재단소개 → AI환경연구소](https://greenfund.org/about/ai-environment-institute) 메뉴에도 연결되어 있습니다.
+
 The site brings together satellite verification, an emissions map, and the
 [Nepal situation room](https://greenfund.ai.kr/nepal/). The Nepal public evidence
 register and Model A were researched, designed, visualised and implemented with
