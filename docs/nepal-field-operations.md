@@ -59,6 +59,7 @@
 ## 빌드와 검증
 
 ```sh
+python tools/build_site_headers.py
 python tools/build_nepal_field.py
 python tools/build_nepal_briefing.py
 python tools/check_web.py
@@ -66,6 +67,8 @@ node --test tests/nepal-model.test.mjs tests/nepal-field.test.mjs tests/nepal-br
 ```
 
 `build_nepal_briefing.py`는 동일한 출처 자료로 주 화면과 한국어 오프라인 브리핑을 생성한다. `build_nepal_field.py`는 영문 보조 양식만 생성한다. 생성 HTML도 Git에 커밋한다. 지역 공개 점수 모델은 변경하지 않았다.
+
+상단 대메뉴는 `tools/site_header.py`와 `greenproof/web/site-header.css`를 공통으로 사용한다. 온라인 3개 페이지는 `build_site_headers.py`로 갱신하고, 오프라인 문서 빌더는 같은 헤더와 CSS를 내장한다. 현재 메뉴의 `aria-current`만 달라진다. 식재지·언어 선택은 본문 도구 영역에 유지하며 상단 메뉴명은 동일한 한국어 표기를 사용한다.
 
 검증 범위: 날짜·UTC 변환, 미확인과 0, 잘못된 좌표·인원, 미래 시각, 기관 확인 요건, 확인표의 비승인 상태, 초안 전송 상태, 문자열 처리, 연락처 출처, HTML/JS 구문, 로컬 자원·앵커, 독립 HTML의 무의존성. 실제 전화, GPS 하드웨어, 클립보드/인쇄 대화상자, 현장 통신망 가용성을 검증한 것은 아니다.
 

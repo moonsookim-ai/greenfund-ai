@@ -118,19 +118,13 @@ details ul{color:var(--muted);font-size:13px;padding-left:18px}
 footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;font-size:12px;color:var(--muted)}
 </style>
 <link rel="stylesheet" href="/lab.css?v=3">
+<link rel="stylesheet" href="/site-header.css?v=1">
 </head>
 <body>
-<header class="top"><div class="row">
-  <a class="brand" id="brandhome" href="/">GREEN <em>PROOF</em><small id="brandsub">환경재단이 운영하는 AI환경연구소</small></a>
-  <nav class="lab-main-nav" aria-label="주 메뉴">
-    <a class="lab-nav" href="/nepal/">네팔상황실</a>
-    <a class="lab-nav" href="/#app" id="homelink">맹그로브 성장 기록</a>
-    <a class="lab-nav" href="/emissions/" aria-current="page">우리 동네 온실가스 배출</a>
-  </nav>
-  <div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div>
-</div></header>
+<header class="gp-site-header" lang="ko"><div class="gp-header-inner"><a class="gp-brand" href="/">GREEN <span>PROOF</span><small>환경재단이 운영하는 AI환경연구소</small></a><nav class="gp-main-nav" aria-label="주 메뉴"><a href="/nepal/">네팔상황실</a><a href="/#app">맹그로브 성장 기록</a><a href="/emissions/" aria-current="page">우리 동네 온실가스 배출</a></nav></div></header>
 
 <div class="wrap">
+  <div class="gp-page-tools"><div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div></div>
   <section class="intro">
     <div class="eyebrow">GREEN PROOF · CLIMATE TRACE</div>
     <h1 id="h1"></h1>
@@ -221,8 +215,6 @@ let DATA = null, ME = null, MYNAME = "", RADIUS = 50, rows = [];
 function paintStatic(){
   const t = tr();
   document.documentElement.lang = lang;
-  $("#brandsub").textContent = t.brandsub;
-  $("#homelink").textContent = t.home;
   $("#h1").textContent = t.h1;
   $("#lede").textContent = t.lede;
   $("#q").placeholder = t.ph;

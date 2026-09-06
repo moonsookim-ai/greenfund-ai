@@ -7,6 +7,7 @@ import json
 import re
 import subprocess
 import tempfile
+from site_header import site_header
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / 'greenproof/web'
@@ -35,6 +36,15 @@ for file in pages:
     assert '환경재단이 운영하는 AI환경연구소' in source, file
     assert 'mskim@ceobizschool.kr' in source and '김문수 교수' in source, file
     assert 'href="/nepal/"' in source or 'href="https://greenfund.ai.kr/nepal/"' in source, file
+    current='mangrove' if file==WEB/'index.html' else 'emissions' if file==WEB/'emissions/index.html' else 'nepal'
+    offline=file.parent.name in ('field','handoff')
+    header=re.search(r'<header\b[^>]*>.*?</header>',source,re.S).group()
+    assert header==site_header(current,absolute=offline), (file,'shared header differs')
+    shared_css=(WEB/'site-header.css').read_text(encoding='utf-8')
+    if offline:
+        assert shared_css in source, (file,'missing bundled shared header CSS')
+    else:
+        assert '/site-header.css?v=1' in source, (file,'missing common stylesheet')
     assert not re.search(r'ocean\.js|startOcean|paintSim|id="ocean"',source), file
     # Ignore literal template expressions in inline scripts, but check every static local asset.
     for ref in page.refs:

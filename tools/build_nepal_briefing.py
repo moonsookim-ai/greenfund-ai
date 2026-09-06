@@ -3,6 +3,7 @@ from pathlib import Path
 from html import escape as e
 import json, re
 from nepal_sources import render_sources
+from site_header import site_header
 
 ROOT=Path(__file__).resolve().parents[1]
 WEB=ROOT/'greenproof/web'
@@ -83,10 +84,12 @@ assert n==1
 path.write_text(html,encoding='utf-8')
 
 css='\n'.join((NEPAL/name).read_text(encoding='utf-8') for name in ['style.css','rescue.css','briefing.css'])
+css+='\n'+(WEB/'site-header.css').read_text(encoding='utf-8')
 script=(NEPAL/'briefing.mjs').read_text(encoding='utf-8')
 offline_content=content.replace('href="./data/field-contacts.json"','href="https://greenfund.ai.kr/nepal/data/field-contacts.json"')
 page=f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>한국 구조대원 현장 브리핑 · 네팔 | GREEN PROOF</title><meta name="description" content="한국 구조대원을 위한 네팔 홍수 지역별 위험·접근·의료·현지 연락망. 공개 자료 확인 2026-09-05."><link rel="canonical" href="https://greenfund.ai.kr/nepal/field/"><style>{css}</style></head><body class="responder-offline"><header class="site-header"><div class="header-inner"><a class="brand" href="https://greenfund.ai.kr/">GREEN <span>PROOF</span><small>환경재단이 운영하는 AI환경연구소</small></a><nav aria-label="주 메뉴"><a href="https://greenfund.ai.kr/nepal/">네팔상황실</a><a href="https://greenfund.ai.kr/#app">맹그로브 성장 기록</a><a href="https://greenfund.ai.kr/emissions/">우리 동네 온실가스 배출</a></nav></div></header><main id="main"><section class="response-intro"><p class="eyebrow">한국 구조대원 현장 참고자료</p><h1>네팔 홍수<br>한국팀 현장 브리핑</h1><p>지역별 접근 제약·대원 위험·의료 이송·현지 조정 창구를 정리했습니다.</p><p class="field-note">자료 확인 2026.09.05 · 공개 자료 기반 · 실시간 작전정보 아님 · GPT-6 Astra 활용</p><div class="actions"><button class="button primary" type="button" data-print-brief>전체 브리핑 인쇄 / PDF 저장</button><a class="button" href="#emergency-contacts">조정 연락망</a></div><p class="field-note">이 HTML은 별도 파일·통신 없이 읽을 수 있습니다. 외부 출처와 전화는 연결이 필요합니다. 지역을 선택하면 해당 지역 브리핑만 표시됩니다.</p></section>{offline_content}</main><footer><div><strong>GREEN PROOF</strong><p>환경재단이 운영하는 AI환경연구소 · GPT-6 Astra로 자료 검토·구현</p></div><!--email_off--><small class="research-contact">연구 문의 · 연구책임자 김문수 교수 · <a href="mailto:mskim@ceobizschool.kr">mskim@ceobizschool.kr</a></small><!--/email_off--></footer><script type="module">{script}</script></body></html>'''
 page=page.replace('</section>'+offline_content,'</section>'+preface+offline_content,1)
+page=re.sub(r'<header\b[^>]*>.*?</header>',site_header('nepal',absolute=True),page,count=1,flags=re.S)
 page=page.replace('자료 확인 2026.09.05 · 공개 자료 기반','상황 자료 확인 2026.09.05 · 한국어 해설 갱신 2026.09.06 · 공개 자료 기반')
 (NEPAL/'field/index.html').write_text(page,encoding='utf-8')
 print(f'Built Korean responder briefing and standalone HTML ({len(page.encode("utf-8")):,} bytes).')

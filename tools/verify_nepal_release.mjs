@@ -2,8 +2,9 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
+const commonHeaderCSS='/site-header.css?v=1';
 const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
-const results=await Promise.allSettled(paths.map(async path=>{
+const results=await Promise.allSettled([...paths,commonHeaderCSS].map(async path=>{
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});
   assert.equal(response.status,200,path);
   const type=response.headers.get('content-type') || '';
@@ -22,6 +23,14 @@ const results=await Promise.allSettled(paths.map(async path=>{
     assert.ok(nav,path+' navigation');
     assert.ok(nav.indexOf('네팔상황실')<nav.indexOf('맹그로브 성장 기록'));
     assert.ok(nav.indexOf('맹그로브 성장 기록')<nav.indexOf('우리 동네 온실가스 배출'));
+    const header=/<header\b[^>]*>[\s\S]*?<\/header>/.exec(text)?.[0];
+    const localPage=readFileSync(new URL('../greenproof/web'+path+(path.endsWith('/')?'index.html':''),import.meta.url),'utf8');
+    assert.equal(header,/<header\b[^>]*>[\s\S]*?<\/header>/.exec(localPage)?.[0],'Exact shared header deployed');
+    assert.ok(header.includes('class="gp-site-header"'));
+    const active=[...nav.matchAll(/<a\b[^>]*aria-current="page"[^>]*>(.*?)<\/a>/g)];
+    assert.equal(active.length,1,'One selected main menu');
+    assert.equal(active[0][1],path==='/'?'맹그로브 성장 기록':path==='/emissions/'?'우리 동네 온실가스 배출':'네팔상황실');
+    if(path==='/'||path==='/emissions/'||path==='/nepal/')assert.ok(text.includes(commonHeaderCSS));
     if(path==='/nepal/'||path.startsWith('/nepal/field/')){
       const analyses=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/source-analyses.json',import.meta.url),'utf8'));
       assert.ok(text.includes(analyses.preface.body));

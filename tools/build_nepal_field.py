@@ -7,6 +7,7 @@ from pathlib import Path
 from html import escape
 import json
 import re
+from site_header import site_header
 
 ROOT = Path(__file__).resolve().parents[1]
 NEPAL = ROOT/'greenproof/web/nepal'
@@ -23,6 +24,7 @@ def contacts(lang):
     return '<div class="contact-grid">\n'+'\n'.join(cards)+'\n</div>'
 
 css = '\n'.join((NEPAL/name).read_text(encoding='utf-8') for name in ['style.css','rescue.css'])
+css += '\n'+(NEPAL.parent/'site-header.css').read_text(encoding='utf-8')
 modules = []
 for name in ['field-model.mjs','field.mjs']:
     module = (NEPAL/name).read_text(encoding='utf-8')
@@ -54,6 +56,7 @@ __CONTACTS__
 </main><script type="module">__SCRIPT__</script></body></html>
 '''
 page = page.replace('__CSS__', css).replace('__CONTACTS__', contacts('en')).replace('__SCRIPT__', script)
+page = re.sub(r'<header\b[^>]*>.*?</header>',site_header('nepal',absolute=True),page,count=1,flags=re.S)
 (NEPAL/'handoff').mkdir(exist_ok=True)
 (NEPAL/'handoff/index.html').write_text(page, encoding='utf-8')
 print(f'Built secondary handoff tool ({len(page.encode("utf-8")):,} bytes).')

@@ -155,8 +155,10 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
 .err{padding:40px 0;color:var(--warn);font-weight:700}
 </style>
 <link rel="stylesheet" href="/lab.css?v=3">
+<link rel="stylesheet" href="/site-header.css?v=1">
 </head>
 <body>
+<header class="gp-site-header" lang="ko"><div class="gp-header-inner"><a class="gp-brand" href="/">GREEN <span>PROOF</span><small>환경재단이 운영하는 AI환경연구소</small></a><nav class="gp-main-nav" aria-label="주 메뉴"><a href="/nepal/">네팔상황실</a><a href="/#app" aria-current="page">맹그로브 성장 기록</a><a href="/emissions/">우리 동네 온실가스 배출</a></nav></div></header>
 
 <!-- ===================== GREEN PROOF ===================== -->
 <section class="hero" id="hero">
@@ -180,20 +182,10 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-si
 </section>
 
 <!-- ===================== APP ===================== -->
-<header class="top"><div class="row">
-  <div class="brand">GREEN <em>PROOF</em><small id="brand-sub">환경재단이 운영하는 AI환경연구소</small></div>
-  <nav class="lab-main-nav" aria-label="주 메뉴">
-    <a class="lab-nav" href="/nepal/">네팔상황실</a>
-    <a class="lab-nav" href="/#app" aria-current="page">맹그로브 성장 기록</a>
-    <a class="lab-nav" id="modEmissions" href="/emissions/">우리 동네 온실가스 배출</a>
-  </nav>
-  <select id="siteSel" aria-label="식재지 선택"></select>
-  <div class="lang2" id="lang2">
-    <button data-l="en">EN</button><button data-l="ko">한국어</button>
-  </div>
-</div></header>
+
 
 <div class="wrap" id="app">
+  <div class="gp-page-tools"><label for="siteSel">식재지 <select id="siteSel" aria-label="식재지 선택"></select></label><div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div></div>
   <section class="intro">
     <div class="eyebrow">SATELLITE VERIFIED</div>
     <h1 class="page" id="title"></h1>
@@ -313,7 +305,6 @@ function paintHero() {
   $("#h-sub").textContent = t.heroSub;
   $("#h-cta-t").textContent = t.heroCta;
   $("#h-cta2-t").textContent = t.modEmissions.replace(" →", "");
-  { const me = $("#modEmissions"); if (me) me.textContent = t.modEmissions; }
   $("#h-nepal").textContent = lang === "ko" ? "네팔상황실 · GPT-6 Astra ↗" : "Nepal situation room · GPT-6 Astra ↗";
   document.documentElement.lang = lang;
   for (const box of [$("#lang1"), $("#lang2")])
@@ -359,8 +350,6 @@ function render() {
   const t = tr(), isControl = R.coords_status === "control";
   // refresh site dropdown labels for language
   $("#siteSel").querySelectorAll("option").forEach(o => {});
-  $("#brand-sub").textContent = t.brandSub;
-  const me = $("#modEmissions"); if (me) me.textContent = t.modEmissions;
   $("#title").textContent = isControl ? t.titleControl : t.titleSubject;
   $("#lede").textContent = isControl ? t.ledeControl : t.ledeSubject(R);
 

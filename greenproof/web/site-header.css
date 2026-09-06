@@ -1,0 +1,15 @@
+/* Shared dimensions and colors do not inherit individual page themes. */
+.gp-site-header{position:sticky;top:0;z-index:30;margin:0;padding:0;border:0;border-bottom:1px solid #d4ded4;background:#f5f5ee;color:#193b33;font:400 14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;letter-spacing:normal;text-align:left}
+.gp-site-header *{box-sizing:border-box}
+.gp-header-inner{max-width:1240px;margin:0 auto;padding:21px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.gp-site-header .gp-brand{display:block;flex:0 0 auto;margin:0;padding:0;border:0;color:#193b33;font-size:22px;font-weight:850;letter-spacing:.07em;line-height:1.25;text-decoration:none;opacity:1}
+.gp-brand span{color:#166b50}.gp-brand small{display:block;margin:7px 0 0;color:#193b33;font-size:12px;font-weight:550;letter-spacing:0;line-height:1.5;white-space:nowrap}
+.gp-site-header .gp-main-nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;width:auto;gap:8px 27px;margin:0;padding:0;font-size:14px;font-weight:650;line-height:1.5;letter-spacing:0}
+.gp-main-nav a{display:block;white-space:nowrap;margin:0;padding:7px 0 5px;color:#193b33;background:transparent;border:0;border-bottom:2px solid transparent;border-radius:0;font:inherit;line-height:inherit;text-decoration:none}
+.gp-main-nav a[aria-current="page"]{color:#166b50;border-bottom-color:#166b50}.gp-main-nav a:hover{color:#166b50}.gp-site-header a:focus-visible{outline:3px solid #d88740;outline-offset:4px}
+.gp-page-tools{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:18px 0 0}.gp-page-tools label{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}.gp-page-tools select{padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink);font:inherit;max-width:65vw;min-height:40px}
+.gp-page-tools .lang2{display:flex;margin-left:auto;border:1px solid var(--line);border-radius:999px;overflow:hidden}.gp-page-tools .lang2 button{background:transparent;border:0;color:var(--muted);font:700 12px/1.5 sans-serif;padding:7px 12px;cursor:pointer}.gp-page-tools .lang2 button[aria-pressed=true]{background:var(--green);color:#04150c}
+#app{scroll-margin-top:104px}
+@media(max-width:900px){.gp-header-inner{flex-wrap:wrap;gap:12px}.gp-site-header .gp-main-nav{justify-content:flex-start;width:100%}#app{scroll-margin-top:145px}}
+@media(max-width:700px){.gp-header-inner{padding:17px 20px;gap:10px}.gp-site-header .gp-brand{font-size:19px}.gp-site-header .gp-main-nav{gap:3px 18px;font-size:13px}#app{scroll-margin-top:180px}}
+@media print{.gp-site-header{position:static}.gp-main-nav,.gp-page-tools{display:none!important}}

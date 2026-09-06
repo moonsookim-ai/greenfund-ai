@@ -55,6 +55,9 @@
 /lab.css
   Cache-Control: public, max-age=300
 
+/site-header.css
+  Cache-Control: public, max-age=300
+
 /data/*
   Cache-Control: public, max-age=300
 
