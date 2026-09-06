@@ -1,4 +1,4 @@
-import {clamp,decodeElevation,mesh,camera,project,pickTerrain,candidateAt} from './terrain-model.mjs?v=1';
+import {clamp,decodeElevation,mesh,camera,project,pickTerrain,candidateAt,VIEW_ZOOM,focusOn,panGround,scaleBar} from './terrain-model.mjs?v=2';
 
 const root=document.querySelector('#terrain');
 if(root) init();
@@ -9,9 +9,11 @@ function init() {
   const chooser=root.querySelector('#terrain-cell'),detail=root.querySelector('#terrain-detail');
   const viewLabel=root.querySelector('#terrain-view-label'),direction=root.querySelector('#terrain-north');
   const layers={event:true,buildings:true,candidates:true,rivers:true};
-  const defaults={azimuth:18,pitch:57,zoom:1,exaggeration:1};
+  const defaults={azimuth:18,pitch:57,zoom:VIEW_ZOOM.initial,exaggeration:1};
   let state={...defaults},scene,values,rivers,geometry,cam,gl,program,indexCount,texture;
   let selected=null,request=0,frame=0,lost=false;
+  let navigation='rotate',textureSize=0,maxTextureSize=2048;
+  const layer=document.createElement('canvas');
   const cache=new Map(),buffers=[];
   const base=new URL('./data/terrain/',import.meta.url);
   const $=id=>root.querySelector(`#${id}`);
@@ -24,6 +26,7 @@ function init() {
   function setup() {
     gl=canvas.getContext('webgl',{alpha:false,antialias:true,powerPreference:'low-power'});
     if(!gl)throw new Error('이 기기에서 3D 표시를 사용할 수 없습니다.');
+    maxTextureSize=gl.getParameter(gl.MAX_TEXTURE_SIZE);
     program=gl.createProgram();
     gl.attachShader(program,shader(gl.VERTEX_SHADER,`
       attribute vec3 aPosition; attribute vec3 aNormal; attribute vec2 aUV;
@@ -72,9 +75,11 @@ function init() {
   }
   function paintLayers() {
     if(!gl||lost||!scene)return;
-    const layer=document.createElement('canvas');layer.width=1536;layer.height=1536;
+    // Increase display resolution only at close zoom. DEM measurements are unchanged.
+    const size=desiredTextureSize();textureSize=size;layer.width=size;layer.height=size;
     const ctx=layer.getContext('2d'),[x0,y0,x1,y1]=scene.extent;
-    const xx=x=>(x-x0)/(x1-x0)*layer.width,yy=y=>(y1-y)/(y1-y0)*layer.height;
+    ctx.setTransform(size/1536,0,0,size/1536,0,0);
+    const xx=x=>(x-x0)/(x1-x0)*1536,yy=y=>(y1-y)/(y1-y0)*1536;
     const path=rings=>{ctx.beginPath();for(const ring of rings){ring.forEach(([x,y],i)=>i?ctx.lineTo(xx(x),yy(y)):ctx.moveTo(xx(x),yy(y)));ctx.closePath();}};
     // All layers use the same local metric coordinates as the DEM; texture is not a satellite photograph.
     if(layers.event)for(const polygon of scene.eventPolygons){path(polygon);ctx.fillStyle='#e8a057';ctx.fill('evenodd');}
@@ -86,19 +91,21 @@ function init() {
     }
     if(layers.buildings)for(const b of scene.buildings){
       const x=xx(b.xy[0]),y=yy(b.xy[1]);ctx.beginPath();
-      if(b.grade==='destroyed'){ctx.fillStyle='#ae292c';ctx.fillRect(x-2.2,y-2.2,4.4,4.4);}
-      else if(b.grade==='damaged'){ctx.fillStyle='#7b4216';ctx.arc(x,y,2.5,0,2*Math.PI);ctx.fill();}
-      else {ctx.strokeStyle='#78453d';ctx.lineWidth=1.1;ctx.moveTo(x,y-3);ctx.lineTo(x+3,y);ctx.lineTo(x,y+3);ctx.lineTo(x-3,y);ctx.closePath();ctx.stroke();}
+      if(b.grade==='destroyed'){ctx.fillStyle='#ae292c';ctx.fillRect(x-2.6,y-2.6,5.2,5.2);ctx.strokeStyle='#fff7ed';ctx.lineWidth=.65;ctx.strokeRect(x-2.6,y-2.6,5.2,5.2);}
+      else if(b.grade==='damaged'){ctx.fillStyle='#7b4216';ctx.arc(x,y,2.9,0,2*Math.PI);ctx.fill();ctx.strokeStyle='#fff7ed';ctx.lineWidth=.65;ctx.stroke();}
+      else {ctx.strokeStyle='#78453d';ctx.lineWidth=1.2;ctx.moveTo(x,y-3.3);ctx.lineTo(x+3.3,y);ctx.lineTo(x,y+3.3);ctx.lineTo(x-3.3,y);ctx.closePath();ctx.stroke();}
     }
     if(selected){const[a,b,c,d]=selected.bounds;ctx.fillStyle='#9049e03a';ctx.fillRect(xx(a),yy(d),xx(c)-xx(a),yy(b)-yy(d));ctx.lineWidth=7;ctx.strokeStyle='#fff';ctx.strokeRect(xx(a),yy(d),xx(c)-xx(a),yy(b)-yy(d));ctx.lineWidth=3;ctx.strokeStyle='#633a9b';ctx.strokeRect(xx(a),yy(d),xx(c)-xx(a),yy(b)-yy(d));}
     gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,layer);schedule();
   }
+  function desiredTextureSize(){return Math.min(state.zoom>=3?4096:2048,maxTextureSize);}
   function schedule(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;draw();});}
   function draw(){
     if(!scene||!gl||lost)return;
+    if(textureSize!==desiredTextureSize())paintLayers();
     const rect=canvas.getBoundingClientRect();if(rect.width===0||rect.height===0)return;
-    const ratio=Math.min(devicePixelRatio||1,1.75),w=Math.round(rect.width*ratio),h=Math.round(rect.height*ratio);
+    const ratio=Math.min(devicePixelRatio||1,2),w=Math.round(rect.width*ratio),h=Math.round(rect.height*ratio);
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
     gl.viewport(0,0,w,h);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     cam=camera(scene,state,w/h);
@@ -106,10 +113,12 @@ function init() {
     gl.uniform4f(gl.getUniformLocation(program,'uView'),cam.halfHeight*cam.aspect,cam.halfHeight,cam.depth,state.exaggeration);
     gl.drawElements(gl.TRIANGLES,indexCount,gl.UNSIGNED_SHORT,0);
     viewLabel.textContent=`${state.pitch===90?'위에서 보기':'입체 지형'} · 높이 ${state.exaggeration}배 · ${state.zoom.toFixed(1)}배 확대`;
+    $('terrain-zoom-range').value=String(state.zoom);$('terrain-zoom-value').textContent=`${state.zoom.toFixed(1)}배`;
     // Compass follows the same projected north vector; unlike a fixed north arrow it remains valid after rotation.
     const n=project([cam.center[0],cam.center[1]+100,cam.center[2]/state.exaggeration],cam);
     direction.style.transform=`rotate(${Math.atan2(n[0]*w,n[1]*h)*180/Math.PI}deg)`;
-    const scale=$('terrain-scale');scale.style.width=`${500/(2*cam.halfHeight*cam.aspect)*rect.width}px`;
+    const scale=scaleBar(cam,rect.width);$('terrain-scale').style.width=`${scale.pixels}px`;
+    $('terrain-scale-label').textContent=`가로 방향 ${scale.metres}m · 3D 기준`;
   }
   async function json(url){const response=await fetch(new URL(url,base),{signal:AbortSignal.timeout(20000)});if(!response.ok)throw new Error('자료 응답 오류');return response.json();}
   async function load(id){
@@ -132,13 +141,14 @@ function init() {
       })());
       const data=await cache.get(id);if(ticket!==request)return;
       scene=data.s;rivers=data.r;values=data.v;geometry=mesh(scene,values);state={...defaults};$('terrain-height').value='1';
+      focusOn(scene,values,state,(scene.extent[0]+scene.extent[2])/2,(scene.extent[1]+scene.extent[3])/2);
       chooser.replaceChildren(new Option('구역을 선택하세요 · 북→남 공간순',''));
       for(const c of scene.candidates)chooser.add(new Option(`${c.id} · 중첩 건물 ${c.buildingIds.length}개`,c.id));
       chooser.disabled=false;
       summary();
       if(!gl)setup();upload();canvas.hidden=false;fallback.hidden=true;
       root.classList.add('terrain-ready');
-      canvas.setAttribute('aria-label',`${scene.name} 3D 지형. 방향키로 회전, 더하기·빼기로 확대·축소. 보라 격자를 클릭하거나 옆 구역 목록을 선택하세요.`);
+      canvas.setAttribute('aria-label',`${scene.name} 3D 지형. 방향키로 회전, 이동 모드에서는 방향키로 지도를 이동합니다. 더하기·빼기로 최대 10배 확대. 보라 격자를 클릭하거나 옆 구역 목록을 선택하세요.`);
       status.textContent=`${scene.name} · 위성 판독 2026.08.27 · ${scene.candidates.length}개 중첩 확인 구역 · 실시간 정보 아님`;
       schedule();
     }catch(error){
@@ -159,8 +169,8 @@ function init() {
   }
   function select(id){
     selected=scene?.candidates.find(c=>c.id===id)||null;chooser.value=selected?.id||'';
-    if(!selected){delete state.focus;state.zoom=1;summary();paintLayers();return;}
-    state.focus=selected.center;state.zoom=Math.max(state.zoom,1.7);
+    if(!selected){summary();paintLayers();return;}
+    focusOn(scene,values,state,...selected.center);state.zoom=Math.max(state.zoom,VIEW_ZOOM.selected);
     detail.replaceChildren();
     const heading=document.createElement('h3');heading.textContent=`${scene.name} ${selected.id}`;
     const count=document.createElement('p');count.className='terrain-detail-count';
@@ -175,22 +185,36 @@ function init() {
   area.addEventListener('change',()=>load(area.value));chooser.addEventListener('change',()=>select(chooser.value));
   root.querySelectorAll('[data-terrain-layer]').forEach(input=>input.addEventListener('change',()=>{layers[input.dataset.terrainLayer]=input.checked;paintLayers();}));
   $('terrain-height').addEventListener('change',e=>{state.exaggeration=Number(e.target.value);schedule();});
+  $('terrain-zoom-range').addEventListener('input',e=>{state.zoom=clamp(Number(e.target.value),VIEW_ZOOM.min,VIEW_ZOOM.max);schedule();});
+  root.querySelectorAll('[data-terrain-navigation]').forEach(button=>button.addEventListener('click',()=>{
+    navigation=button.dataset.terrainNavigation;
+    root.querySelectorAll('[data-terrain-navigation]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+    canvas.style.cursor=navigation==='pan'?'move':'grab';canvas.style.touchAction=navigation==='pan'?'none':'pan-y';
+  }));
   function control(action){
+    if(!scene)return;
     if(action==='left')state.azimuth-=15;if(action==='right')state.azimuth+=15;
     if(action==='up')state.pitch=clamp(state.pitch+10,20,90);if(action==='down')state.pitch=clamp(state.pitch-10,20,90);
-    if(action==='in')state.zoom=clamp(state.zoom*1.2,.7,3);if(action==='out')state.zoom=clamp(state.zoom/1.2,.7,3);
+    if(action==='in')state.zoom=clamp(state.zoom*1.25,VIEW_ZOOM.min,VIEW_ZOOM.max);if(action==='out')state.zoom=clamp(state.zoom/1.25,VIEW_ZOOM.min,VIEW_ZOOM.max);
     if(action==='top'){state.pitch=90;state.azimuth=0;}
-    if(action==='reset'){state={...defaults};$('terrain-height').value='1';}
+    if(action==='reset'){state={...defaults};focusOn(scene,values,state,(scene.extent[0]+scene.extent[2])/2,(scene.extent[1]+scene.extent[3])/2);$('terrain-height').value='1';}
+    if(action==='overview'){state={...defaults,zoom:1};$('terrain-height').value='1';}
     schedule();
   }
   root.querySelectorAll('[data-terrain-control]').forEach(button=>button.addEventListener('click',()=>control(button.dataset.terrainControl)));
-  canvas.addEventListener('keydown',e=>{const key={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down','+':'in','=':'in','-':'out',r:'reset'}[e.key];if(key){e.preventDefault();control(key);}});
+  canvas.addEventListener('keydown',e=>{
+    const moves={ArrowLeft:[50,0],ArrowRight:[-50,0],ArrowUp:[0,50],ArrowDown:[0,-50]};
+    if(navigation==='pan'&&moves[e.key]&&scene&&cam){e.preventDefault();const r=canvas.getBoundingClientRect();panGround(scene,values,state,cam,...moves[e.key],r.width,r.height);schedule();return;}
+    const key={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down','+':'in','=':'in','-':'out',r:'reset'}[e.key];if(key){e.preventDefault();control(key);}
+  });
+  canvas.addEventListener('wheel',e=>{if(document.activeElement!==canvas||!scene)return;e.preventDefault();state.zoom=clamp(state.zoom*Math.exp(-clamp(e.deltaY,-150,150)*.003),VIEW_ZOOM.min,VIEW_ZOOM.max);schedule();},{passive:false});
   let pointer;
-  canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;pointer={id:e.pointerId,x:e.clientX,y:e.clientY,total:0};canvas.setPointerCapture(e.pointerId);});
+  canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus({preventScroll:true});pointer={id:e.pointerId,x:e.clientX,y:e.clientY,total:0};canvas.setPointerCapture(e.pointerId);});
   canvas.addEventListener('pointermove',e=>{
     if(!pointer||pointer.id!==e.pointerId)return;
     const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;pointer.total+=Math.abs(dx)+Math.abs(dy);
-    state.azimuth+=dx*.3;if(e.pointerType!=='touch')state.pitch=clamp(state.pitch+dy*.2,20,90);
+    if((navigation==='pan'||e.shiftKey)&&scene&&cam){const r=canvas.getBoundingClientRect();panGround(scene,values,state,cam,dx,dy,r.width,r.height);cam=camera(scene,state,r.width/r.height);}
+    else {state.azimuth+=dx*.3;if(e.pointerType!=='touch')state.pitch=clamp(state.pitch+dy*.2,20,90);}
     pointer.x=e.clientX;pointer.y=e.clientY;schedule();
   });
   canvas.addEventListener('pointerup',e=>{

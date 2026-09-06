@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
 const commonHeaderCSS='/site-header.css?v=1';
 const terrainManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/terrain/manifest.json',import.meta.url),'utf8'));
-const terrainPaths=['/nepal/terrain.mjs?v=1','/nepal/terrain-model.mjs?v=1','/nepal/terrain.css?v=1',...['manifest.json',...Object.keys(terrainManifest.files)].map(f=>'/nepal/data/terrain/'+f)];
+const terrainPaths=['/nepal/terrain.mjs?v=2','/nepal/terrain-model.mjs?v=2','/nepal/terrain.css?v=2',...['manifest.json',...Object.keys(terrainManifest.files)].map(f=>'/nepal/data/terrain/'+f)];
 const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=3','/nepal/satellite.mjs?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
 const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths].map(async path=>{
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});

@@ -1,6 +1,7 @@
 // Pure geographic/camera math. Distances in metres; X east, Y north, Z up.
 export const radians = degrees => degrees * Math.PI / 180;
 export const clamp = (x, low, high) => Math.max(low, Math.min(high, x));
+export const VIEW_ZOOM = Object.freeze({initial:2,selected:4.5,min:.7,max:10});
 const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 const sub = (a,b) => a.map((v,i)=>v-b[i]);
 const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
@@ -50,10 +51,31 @@ export function camera(scene, state, aspect) {
     right:[Math.cos(a),Math.sin(a),0],
     up:[-Math.sin(a)*Math.sin(e),Math.cos(a)*Math.sin(e),Math.cos(e)],
     toward:[Math.sin(a)*Math.cos(e),-Math.cos(a)*Math.cos(e),Math.sin(e)],
-    center:[state.focus?.[0]??(x0+x1)/2,state.focus?.[1]??(y0+y1)/2,(scene.dem.maximum-scene.dem.minimum)*state.exaggeration/2],
+    center:[state.focus?.[0]??(x0+x1)/2,state.focus?.[1]??(y0+y1)/2,(state.focusZ??(scene.dem.maximum-scene.dem.minimum)/2)*state.exaggeration],
     halfHeight:size*.62/Math.min(aspect,1)/state.zoom, aspect, depth:size*4,
     exaggeration:state.exaggeration
   };
+}
+
+export function focusOn(scene,values,state,x,y) {
+  const [x0,y0,x1,y1]=scene.extent;
+  state.focus=[clamp(x,x0,x1),clamp(y,y0,y1)];
+  state.focusZ=elevationAt(scene,values,...state.focus)-scene.dem.minimum;
+}
+
+export function panGround(scene,values,state,cam,dx,dy,width,height) {
+  const mx=dx/width*2*cam.halfHeight*cam.aspect,my=dy/height*2*cam.halfHeight;
+  const upLengthSquared=cam.up[0]**2+cam.up[1]**2;
+  focusOn(scene,values,state,
+    cam.center[0]-cam.right[0]*mx+cam.up[0]*my/upLengthSquared,
+    cam.center[1]-cam.right[1]*mx+cam.up[1]*my/upLengthSquared);
+}
+
+export function scaleBar(cam,width) {
+  const metresPerPixel=2*cam.halfHeight*cam.aspect/width;
+  const choices=[10,20,50,100,200,500,1000];
+  const metres=choices.filter(m=>m/metresPerPixel<=110).at(-1)??10;
+  return {metres,pixels:metres/metresPerPixel};
 }
 
 export function project(point, cam) {

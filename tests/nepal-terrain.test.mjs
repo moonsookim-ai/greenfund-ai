@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {decodeElevation,elevationAt,mesh,camera,project,rayAt,intersectTriangle,pickTerrain,candidateAt,lonLat} from '../greenproof/web/nepal/terrain-model.mjs';
+import {decodeElevation,elevationAt,mesh,camera,project,rayAt,intersectTriangle,pickTerrain,candidateAt,lonLat,VIEW_ZOOM,focusOn,panGround,scaleBar} from '../greenproof/web/nepal/terrain-model.mjs';
 
 const base=new URL('../greenproof/web/nepal/data/terrain/',import.meta.url);
 const read=name=>readFileSync(new URL(name,base));
@@ -107,6 +107,36 @@ test('candidate grid membership reconciles to source building counts without pos
       const coords=lonLat(scene,...c.center);near(coords[0],c.lonLat[0],.000006);near(coords[1],c.lonLat[1],.000006);
     }
     assert.ok(used.size<scene.buildings.length,'Not every damage label implies overlap / burial');
+  }
+});
+
+test('close inspection centres each real candidate at its terrain height, even at maximum zoom and exaggerated height',()=>{
+  for(const scene of scenes){
+    const values=decodeElevation(buffer(read(scene.dem.url)),scene.dem);
+    for(const cell of scene.candidates){
+      for(const exaggeration of [1,2]){
+        const state={azimuth:18,pitch:57,zoom:VIEW_ZOOM.max,exaggeration};
+        focusOn(scene,values,state,...cell.center);
+        const cam=camera(scene,state,.75),z=elevationAt(scene,values,...cell.center)-scene.dem.minimum;
+        const p=project([...cell.center,z],cam);near(p[0],0);near(p[1],0);near(p[2],0);
+      }
+    }
+  }
+});
+
+test('pan translates the ground with the drag, stays within measured terrain and preserves a truthful scale bar',()=>{
+  const values=new Float32Array([100,100,100,100]),state={...defaults,pitch:57,zoom:VIEW_ZOOM.max};
+  focusOn(small,values,state,0,0);
+  const first=camera(small,state,1.5),before=project([0,0,0],first);
+  panGround(small,values,state,first,20,15,600,400);
+  const after=project([0,0,0],camera(small,state,1.5));
+  near((after[0]-before[0])*300,20);near((before[1]-after[1])*200,15);
+  panGround(small,values,state,camera(small,state,1.5),100000,-100000,600,400);
+  assert.deepEqual(state.focus,[-500,-500]);assert.equal(state.focusZ,0);
+  for(const zoom of [VIEW_ZOOM.min,VIEW_ZOOM.initial,VIEW_ZOOM.selected,VIEW_ZOOM.max]){
+    const cam=camera(scenes[0],{...defaults,zoom},.75),scale=scaleBar(cam,360);
+    near(scale.pixels*2*cam.halfHeight*cam.aspect/360,scale.metres);
+    assert.ok(scale.pixels>0&&scale.pixels<=110);
   }
 });
 
