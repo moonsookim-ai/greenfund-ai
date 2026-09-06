@@ -3,12 +3,17 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
-const commonHeaderCSS='/site-header.css?v=1';
+const commonHeaderCSS='/site-header.css?v=2';
 const terrainManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/terrain/manifest.json',import.meta.url),'utf8'));
 const detailManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/map-detail/manifest.json',import.meta.url),'utf8'));
 const terrainPaths=['/nepal/terrain.mjs?v=3','/nepal/terrain-model.mjs?v=3','/nepal/terrain.css?v=3',...['manifest.json',...Object.keys(terrainManifest.files)].map(f=>'/nepal/data/terrain/'+f),...['manifest.json',...Object.keys(detailManifest.files)].map(f=>'/nepal/data/map-detail/'+f)];
-const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=3','/nepal/satellite.mjs?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
+const paths=['/','/mangrove/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=3','/nepal/satellite.mjs?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
 const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths,'/nepal/og.png?v=1'].map(async path=>{
+  if(path==='/'){
+    const entry=await fetch(origin+'/',{redirect:'manual',signal:AbortSignal.timeout(25000),cache:'no-cache'});
+    assert.equal(entry.status,302,'Homepage redirects before serving HTML');
+    assert.equal(new URL(entry.headers.get('location'),origin).pathname,'/nepal/');
+  }
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});
   assert.equal(response.status,200,path);
   const type=response.headers.get('content-type') || '';
@@ -37,7 +42,6 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths
   const text=await response.text();
   if(path.endsWith('/') || path.endsWith('index.html')){
     assert.match(type,/text\/html/);
-    assert.ok(text.includes('환경재단이 운영하는 AI환경연구소'));
     assert.equal((text.match(/김문수/g)||[]).length,1);
     assert.ok(text.indexOf('김문수')>text.indexOf('<footer'));
     const nav=/<nav\b[^>]*aria-label="(?:주 메뉴|Main navigation)"[^>]*>([\s\S]*?)<\/nav>/.exec(text)?.[1];
@@ -45,21 +49,24 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths
     assert.ok(nav.indexOf('네팔상황실')<nav.indexOf('맹그로브 성장 기록'));
     assert.ok(nav.indexOf('맹그로브 성장 기록')<nav.indexOf('우리 동네 온실가스 배출'));
     const header=/<header\b[^>]*>[\s\S]*?<\/header>/.exec(text)?.[0];
-    const localPage=readFileSync(new URL('../greenproof/web'+path+(path.endsWith('/')?'index.html':''),import.meta.url),'utf8');
+    const pagePath=path==='/'?'/nepal/':path;
+    const localPage=readFileSync(new URL('../greenproof/web'+pagePath+(pagePath.endsWith('/')?'index.html':''),import.meta.url),'utf8');
     assert.equal(header,/<header\b[^>]*>[\s\S]*?<\/header>/.exec(localPage)?.[0],'Exact shared header deployed');
     assert.ok(header.includes('class="gp-site-header"'));
+    assert.ok(!header.includes('<small') && !header.includes('AI환경연구소'),'Logo subtitle removed');
+    assert.ok(nav.includes('/mangrove/#app'),'Mangrove menu points to its new page');
     const active=[...nav.matchAll(/<a\b[^>]*aria-current="page"[^>]*>(.*?)<\/a>/g)];
     assert.equal(active.length,1,'One selected main menu');
-    assert.equal(active[0][1],path==='/'?'맹그로브 성장 기록':path==='/emissions/'?'우리 동네 온실가스 배출':'네팔상황실');
-    if(path==='/'||path==='/emissions/'||path==='/nepal/')assert.ok(text.includes(commonHeaderCSS));
-    if(path==='/nepal/'||path.startsWith('/nepal/field/')){
+    assert.equal(active[0][1],path==='/mangrove/'?'맹그로브 성장 기록':path==='/emissions/'?'우리 동네 온실가스 배출':'네팔상황실');
+    if(['/','/mangrove/','/emissions/','/nepal/'].includes(path))assert.ok(text.includes(commonHeaderCSS));
+    if(pagePath==='/nepal/'||path.startsWith('/nepal/field/')){
       const analyses=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/source-analyses.json',import.meta.url),'utf8'));
       assert.ok(text.includes(analyses.preface.body));
       for(const item of analyses.articles)assert.ok(text.includes(`id="analysis-${item.id}"`));
       assert.ok(text.includes('data-analysis-expand'));
       assert.ok(!/<a\b[^>]*class="brief-source"[^>]*target=/.test(text));
     }
-    if(path==='/nepal/'){
+    if(pagePath==='/nepal/'){
       const metadata=page=>[...page.matchAll(/<meta\s+(?:property|name)="((?:og:|twitter:)[^"]+)"\s+content="([^"]*)"/g)].map(m=>[m[1],m[2]]);
       assert.deepEqual(metadata(text),metadata(localPage),'Exact Nepal sharing metadata deployed');
       const meta=Object.fromEntries(metadata(text));
@@ -77,6 +84,22 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths
       assert.ok(text.includes('한국 구조대원'));
       assert.ok(!/<(?:div|section)\b[^>]*\bdata-field-tool/.test(text));
       assert.ok(text.indexOf('id="strategy"')<text.indexOf('id="method"'));
+    }
+    if(path==='/mangrove/'){
+      assert.ok(text.includes('fetch("/data/index.json"'));
+      assert.ok(text.includes('fetch(`/data/${id}/report.json`'));
+      assert.ok(text.includes('href="https://greenfund.ai.kr/mangrove/"'));
+      const indexResponse=await fetch(origin+'/data/index.json',{signal:AbortSignal.timeout(25000)});
+      assert.equal(indexResponse.status,200);
+      const index=await indexResponse.json();
+      for(const site of index.sites){
+        const dataRoot=origin+'/data/'+site.id+'/';
+        const reportResponse=await fetch(dataRoot+'report.json',{signal:AbortSignal.timeout(25000)});
+        assert.equal(reportResponse.status,200);
+        const report=await reportResponse.json();
+        const frame=await fetch(dataRoot+report.frames.at(-1),{method:'HEAD',signal:AbortSignal.timeout(25000)});
+        assert.equal(frame.status,200);assert.match(frame.headers.get('content-type'),/image\//);
+      }
     }
     if(path.includes('/field/') || path.includes('/handoff/')){
       if(path.includes('/field/')) {

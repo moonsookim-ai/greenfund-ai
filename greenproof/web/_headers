@@ -12,6 +12,12 @@
 /emissions/
   Cache-Control: no-cache
 
+/mangrove/
+  Cache-Control: no-cache
+
+/mangrove/index.html
+  Cache-Control: no-cache
+
 /nepal/
   Cache-Control: no-cache
 

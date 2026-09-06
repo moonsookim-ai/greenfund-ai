@@ -39,7 +39,7 @@ page = '''<!doctype html>
 <link rel="canonical" href="https://greenfund.ai.kr/nepal/handoff/"><meta name="theme-color" content="#123c35">
 <style>__CSS__</style></head><body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header"><div class="header-inner"><a class="brand" href="https://greenfund.ai.kr/">GREEN <span>PROOF</span><small lang="ko">환경재단이 운영하는 AI환경연구소</small></a><nav aria-label="Main navigation"><a href="https://greenfund.ai.kr/nepal/">네팔상황실</a><a href="https://greenfund.ai.kr/#app">맹그로브 성장 기록</a><a href="https://greenfund.ai.kr/emissions/">우리 동네 온실가스 배출</a></nav></div></header>
+__HEADER__
 <main id="main" class="field-page">
 <section class="response-intro"><p class="field-note">GREEN PROOF · AI Environmental Research Institute operated by Korea Green Foundation</p><h1>Nepal flood<br>Field handoff kit</h1><p>Contact an agency, describe the location and situation, then confirm receipt. This tool prepares a draft. It does not submit a rescue request or dispatch responders.</p>
 <div class="actions"><a class="button primary" href="#contacts">Emergency contacts</a><a class="button" href="#field-support">Prepare handoff</a><a class="button" href="https://greenfund.ai.kr/nepal/#strategy" lang="ko">한국어 실행안</a></div>
@@ -56,7 +56,7 @@ __CONTACTS__
 </main><script type="module">__SCRIPT__</script></body></html>
 '''
 page = page.replace('__CSS__', css).replace('__CONTACTS__', contacts('en')).replace('__SCRIPT__', script)
-page = re.sub(r'<header\b[^>]*>.*?</header>',site_header('nepal',absolute=True),page,count=1,flags=re.S)
+page = page.replace('__HEADER__', site_header('nepal',absolute=True))
 (NEPAL/'handoff').mkdir(exist_ok=True)
 (NEPAL/'handoff/index.html').write_text(page, encoding='utf-8')
 print(f'Built secondary handoff tool ({len(page.encode("utf-8")):,} bytes).')

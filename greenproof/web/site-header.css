@@ -3,7 +3,7 @@
 .gp-site-header *{box-sizing:border-box}
 .gp-header-inner{max-width:1240px;margin:0 auto;padding:21px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .gp-site-header .gp-brand{display:block;flex:0 0 auto;margin:0;padding:0;border:0;color:#193b33;font-size:22px;font-weight:850;letter-spacing:.07em;line-height:1.25;text-decoration:none;opacity:1}
-.gp-brand span{color:#166b50}.gp-brand small{display:block;margin:7px 0 0;color:#193b33;font-size:12px;font-weight:550;letter-spacing:0;line-height:1.5;white-space:nowrap}
+.gp-brand span{color:#166b50}
 .gp-site-header .gp-main-nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;width:auto;gap:8px 27px;margin:0;padding:0;font-size:14px;font-weight:650;line-height:1.5;letter-spacing:0}
 .gp-main-nav a{display:block;white-space:nowrap;margin:0;padding:7px 0 5px;color:#193b33;background:transparent;border:0;border-bottom:2px solid transparent;border-radius:0;font:inherit;line-height:inherit;text-decoration:none}
 .gp-main-nav a[aria-current="page"]{color:#166b50;border-bottom-color:#166b50}.gp-main-nav a:hover{color:#166b50}.gp-site-header a:focus-visible{outline:3px solid #d88740;outline-offset:4px}

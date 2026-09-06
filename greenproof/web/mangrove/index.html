@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>맹그로브 성장 기록 | GREEN PROOF</title>
+<meta name="description" content="위성사진으로 맹그로브 식재지의 변화를 살펴보세요. 촬영 시점별 사진과 식생 지표, 관측 근거를 함께 확인할 수 있습니다.">
+<link rel="canonical" href="https://greenfund.ai.kr/mangrove/">
+<meta name="theme-color" content="#08131a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GREEN PROOF">
+<meta property="og:url" content="https://greenfund.ai.kr/mangrove/">
+<meta property="og:title" content="맹그로브 성장 기록 | GREEN PROOF">
+<meta property="og:description" content="위성사진으로 맹그로브 식재지의 변화를 살펴보세요. 촬영 시점별 사진과 식생 지표, 관측 근거를 함께 확인할 수 있습니다.">
+<meta property="og:image" content="https://greenfund.ai.kr/og.png?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The same coastal plot in 2022 and 2026 from satellite. Bare mud on the left, green mangrove canopy on the right.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="맹그로브 성장 기록 | GREEN PROOF">
+<meta name="twitter:description" content="위성사진으로 맹그로브 식재지의 변화를 살펴보세요. 촬영 시점별 사진과 식생 지표, 관측 근거를 함께 확인할 수 있습니다.">
+<meta name="twitter:image" content="https://greenfund.ai.kr/og.png?v=2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314663a'/%3E%3Cpath d='M9 21c0-6 4-10 10-11-1 7-4 11-10 11z' fill='%233ddc84'/%3E%3Cpath d='M9 23c2-3 5-5 9-6' stroke='%23e9b341' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f6f8f6; --card:#fff; --ink:#14201a; --muted:#5d6f66; --line:#dde5e0;
+  --green:#1f9d55; --green-dk:#14663a; --gold:#b98900; --warn:#c2410c;
+  --shadow:0 1px 3px rgba(20,40,30,.07),0 10px 30px rgba(20,40,30,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0d1411; --card:#141d19; --ink:#e8f0ea; --muted:#93a89c; --line:#243029;
+        --green:#3ddc84; --green-dk:#7ee2ad; --gold:#e3b341; --warn:#fb923c; --shadow:0 1px 3px rgba(0,0,0,.4)}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+  line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 90px}
+a{color:inherit}
+
+/* ---------- research institute introduction ---------- */
+.hero{background:#123c35;color:#f3f7ed;padding:0 24px 56px}
+.hero .topbar{max-width:1120px;margin:auto;display:flex;align-items:center;gap:20px;padding:24px 0;flex-wrap:wrap}
+.hero .logo{font-weight:800;letter-spacing:.14em;font-size:18px;text-decoration:none}
+.hero .logo em{color:#bfeeae;font-style:normal}
+.hero .inner{max-width:1120px;margin:30px auto 0}
+.hero .box{max-width:850px}
+.hero .kick{font-size:11px;letter-spacing:.15em;color:#bfeeae;font-weight:700;margin:0 0 15px}
+.hero h1{font-size:clamp(32px,4.8vw,56px);line-height:1.25;letter-spacing:-.04em;margin:0 0 20px;word-break:keep-all}
+.hero p{font-size:16px;max-width:680px;color:#c7dacb;word-break:keep-all}
+.hero .ctarow{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .cta{display:inline-flex;align-items:center;gap:13px;font:inherit;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:1px solid #658176;border-radius:7px;background:transparent;color:#f3f7ed;padding:12px 18px}
+.hero .cta:hover{background:#245246}.hero .cta.primary{background:#bfeeae;color:#123c35;border-color:#bfeeae}
+.lang{margin-left:auto;display:flex;border:1px solid #658176;border-radius:7px;overflow:hidden}
+.lang button{background:transparent;border:0;color:#c7dacb;font:inherit;font-size:12px;padding:8px 12px;cursor:pointer}
+.lang button[aria-pressed=true]{background:#bfeeae;color:#123c35}
+.hero-nav{font-size:13px;text-decoration:none;color:#bfeeae}
+@media(max-width:620px){.hero{padding:0 20px 35px}.hero .topbar{gap:14px}.hero .inner{margin-top:20px}.hero .logo{width:100%}.hero .lang{margin-left:auto}.hero .cta{flex:1 1 auto;justify-content:center}}
+
+/* ---------- app header ---------- */
+header.top{border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:20}
+.top .row{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:13px 20px;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.14em;font-size:13px}
+.brand em{font-style:normal;color:var(--green)}
+.brand small{display:block;letter-spacing:0;font-weight:600;font-size:11px;color:var(--muted);margin-top:2px}
+.top select{padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;max-width:60vw}
+.modlink{font-size:13px;font-weight:800;color:#04150c;background:var(--green);text-decoration:none;border:1px solid var(--green);border-radius:999px;padding:8px 15px;white-space:nowrap}
+.modlink:hover{filter:brightness(1.08)}
+.top .lang2{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.top .modlink{margin-left:auto}
+.top .modlink + .lang2{margin-left:8px}
+.top .lang2 button{background:transparent;border:0;color:var(--muted);font:inherit;font-weight:700;font-size:12px;padding:6px 12px;cursor:pointer}
+.top .lang2 button[aria-pressed=true]{background:var(--green);color:#04150c}
+
+.intro{padding:46px 0 6px}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--green);font-weight:800}
+h1.page{font-size:clamp(24px,4vw,38px);line-height:1.28;margin:12px 0 10px;letter-spacing:-.02em}
+.lede{color:var(--muted);font-size:16px;margin:0;max-width:64ch}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+.badge{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card)}
+.badge.ok{color:var(--green-dk);border-color:color-mix(in srgb,var(--green) 45%,transparent)}
+.badge.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
+.badge.grey{color:var(--muted)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin:20px 0}
+.card h2{font-size:17px;margin:0 0 4px}
+.card .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+@media(min-width:1240px){ .card.player{margin-inline:-40px;padding:26px} }
+
+/* player: big stage on the left, summary on the right */
+.playgrid{display:grid;gap:20px;align-items:start}
+@media(min-width:1000px){ .playgrid{grid-template-columns:minmax(0,1fr) 320px} }
+.stagebox{min-width:0;display:flex;flex-direction:column;align-items:center;--maxh:72vh}
+@media(min-width:700px){ .stagebox{--maxh:74vh} }
+@media(min-width:1000px){ .stagebox{--maxh:86vh} }
+.stage{position:relative;border-radius:14px;overflow:hidden;background:#0a0f0c;
+  aspect-ratio:var(--ar,1);max-height:var(--maxh);margin:0 auto;
+  width:min(100%,calc(var(--maxh) * var(--ar,1)))}
+.stage:fullscreen{width:100vw;height:100vh;max-height:none;border-radius:0;aspect-ratio:auto}
+.stage:fullscreen img{object-fit:contain;background:#050907}
+.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .28s ease;image-rendering:auto}
+.stage img.on{opacity:1}
+.stage .clip{position:absolute;inset:0;overflow:hidden;width:50%}
+.stage .clip img{width:auto;height:100%;min-width:100%;object-fit:cover;opacity:1;transition:none}
+.handle{position:absolute;top:0;bottom:0;width:3px;background:#fff;left:50%;transform:translateX(-1.5px);box-shadow:0 0 0 1px rgba(0,0,0,.35);pointer-events:none}
+.handle::after{content:"↔";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;color:#14201a;display:grid;place-items:center;font-weight:800}
+.cmp-tag{position:absolute;top:12px;font-size:11px;font-weight:800;letter-spacing:.06em;background:rgba(0,0,0,.6);color:#fff;padding:4px 9px;border-radius:6px}
+.stagebox .controls,.stagebox .ticks{width:min(100%,calc(var(--maxh) * var(--ar,1)))}
+.controls{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+button.ctl{font:inherit;cursor:pointer;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:9px 14px;font-size:13px;font-weight:700}
+button.ctl.primary,button.ctl[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#04150c}
+input[type=range]{flex:1;min-width:150px;accent-color:var(--green);height:28px}
+.ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+#fs{display:none}
+@media(min-width:1000px){ #fs{display:inline-block} }
+@media(pointer:coarse){ button.ctl{min-height:44px} .top select{min-height:40px} }
+@media(max-width:620px){
+  .controls{gap:8px}
+  .controls button.ctl{flex:1 1 auto;min-height:44px}
+  .controls input[type=range]{flex-basis:100%;order:9;min-width:0}
+  .card{padding:16px;border-radius:14px}
+  .wrap{padding:0 14px 64px}
+}
+.side{border:1px solid var(--line);border-radius:14px;padding:16px;font-size:13px}
+.side .row2{padding:12px 0;border-bottom:1px solid var(--line)}
+.side .row2:last-child{border-bottom:0;padding-bottom:0}
+.side .row2:first-child{padding-top:0}
+.side h3{margin:0 0 2px;font-size:12px;color:var(--muted);font-weight:700}
+.side .big{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:2px 0 0;font-variant-numeric:tabular-nums}
+.legend{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.swatch{width:14px;height:14px;border-radius:4px;background:var(--green);opacity:.7;flex:none}
+.kicker{font-weight:800;color:var(--ink)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:13px;padding:15px}
+.stat .k{font-size:12px;color:var(--muted);font-weight:700}
+.stat .v{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.stat .r{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+svg.chart{width:100%;height:240px;display:block}
+.grid{stroke:var(--line);stroke-dasharray:3 4}
+.tick{fill:var(--muted);font-size:11px}
+.dot{fill:var(--green)} .line{fill:none;stroke:var(--green);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.band{fill:var(--green);opacity:.13}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+th{color:var(--muted);font-weight:700;font-size:12px}
+.scroll{overflow-x:auto}
+details{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+details summary{cursor:pointer;font-weight:700;font-size:14px}
+details ul{color:var(--muted);font-size:13px;padding-left:18px}
+.note{font-size:13px;color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-size:12px;color:var(--muted)}
+.err{padding:40px 0;color:var(--warn);font-weight:700}
+</style>
+<link rel="stylesheet" href="/lab.css?v=3">
+<link rel="stylesheet" href="/site-header.css?v=2">
+</head>
+<body>
+<header class="gp-site-header" lang="ko"><div class="gp-header-inner"><a class="gp-brand" href="/">GREEN <span>PROOF</span></a><nav class="gp-main-nav" aria-label="주 메뉴"><a href="/nepal/">네팔상황실</a><a href="/mangrove/#app" aria-current="page">맹그로브 성장 기록</a><a href="/emissions/">우리 동네 온실가스 배출</a></nav></div></header>
+
+<!-- ===================== GREEN PROOF ===================== -->
+<section class="hero" id="hero">
+  <div class="topbar">
+    <a class="logo" href="/">GREEN <em>PROOF</em></a>
+    <a class="hero-nav" href="/nepal/">네팔상황실 ↗</a>
+    <div class="lang" id="lang1">
+      <button data-l="en">EN</button><button data-l="ko">한국어</button>
+    </div>
+  </div>
+  <div class="inner"><div class="box">
+    <p class="kick" id="h-kick">GREEN PROOF · AI환경연구소</p>
+    <h1 id="h-title">환경을 위한 행동에,<br>확인할 수 있는 근거를.</h1>
+    <p id="h-sub">환경재단이 운영하는 AI환경연구소 GREEN PROOF. 공개 데이터와 AI로 환경의 변화를 읽고, 현장의 의사결정을 돕습니다.</p>
+    <div class="ctarow">
+      <a class="cta primary" href="/nepal/" id="h-nepal">네팔상황실 · GPT-6 Astra ↗</a>
+      <button class="cta" id="h-cta"><span id="h-cta-t">맹그로브 성장 기록 보기</span><span class="arw">↓</span></button>
+      <a class="cta" id="h-cta2" href="/emissions/"><span id="h-cta2-t">우리 동네 온실가스 배출</span><span>→</span></a>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===================== APP ===================== -->
+
+
+<div class="wrap" id="app">
+  <div class="gp-page-tools"><label for="siteSel">식재지 <select id="siteSel" aria-label="식재지 선택"></select></label><div class="lang2" id="lang2"><button data-l="en">EN</button><button data-l="ko">한국어</button></div></div>
+  <section class="intro">
+    <div class="eyebrow">SATELLITE VERIFIED</div>
+    <h1 class="page" id="title"></h1>
+    <p class="lede" id="lede"></p>
+    <div class="badges" id="badges"></div>
+  </section>
+  <div id="body"></div>
+</div>
+
+<footer class="lab-footer"><div><strong>GREEN PROOF</strong></div><nav aria-label="연구 메뉴"><a href="/nepal/">네팔상황실</a><a href="/mangrove/#app">맹그로브 성장 기록</a><a href="/emissions/">우리 동네 온실가스 배출</a></nav><small class="research-contact">연구 문의 · 연구책임자 김문수 교수 · <a href="mailto:mskim@ceobizschool.kr">mskim@ceobizschool.kr</a></small></footer>
+
+<script type="module">
+/* ---------------- i18n dictionary ---------------- */
+const T = {
+  en: {
+    heroKick: "GREEN PROOF · AI ENVIRONMENTAL RESEARCH INSTITUTE",
+    heroTitle: "Evidence for environmental action.",
+    heroSub: "GREEN PROOF is the AI Environmental Research Institute operated by the Environmental Foundation. We use open data and AI to understand environmental change and inform decisions in the field.",
+    heroCta: "Mangrove growth",
+    modEmissions: "Local greenhouse gas emissions",
+    titleSubject: "Three years on, this is what the satellite sees",
+    titleControl: "First, we check that the rules are right",
+    ledeSubject: (r) => `${r.label.en} · ${r.area_ha} ha observed · read from Copernicus Sentinel-2 imagery captured between ${r.series[0].date} and ${r.series.at(-1).date}.`,
+    ledeControl: "A verifier has to be verified first. We read a mature mangrove forest with the same rules and check that it returns the value we expect.",
+    verdict: "Verdict", evergreen: "Evergreen", controlPlot: "Control plot",
+    coordsConfirmed: "Coordinates confirmed", obs: (n) => `${n} observations`,
+    yearToYear: (a, b) => `${a} → ${b}`,
+    overlayCap: (t) => `Green shading marks pixels the satellite classified as canopy (NDVI ≥ ${t}).`,
+    play: "▶ Play", pause: "⏸ Pause", lapse: "Time-lapse", compare: "Before / after",
+    overlayBtn: "Canopy overlay", big: "⤢ Fullscreen",
+    canopyCover: (y) => `Canopy cover ${y}`, startedAt: (y, p) => `from ${p} in ${y}`,
+    gain: "Gain", range: "range", verdictLabel: "Verdict", evergreenTest: "Evergreen test",
+    legendCanopy: "Green shading = pixels classified as canopy",
+    pressVideo: "Press cut", measurements: "Measurements",
+    measuresSub: "Every figure ships with a range. A single number looks precise and cannot be audited.",
+    mCanopy: "Canopy cover", mCanopyArea: "Canopy area", mGain: "Gain in area",
+    mEst: "Establishment", mEstNote: "lower bound", mCarbon: "Sequestered", mCarbonNote: "provisional coefficient",
+    mTrend: "Annual trend", mTrendNote: (r, n) => `R² ${r} · ${n} observations`,
+    chartTitle: "Canopy cover over time",
+    chartSub: "Dry-season scenes only. The monsoon brings cloud, and high tides distort readings over tidal flats.",
+    mangroveTitle: "Is this really mangrove?",
+    mangroveSub: "Vegetation indices cannot tell one green from another. To avoid counting a paddy as forest, we cross-check the seasons.",
+    plantingTitle: "Planting record",
+    plantingSub: "Every plot in the field partner's planting ledger, as reported — location, area and seedlings planted.",
+    thLocation: "Location", thPlots: "Plots", thArea: "Area", thTrees: "Seedlings",
+    plantingTotal: "Total", plantingAll: "Full plot ledger", thPlot: "Plot",
+    ledgerTitle: "Observation ledger",
+    ledgerSub: "Every satellite scene used is disclosed. Anyone can repeat the same calculation on the same scenes.",
+    thYear: "Year", thDate: "Observed", thCanopy: "Canopy", thNdvi: "Mean NDVI", thCloud: "AOI cloud", thScene: "Scene id",
+    methodSummary: "Method and limits",
+    mSource: "Source", mIndex: "Index", mCanopyThresh: "Canopy threshold", mCloud: "Cloud handling", mCoef: "Carbon coefficient",
+    wetObs: (d, p) => `wet-season observation ${d}, canopy ${p}`,
+    footContains: "Contains modified Copernicus Sentinel data",
+    generated: "Generated", plotBounds: "Site",
+  },
+  ko: {
+    heroKick: "GREEN PROOF · AI환경연구소",
+    heroTitle: "환경을 위한 행동에, 확인할 수 있는 근거를.",
+    heroSub: "환경재단이 운영하는 AI환경연구소 GREEN PROOF. 공개 데이터와 AI로 환경의 변화를 읽고, 현장의 의사결정을 돕습니다.",
+    heroCta: "맹그로브 성장 기록 보기",
+    modEmissions: "우리 동네 온실가스 배출",
+    titleSubject: "3년이 지난 지금, 위성은 이렇게 봅니다",
+    titleControl: "먼저 판독 규칙이 맞는지 확인합니다",
+    ledeSubject: (r) => `${r.label.ko} · 관측 면적 ${r.area_ha} ha · 유럽 코페르니쿠스 Sentinel-2 위성이 ${r.series[0].date} 부터 ${r.series.at(-1).date} 까지 찍어 둔 것을 읽었습니다.`,
+    ledeControl: "검증하는 기관은 자기 방법부터 검증받아야 합니다. 성숙한 맹그로브림을 같은 규칙으로 읽어, 나오리라 예상한 값이 실제로 나오는지 대조합니다.",
+    verdict: "판정", evergreen: "상록성", controlPlot: "대조군 구획",
+    coordsConfirmed: "좌표 확정", obs: (n) => `관측 ${n}개 시점`,
+    yearToYear: (a, b) => `${a}년 → ${b}년`,
+    overlayCap: (t) => `초록 음영은 위성이 임관으로 판정한 화소입니다. 판정 기준은 NDVI ${t} 이상.`,
+    play: "▶ 재생", pause: "⏸ 정지", lapse: "타임랩스", compare: "전후 비교",
+    overlayBtn: "판정 음영", big: "⤢ 크게",
+    canopyCover: (y) => `${y}년 임관 피복률`, startedAt: (y, p) => `${y}년 ${p} 에서 출발`,
+    gain: "증가 면적", range: "범위", verdictLabel: "판정", evergreenTest: "상록성 검사",
+    legendCanopy: "초록 음영 = 임관으로 판정한 화소",
+    pressVideo: "언론 배포용", measurements: "측정값",
+    measuresSub: "모든 값에 범위를 함께 싣습니다. 범위 없는 단일 숫자는 검증받을 수 없습니다.",
+    mCanopy: "임관 피복률", mCanopyArea: "임관 면적", mGain: "증가 면적",
+    mEst: "정착 추정률", mEstNote: "하한 해석", mCarbon: "흡수 추정", mCarbonNote: "계수 잠정",
+    mTrend: "연간 추세", mTrendNote: (r, n) => `R² ${r} · 관측 ${n}회`,
+    chartTitle: "임관 피복률 추이",
+    chartSub: "건기 장면만 씁니다. 우기는 구름이 덮고 조위가 높아 갯벌 판독이 흔들립니다.",
+    mangroveTitle: "이것이 정말 맹그로브인가",
+    mangroveSub: "위성 지수만으로는 초록을 구분하지 못합니다. 논밭을 숲으로 세지 않기 위해 계절을 교차 확인합니다.",
+    plantingTitle: "식재 기록",
+    plantingSub: "현장 파트너의 식재 대장에 있는 플롯 전부를 그대로 싣습니다. 위치·면적·식재 주수.",
+    thLocation: "위치", thPlots: "플롯 수", thArea: "면적", thTrees: "식재 주수",
+    plantingTotal: "합계", plantingAll: "플롯별 전체 대장", thPlot: "플롯",
+    ledgerTitle: "관측 원장",
+    ledgerSub: "쓰인 위성 장면을 전부 공개합니다. 누구든 같은 장면으로 같은 계산을 다시 할 수 있습니다.",
+    thYear: "연도", thDate: "관측일", thCanopy: "임관 피복", thNdvi: "NDVI 평균", thCloud: "AOI 구름", thScene: "장면 식별자",
+    methodSummary: "산출 방법과 한계",
+    mSource: "원천", mIndex: "지수", mCanopyThresh: "임관 판정", mCloud: "구름 처리", mCoef: "탄소 계수",
+    wetObs: (d, p) => `우기 관측 ${d}, 임관 ${p}`,
+    footContains: "Contains modified Copernicus Sentinel data",
+    generated: "생성", plotBounds: "식재지",
+  },
+};
+
+let lang = (new URLSearchParams(location.search).get("lang")
+  || localStorage.getItem("gp-lang")
+  || (navigator.language || "en").slice(0, 2));
+if (!T[lang]) lang = "en";
+
+const $ = (s, r = document) => r.querySelector(s);
+const fmt = (n, d = 1) => n == null || !isFinite(n) ? "—" : n.toLocaleString(lang === "ko" ? "ko-KR" : "en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = n => n == null || !isFinite(n) ? "—" : (n * 100).toFixed(0) + "%";
+const tr = () => T[lang];
+
+$("#h-cta").onclick = () => $("#app").scrollIntoView();
+
+function paintHero() {
+  const t = tr();
+  $("#h-kick").textContent = t.heroKick;
+  $("#h-title").textContent = t.heroTitle;
+  $("#h-sub").textContent = t.heroSub;
+  $("#h-cta-t").textContent = t.heroCta;
+  $("#h-cta2-t").textContent = t.modEmissions.replace(" →", "");
+  $("#h-nepal").textContent = lang === "ko" ? "네팔상황실 · GPT-6 Astra ↗" : "Nepal situation room · GPT-6 Astra ↗";
+  document.documentElement.lang = lang;
+  for (const box of [$("#lang1"), $("#lang2")])
+    box.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === lang));
+}
+for (const box of [$("#lang1"), $("#lang2")])
+  box.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    lang = b.dataset.l; localStorage.setItem("gp-lang", lang);
+    history.replaceState({}, "", "?" + new URLSearchParams({ ...Object.fromEntries(new URLSearchParams(location.search)), lang, plot: R ? R.site : "" }));
+    paintHero(); if (R) render();
+  });
+
+/* ---------------- data ---------------- */
+let R = null, frames = [], rawFrames = [], idx = 0, timer = null, mode = "lapse", overlayOn = true;
+const set = () => overlayOn ? frames : (rawFrames.length ? rawFrames : frames);
+
+async function boot() {
+  paintHero();
+  let index;
+  try { index = await (await fetch("/data/index.json", { cache: "no-store" })).json(); }
+  catch (e) { $("#app").innerHTML = '<p class="err">No verification data. Run <code>python greenproof.py verify</code> first.</p>'; return; }
+  const sel = $("#siteSel");
+  sel.innerHTML = index.sites.map(s => `<option value="${s.id}">${s.label[lang] || s.label.en}</option>`).join("");
+  const want = new URLSearchParams(location.search).get("plot");
+  if (want && index.sites.some(s => s.id === want)) sel.value = want;
+  sel.onchange = () => { syncUrl(sel.value); load(sel.value); };
+  load(sel.value);
+}
+function syncUrl(plot) { history.replaceState({}, "", "?" + new URLSearchParams({ lang, plot })); }
+
+async function load(id) {
+  stop();
+  R = await (await fetch(`/data/${id}/report.json`, { cache: "no-store" })).json();
+  frames = R.frames.map(f => `/data/${id}/${f}`);
+  rawFrames = (R.frames_raw || []).map(f => `/data/${id}/${f}`);
+  idx = frames.length - 1;
+  syncUrl(id);
+  render();
+}
+
+function render() {
+  const t = tr(), isControl = R.coords_status === "control";
+  // refresh site dropdown labels for language
+  $("#siteSel").querySelectorAll("option").forEach(o => {});
+  $("#title").textContent = isControl ? t.titleControl : t.titleSubject;
+  $("#lede").textContent = isControl ? t.ledeControl : t.ledeSubject(R);
+
+  const ev = R.evergreen || {}, v = R.verdict || {};
+  const evClass = ev.code === "evergreen" ? "ok" : ev.code === "seasonal_crop" ? "warn" : "grey";
+  $("#badges").innerHTML = [
+    `<span class="badge ${isControl ? "grey" : "ok"}">${t.verdict} · ${v[lang]?.label || "—"}</span>`,
+    ev[lang]?.label ? `<span class="badge ${evClass}">${t.evergreen} · ${ev[lang].label}</span>` : "",
+    isControl ? `<span class="badge grey">${t.controlPlot}</span>`
+      : R.coords_status === "confirmed" ? `<span class="badge ok">${t.coordsConfirmed}</span>` : "",
+    `<span class="badge grey">${t.obs(R.series.length)}</span>`,
+  ].join("");
+
+  const s0 = R.series[0], s1 = R.series.at(-1), est = R.establishment || {}, car = R.carbon || {}, trd = R.trend || {}, m = R.method || {};
+  const mtd = m[lang] || m.en || {};
+
+  $("#body").innerHTML = `
+  <section class="card player">
+    <h2>${t.yearToYear(s0.year, s1.year)}</h2>
+    <p class="sub">${t.overlayCap(m.canopy_threshold)}</p>
+    <div class="playgrid">
+      <div class="stagebox" style="--ar:${R.frame_aspect || 1}">
+        <div class="stage" id="stage"></div>
+        <div class="controls">
+          <button class="ctl primary" id="play">${t.play}</button>
+          <button class="ctl" id="mLapse" aria-pressed="true">${t.lapse}</button>
+          <button class="ctl" id="mCmp" aria-pressed="false">${t.compare}</button>
+          <button class="ctl" id="mOv" aria-pressed="true">${t.overlayBtn}</button>
+          <button class="ctl" id="fs">${t.big}</button>
+          <input type="range" id="scrub" min="0" max="${frames.length - 1}" value="${idx}">
+        </div>
+        <div class="ticks">${R.series.map(s => `<span>${s.year}</span>`).join("")}</div>
+      </div>
+      <aside class="side">
+        <div class="row2"><h3>${t.canopyCover(s1.year)}</h3><p class="big">${pct(s1.canopy_frac)}</p>
+          <p class="note" style="margin:2px 0 0">${t.startedAt(s0.year, pct(s0.canopy_frac))}</p></div>
+        <div class="row2"><h3>${t.gain}</h3><p class="big" style="font-size:26px">${est.gain_ha >= 0 ? "+" : ""}${fmt(est.gain_ha, 2)} ha</p>
+          <p class="note" style="margin:2px 0 0">${t.range} ${fmt(est.gain_ha_lo, 2)} ~ ${fmt(est.gain_ha_hi, 2)} ha</p></div>
+        <div class="row2"><h3>${t.verdictLabel}</h3><p style="margin:2px 0 0"><span class="kicker">${v[lang]?.label || "—"}</span></p>
+          <p class="note" style="margin:2px 0 0">${v[lang]?.note || ""}</p></div>
+        <div class="row2"><h3>${t.evergreenTest}</h3><p style="margin:2px 0 0"><span class="kicker">${ev[lang]?.label || "—"}</span>${ev.ratio != null ? ` · ${fmt(ev.ratio, 2)}` : ""}</p></div>
+        <div class="row2"><p class="legend"><span class="swatch"></span>${t.legendCanopy}</p>
+          ${R.video ? `<p class="note" style="margin:8px 0 0">${t.pressVideo} · <a href="/data/${R.site}/${R.video}" download>timelapse.mp4</a></p>` : ""}</div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>${t.measurements}</h2>
+    <p class="sub">${t.measuresSub}</p>
+    <div class="stats">
+      <div class="stat"><div class="k">${t.mCanopy}</div><div class="v">${pct(s1.canopy_frac)}</div><div class="r">${s0.year} · ${pct(s0.canopy_frac)}</div></div>
+      <div class="stat"><div class="k">${t.mCanopyArea}</div><div class="v">${fmt(s1.canopy_ha, 2)} ha</div><div class="r">${fmt(s1.canopy_ha_lo, 2)} ~ ${fmt(s1.canopy_ha_hi, 2)} ha</div></div>
+      <div class="stat"><div class="k">${t.mGain}</div><div class="v">${est.gain_ha >= 0 ? "+" : ""}${fmt(est.gain_ha, 2)} ha</div><div class="r">${fmt(est.gain_ha_lo, 2)} ~ ${fmt(est.gain_ha_hi, 2)} ha</div></div>
+      <div class="stat"><div class="k">${t.mEst}</div><div class="v">${pct(est.rate)}</div><div class="r">${pct(est.rate_lo)} ~ ${pct(est.rate_hi)} · ${t.mEstNote}</div></div>
+      <div class="stat"><div class="k">${t.mCarbon}</div><div class="v">${fmt(car.tco2, 0)} <span style="font-size:15px">tCO₂</span></div><div class="r">${fmt(car.tco2_lo, 0)} ~ ${fmt(car.tco2_hi, 0)} · ${t.mCarbonNote}</div></div>
+      <div class="stat"><div class="k">${t.mTrend}</div><div class="v">${trd.slope_pp_per_year >= 0 ? "+" : ""}${fmt(trd.slope_pp_per_year, 1)}<span style="font-size:15px">%P</span></div><div class="r">${t.mTrendNote(fmt(trd.r2, 2), trd.n || 0)}</div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>${t.chartTitle}</h2>
+    <p class="sub">${t.chartSub}</p>
+    ${chart(R.series)}
+  </section>
+
+  <section class="card">
+    <h2>${t.mangroveTitle}</h2>
+    <p class="sub">${t.mangroveSub}</p>
+    <p style="margin:0 0 8px"><span class="kicker">${ev[lang]?.label || "—"}</span>${ev.ratio != null ? ` · ${lang === "ko" ? "우기 임관 ÷ 건기 임관" : "wet ÷ dry canopy"} = ${fmt(ev.ratio, 2)}` : ""}</p>
+    <p class="note" style="margin:0">${ev[lang]?.note || ""}${ev.wet_date ? ` (${t.wetObs(ev.wet_date, pct(ev.wet_canopy_frac))})` : ""}</p>
+  </section>
+
+  ${R.planting ? `
+  <section class="card">
+    <h2>${t.plantingTitle}</h2>
+    <p class="sub">${t.plantingSub}</p>
+    <div class="scroll"><table>
+      <tr><th>${t.thYear}</th><th>${t.thLocation}</th><th>${t.thPlots}</th><th>${t.thArea}</th><th>${t.thTrees}</th></tr>
+      ${R.planting.years.map(y => `<tr><td>${y.year}</td><td>${y.locations[lang] || y.locations.en}</td><td>${y.plots}</td><td>${fmt(y.area_ha, 2)} ha</td><td>${fmt(y.trees, 0)}</td></tr>`).join("")}
+      <tr><td><b>${t.plantingTotal}</b></td><td></td><td><b>${R.planting.total.plots}</b></td><td><b>${fmt(R.planting.total.area_ha, 2)} ha</b></td><td><b>${fmt(R.planting.total.trees, 0)}</b></td></tr>
+    </table></div>
+    <details><summary>${t.plantingAll}</summary>
+      <div class="scroll"><table>
+        <tr><th>${t.thPlot}</th><th>${t.thArea}</th><th>${t.thTrees}</th></tr>
+        ${R.planting.years.flatMap(y => y.plot_rows).map(p => `<tr><td>${p.name}</td><td>${p.area}</td><td>${p.trees == null ? "—" : fmt(p.trees, 0)}</td></tr>`).join("")}
+      </table></div>
+    </details>
+    <p class="note" style="margin:10px 0 0">${R.planting.source[lang] || R.planting.source.en}</p>
+  </section>` : ""}
+
+  <section class="card">
+    <h2>${t.ledgerTitle}</h2>
+    <p class="sub">${t.ledgerSub}</p>
+    <div class="scroll"><table>
+      <tr><th>${t.thYear}</th><th>${t.thDate}</th><th>${t.thCanopy}</th><th>${t.thNdvi}</th><th>${t.thCloud}</th><th>${t.thScene}</th></tr>
+      ${R.series.map(s => `<tr><td>${s.year}</td><td>${s.date}</td><td>${pct(s.canopy_frac)}</td><td>${fmt(s.ndvi_mean, 3)}</td><td>${pct(s.cloud_aoi)}</td><td style="font-size:11px;color:var(--muted)">${s.scene}</td></tr>`).join("")}
+    </table></div>
+    <details><summary>${t.methodSummary}</summary>
+      <ul>
+        <li>${t.mSource} · ${mtd.source || ""}</li>
+        <li>${t.mIndex} · ${mtd.index || ""} · ${t.mCanopyThresh} ${m.canopy_threshold} (${(m.threshold_range || []).join(" ~ ")})</li>
+        <li>${t.mCloud} · ${mtd.cloud_mask || ""}</li>
+        <li>${t.mCoef} · ${R.carbon_coefficient.low}~${R.carbon_coefficient.high} ${R.carbon_coefficient.unit} · ${(R.carbon_coefficient[lang] || R.carbon_coefficient.en || {}).source || ""}</li>
+        ${(mtd.limits || []).map(l => `<li>${l}</li>`).join("")}
+      </ul>
+    </details>
+  </section>
+
+  <footer>
+    ${t.generated} ${(R.generated_at || "").replace("T", " ").replace("+00:00", " UTC")} ·
+    ${t.plotBounds} ${R.address ? (R.address[lang] || R.address.en) : R.aoi.map(x => x.toFixed(4)).join(", ")} ·
+    ${t.footContains} ${R.series[0].year}–${R.series.at(-1).year}
+  </footer>`;
+
+  mountPlayer();
+}
+
+function chart(series) {
+  const W = 900, H = 240, P = { t: 16, r: 16, b: 30, l: 44 };
+  const xs = series.map((s, i) => P.l + (W - P.l - P.r) * (series.length < 2 ? 0 : i / (series.length - 1)));
+  const y = v => H - P.b - (H - P.t - P.b) * Math.min(1, Math.max(0, v));
+  const line = series.map((s, i) => `${i ? "L" : "M"}${xs[i].toFixed(1)},${y(s.canopy_frac).toFixed(1)}`).join(" ");
+  const band = [...series.map((s, i) => `${i ? "L" : "M"}${xs[i].toFixed(1)},${y(s.canopy_frac_hi).toFixed(1)}`),
+    ...series.slice().reverse().map((s, i) => `L${xs[series.length - 1 - i].toFixed(1)},${y(s.canopy_frac_lo).toFixed(1)}`), "Z"].join(" ");
+  const grid = [0, .25, .5, .75, 1].map(g => `<line class="grid" x1="${P.l}" x2="${W - P.r}" y1="${y(g)}" y2="${y(g)}"/><text class="tick" x="${P.l - 8}" y="${y(g) + 4}" text-anchor="end">${g * 100}%</text>`).join("");
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">
+    ${grid}<path class="band" d="${band}"/><path class="line" d="${line}"/>
+    ${series.map((s, i) => `<circle class="dot" cx="${xs[i].toFixed(1)}" cy="${y(s.canopy_frac).toFixed(1)}" r="4.5"/><text class="tick" x="${xs[i].toFixed(1)}" y="${H - 10}" text-anchor="middle">${s.year}</text>`).join("")}
+  </svg>`;
+}
+
+/* ---------------- player ---------------- */
+function mountPlayer() {
+  if ((R.frame_aspect || 1) >= 1.1) $(".player").classList.add("wide");
+  drawStage();
+  $("#play").onclick = () => timer ? stop() : play();
+  $("#mLapse").onclick = () => setMode("lapse");
+  $("#mCmp").onclick = () => setMode("compare");
+  $("#mOv").onclick = e => { overlayOn = !overlayOn; e.target.setAttribute("aria-pressed", overlayOn); stop(); drawStage(); };
+  const stg = $("#stage"), fs = $("#fs");
+  if (!stg.requestFullscreen) fs.style.display = "none";
+  else fs.onclick = () => document.fullscreenElement ? document.exitFullscreen() : stg.requestFullscreen();
+  const sc = $("#scrub");
+  sc.oninput = e => { stop(); idx = +e.target.value; if (mode === "lapse") show(idx); };
+}
+function setMode(m) {
+  mode = m; stop();
+  $("#mLapse").setAttribute("aria-pressed", m === "lapse");
+  $("#mCmp").setAttribute("aria-pressed", m === "compare");
+  $("#play").style.display = m === "lapse" ? "" : "none";
+  $("#scrub").style.display = m === "lapse" ? "" : "none";
+  drawStage();
+}
+function drawStage() {
+  const st = $("#stage"), F = set();
+  if (mode === "lapse") {
+    st.innerHTML = F.map((f, i) => `<img src="${f}" alt="${R.series[i].date}" class="${i === idx ? "on" : ""}">`).join("");
+  } else {
+    st.innerHTML = `<img src="${F.at(-1)}" class="on" alt="recent"><div class="clip" id="clip"><img src="${F[0]}" alt="first"></div>
+      <div class="handle" id="handle"></div>
+      <div class="cmp-tag" style="left:12px">${R.series[0].year}</div>
+      <div class="cmp-tag" style="right:12px">${R.series.at(-1).year}</div>`;
+    const move = e => {
+      const r = st.getBoundingClientRect();
+      const x = Math.min(Math.max(((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width, 0), 1);
+      $("#clip").style.width = (x * 100) + "%"; $("#handle").style.left = (x * 100) + "%";
+    };
+    st.onpointermove = move; st.ontouchmove = move;
+  }
+}
+function show(i) { idx = i; $("#scrub").value = i; [...$("#stage").querySelectorAll("img")].forEach((im, k) => im.classList.toggle("on", k === i)); }
+function play() {
+  const n = set().length; if (idx >= n - 1) idx = -1;
+  $("#play").textContent = tr().pause;
+  timer = setInterval(() => { if (idx >= n - 1) { stop(); return; } show(idx + 1); }, 15000 / Math.max(1, n));
+}
+function stop() { if (timer) clearInterval(timer); timer = null; const b = $("#play"); if (b) b.textContent = tr().play; }
+
+boot();
+</script>
+</body>
+</html>

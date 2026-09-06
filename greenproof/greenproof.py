@@ -5,7 +5,7 @@
     python greenproof.py verify --site dakope-demo    verify a plot, render frames
     python greenproof.py list                         show configuration
 
-Output lands in web/data/ and web/index.html reads it as is.
+Output lands in web/data/ and web/mangrove/index.html reads it as is.
 """
 from __future__ import annotations
 
