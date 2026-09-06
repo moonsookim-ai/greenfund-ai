@@ -3,19 +3,32 @@
 - 적용 페이지: https://greenfund.ai.kr/nepal/
 - 사이트 명칭: AI환경연구소 (2026-09-06 웹 명칭과 공유 이미지 문구 변경)
 - 이미지: `greenproof/web/nepal/og.png` (1730 × 909, PNG)
-- 공개 이미지 URL: https://greenfund.ai.kr/nepal/og.png?v=2
+- 공개 이미지 URL: https://greenfund.ai.kr/nepal/og.png?v=3
 - OG/X 제목: 네팔상황실 | 한국 구조대원 현장 브리핑
 - OG/X 설명: 3D 피해 지도와 위성 전후 비교, 지역별 접근·위험·의료·연락 정보를 한글로 확인하세요. AI환경연구소.
-- 생성 방식: 내장 `image_gen` 도구, 초기 생성 1회 및 문구 편집 1회. CLI/API 대체 경로 사용 없음.
+- 생성 방식: 내장 `image_gen` 도구, 초기 생성 1회, 명칭 편집 1회, URL·하단 캡션 삭제 편집 1회. CLI/API 대체 경로 사용 없음.
 - 최종 편집본은 도구가 반환한 1730 × 909 RGB PNG를 그대로 사용했다. 추가 픽셀 편집이나 리사이즈 없이 HTML 이미지 크기 메타데이터를 실제 파일에 맞췄다.
 - 변경 문구: 상단 ‘AI환경연구소’, 하단 ‘환경재단 AI환경연구소’. 기존 구성과 다른 문구는 유지했다.
-- 기존 og.png 원본을 갱신했으며, 새 공유 설정은 `?v=2`를 사용한다. 배포 직후 v=1의 CDN 캐시에 이전 이미지가 남아 있어 환경재단 쪽 메타태그도 v=2로 갱신해야 즉시 반영된다. v=2 응답은 배포 파일 체크섬과 일치한다.
+- 기존 og.png 원본을 갱신했으며, 새 공유 설정은 `?v=3`를 사용한다. 배포 직후 v=1의 CDN 캐시에 이전 이미지가 남아 있어 환경재단 쪽 메타태그도 v=3로 갱신해야 즉시 반영된다. v=3 응답은 배포 파일 체크섬과 일치한다.
 - 참고 입력: `greenproof/web/nepal/data/map-detail/syapru-sentinel.webp` (2026-08-12 Sentinel-2, Copernicus/Element 84).
-- 이미지의 산악·하천은 원영상에서 영감을 얻은 편집 삽화다. 실제 피해 지점·좌표·구조 경로를 표시하거나 그 정확도를 주장하지 않는다. 카드에도 ‘위성영상 기반 참고 시각화’를 명시했다. 개인 이름·이메일·GPT 배지는 넣지 않았다.
+- 이미지의 산악·하천은 원영상에서 영감을 얻은 편집 삽화다. 실제 피해 지점·좌표·구조 경로를 표시하거나 그 정확도를 주장하지 않는다. 사용자의 요청으로 카드 안의 URL과 ‘위성영상 기반 참고 시각화’ 문구를 삭제했다. 삽화의 성격과 한계는 이 문서와 이미지 대체 텍스트에 남긴다. 개인 이름·이메일·GPT 배지는 넣지 않았다.
 - 검증: 한국어 문구·브랜드 시각 확인, PNG 실제 크기와 메타데이터 일치, 공유 URL의 공개 HTTP 응답 및 배포 파일 체크섬 비교. 브라우저 자동화 검사는 수행하지 않았다.
 - 규격 참고: https://ogp.me/ (Open Graph protocol).
 
-## 최종 문구 편집 프롬프트 (내장 image_gen)
+## 최종 URL·캡션 삭제 프롬프트 (내장 image_gen)
+
+```text
+Use case: precise-object-edit / text removal. Input image is the edit target.
+Keep the image landscape, same wide aspect ratio and size as the input.
+Make ONLY these two removals:
+- Remove the URL text "greenfund.ai.kr/nepal" completely.
+- Remove the caption "위성영상 기반 참고 시각화" completely.
+Fill those small text areas seamlessly with their existing cream background or existing mountain-and-river illustration.
+Do not replace them with any other text, badge or symbol. Do not introduce a border or frame.
+Preserve ALL other text exactly, preserving its font, position, size and color. Preserve the original main title, subtitle, supporting lines, any remaining original organization text, orange divider, image crop, terrain illustration, lighting and overall design. Do not change the names or wording anywhere else. Output one finished edited PNG.
+```
+
+## 명칭 편집 프롬프트 (이력)
 
 ```text
 Use case: text-localization.

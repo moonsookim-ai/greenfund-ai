@@ -8,7 +8,7 @@ const terrainManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/d
 const detailManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/map-detail/manifest.json',import.meta.url),'utf8'));
 const terrainPaths=['/nepal/terrain.mjs?v=3','/nepal/terrain-model.mjs?v=3','/nepal/terrain.css?v=3',...['manifest.json',...Object.keys(terrainManifest.files)].map(f=>'/nepal/data/terrain/'+f),...['manifest.json',...Object.keys(detailManifest.files)].map(f=>'/nepal/data/map-detail/'+f)];
 const paths=['/','/mangrove/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=3','/nepal/satellite.mjs?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
-const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths,'/nepal/og.png?v=2'].map(async path=>{
+const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths,'/nepal/og.png?v=3','/nepal/images/ai-nepal-square.png'].map(async path=>{
   if(path==='/'){
     const entry=await fetch(origin+'/',{redirect:'manual',signal:AbortSignal.timeout(25000),cache:'no-cache'});
     assert.equal(entry.status,302,'Homepage redirects before serving HTML');
@@ -17,14 +17,16 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});
   assert.equal(response.status,200,path);
   const type=response.headers.get('content-type') || '';
-  if(path==='/nepal/og.png?v=2'){
+  if(path==='/nepal/og.png?v=3' || path==='/nepal/images/ai-nepal-square.png'){
     assert.match(type,/image\/png/);
     const bytes=Buffer.from(await response.arrayBuffer());
     assert.equal(bytes.subarray(1,4).toString(),'PNG');
-    assert.equal(bytes.readUInt32BE(16),1730);assert.equal(bytes.readUInt32BE(20),909);
-    const local=readFileSync(new URL('../greenproof/web/nepal/og.png',import.meta.url));
+    const width=bytes.readUInt32BE(16),height=bytes.readUInt32BE(20);
+    if(path.includes('square')){assert.equal(width,1254);assert.equal(height,width);}
+    else{assert.equal(width,1730);assert.equal(height,909);}
+    const local=readFileSync(new URL('../greenproof/web'+path.split('?')[0],import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),createHash('sha256').update(local).digest('hex'));
-    return `${path}: 1730 × 909 PNG, verified ${bytes.length} bytes`;
+    return `${path}: ${width} × ${height} PNG, verified ${bytes.length} bytes`;
   }
   if(path.startsWith('/nepal/data/terrain/') || path.startsWith('/nepal/data/map-detail/')){
     const bytes=new Uint8Array(await response.arrayBuffer());
@@ -71,7 +73,7 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths
       const metadata=page=>[...page.matchAll(/<meta\s+(?:property|name)="((?:og:|twitter:)[^"]+)"\s+content="([^"]*)"/g)].map(m=>[m[1],m[2]]);
       assert.deepEqual(metadata(text),metadata(localPage),'Exact Nepal sharing metadata deployed');
       const meta=Object.fromEntries(metadata(text));
-      assert.equal(meta['og:image'],'https://greenfund.ai.kr/nepal/og.png?v=2');
+      assert.equal(meta['og:image'],'https://greenfund.ai.kr/nepal/og.png?v=3');
       assert.equal(meta['twitter:image'],meta['og:image']);
       assert.equal(meta['twitter:card'],'summary_large_image');
       assert.equal(meta['twitter:title'],meta['og:title']);assert.equal(meta['twitter:description'],meta['og:description']);
