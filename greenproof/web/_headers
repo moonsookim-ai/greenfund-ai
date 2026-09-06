@@ -59,6 +59,10 @@
 /nepal/images/*
   Cache-Control: public, max-age=86400
 
+/nepal/og.png
+  Content-Type: image/png
+  Cache-Control: public, max-age=86400
+
 /lab.css
   Cache-Control: public, max-age=300
 
