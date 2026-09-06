@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
-const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=3','/nepal/briefing.mjs?v=1','/nepal/briefing.css?v=1','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
+const paths=['/','/emissions/','/nepal/','/nepal/field/','/nepal/field/index.html','/nepal/handoff/','/nepal/app.mjs?v=4','/nepal/briefing.mjs?v=2','/nepal/briefing.css?v=2','/nepal/field.mjs?v=1','/nepal/field-model.mjs?v=1','/nepal/rescue.css?v=1','/nepal/response.css?v=2','/lab.css?v=3','/nepal/data/responder-briefing.json','/nepal/data/source-analyses.json','/nepal/data/field-contacts.json','/nepal/data/snapshot.json?v=2','/nepal/images/sentinel2-2026-08-27.jpg'];
 const results=await Promise.allSettled(paths.map(async path=>{
   const response=await fetch(origin+path,{signal:AbortSignal.timeout(25000),cache:'no-cache'});
   assert.equal(response.status,200,path);
@@ -22,9 +22,16 @@ const results=await Promise.allSettled(paths.map(async path=>{
     assert.ok(nav,path+' navigation');
     assert.ok(nav.indexOf('네팔상황실')<nav.indexOf('맹그로브 성장 기록'));
     assert.ok(nav.indexOf('맹그로브 성장 기록')<nav.indexOf('우리 동네 온실가스 배출'));
+    if(path==='/nepal/'||path.startsWith('/nepal/field/')){
+      const analyses=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/source-analyses.json',import.meta.url),'utf8'));
+      assert.ok(text.includes(analyses.preface.body));
+      for(const item of analyses.articles)assert.ok(text.includes(`id="analysis-${item.id}"`));
+      assert.ok(text.includes('data-analysis-expand'));
+      assert.ok(!/<a\b[^>]*class="brief-source"[^>]*target=/.test(text));
+    }
     if(path==='/nepal/'){
       for(const id of ['strategy','regional-actions','emergency-contacts','field-support','satellite-after'])assert.ok(text.includes(`id="${id}"`),id);
-      assert.ok(text.includes('tel:1234'));assert.ok(text.includes('briefing.mjs?v=1'));
+      assert.ok(text.includes('tel:1234'));assert.ok(text.includes('briefing.mjs?v=2'));
       assert.ok(text.includes('한국 구조대원'));
       assert.ok(!/<(?:div|section)\b[^>]*\bdata-field-tool/.test(text));
       assert.ok(text.indexOf('id="strategy"')<text.indexOf('id="method"'));
@@ -51,6 +58,9 @@ const results=await Promise.allSettled(paths.map(async path=>{
     const data=JSON.parse(text);assert.equal(data.verifiedOn,'2026-09-05');assert.equal(data.contacts.length,5);
   }else if(path.includes('responder-briefing')){
     const data=JSON.parse(text);assert.ok(data.audience.includes('한국 구조대원'));assert.ok(data.medical.every(m=>m.capacity===null));
+  }else if(path.includes('source-analyses')){
+    const local=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/source-analyses.json',import.meta.url),'utf8'));
+    assert.deepEqual(JSON.parse(text),local);
   }else if(path.includes('snapshot')){
     const data=JSON.parse(text);assert.ok(data.regions.every(r=>Object.values(r.inputs).every(v=>v===null)));
   }

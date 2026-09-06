@@ -7,7 +7,7 @@
       "id": "heoc",
       "name": "네팔 HEOC 상황보고 10호",
       "date": "2026-09-04",
-      "locator": "영문 1쪽(환자 현황, 17:00 기준), 3쪽(감시), 7쪽(시설 피해), 8쪽(조정 연락처)",
+      "locator": "PDF 1쪽(9월 4일 17:00 환자 현황), 3쪽·11쪽(언어판별 감시 수치 차이), 7쪽(시설 피해 분류, 원본 확인), 8쪽(연락처)",
       "url": "https://heoc.mohp.gov.np/events/2026-rasuwa-flash-floods/document/91066/inline"
     },
     {
@@ -35,7 +35,7 @@
       "id": "roads",
       "name": "라수와 도로 보수·부분 통제 공지",
       "date": "2026-09-05",
-      "locator": "제목·게시일 확인. 스캔 첨부의 정확한 통제 구간·시간은 이 브리핑에 전사하지 않음",
+      "locator": "9월 5일 공지 9호의 네팔어 스캔 1쪽을 직접 확인. 2083.05.21부터 후속 공지까지의 시간대 통제. 현재 통행·구조차 예외는 미확인",
       "url": "https://daorasuwa.moha.gov.np/en/post/sa-cana-b-dha-sadaka-mara-mata-ka-ra-yaka-l-ga-sava-ra-aava-gamana-aa-sha-ka-ra"
     },
     {
@@ -49,15 +49,92 @@
       "id": "insarag",
       "name": "INSARAG 공식 지침·한국어판 안내",
       "date": null,
-      "locator": "공식 사이트는 2020 지침을 현행으로 안내. 신규 지침은 2027-01-01 발효 예정. 한국어판 링크 확인, 원문 전체를 재검토·재번역한 것은 아님",
+      "locator": "2020판 현행·새 지침 2027-01-01 발효 안내. 한국어판 링크는 보조 출처이며 아래 해설은 확인한 영문 지침에 근거",
       "url": "https://insarag.org/methodology/insarag-guidelines/"
     },
     {
       "id": "field-guide",
       "name": "INSARAG 2020 현장 운영 지침",
       "date": "2020",
-      "locator": "8~11쪽(파견·도착), 24~29쪽(의료), 31~39쪽(물류·안전). 국제 조정 참고용이며 급류 구조 전술의 근거로 사용하지 않음",
+      "locator": "본문 8–11쪽(파견·도착), 24–29쪽(의료), 31–39쪽(물류·안전) · PDF 쪽수는 본문보다 1쪽 뒤",
       "url": "https://insarag.org/wp-content/uploads/2021/06/INSARAG20Guidelines20Vol20III.pdf"
+    },
+    {
+      "id": "who",
+      "name": "WHO Nepal 2026 Rasuwa flash floods",
+      "date": null,
+      "locator": "Overview",
+      "url": "https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods"
+    },
+    {
+      "id": "unicef",
+      "name": "식수·위생 지원이 필요한 네팔 아동",
+      "date": "2026-09-03",
+      "locator": "본문 첫 문단 및 지원 현황",
+      "url": "https://www.unicef.org/press-releases/more-one-week-nepals-floods-thousands-children-remain-without-safe-water-and-face"
+    },
+    {
+      "id": "unicef-logistics",
+      "name": "From warehouses to families in need",
+      "date": "2026-09-02",
+      "locator": "수요 및 물품 발송 설명",
+      "url": "https://www.unicef.org/nepal/stories/warehouses-families-need"
+    },
+    {
+      "id": "mofa",
+      "name": "네팔 외교부 9월 5일 상황보고",
+      "date": "2026-09-05",
+      "locator": "14:00 NST, Latest Figures / RDNA",
+      "url": "https://www.mofa.gov.np/content/1877/daily-situation-update-on-bhote-koshi-river/"
+    },
+    {
+      "id": "esa",
+      "name": "위성으로 확인한 네팔 홍수 전후",
+      "date": "2026-08-31",
+      "locator": "8월 12일·27일 Sentinel-2 자연색 영상, CREDIT / LICENCE",
+      "url": "https://www.esa.int/ESA_Multimedia/Images/2026/08/Sentinel-2_captures_before_and_after_Nepal_flash_flood"
+    },
+    {
+      "id": "policy-guide",
+      "name": "INSARAG 2020 정책 지침",
+      "date": "2020",
+      "locator": "본문 23–27쪽 · 피해국 책임, 국제팀 수용 및 조정기구의 역할",
+      "url": "https://insarag.org/wp-content/uploads/2021/06/INSARAG20Guidelines20Vol20I.pdf"
+    },
+    {
+      "id": "operations-guide",
+      "name": "INSARAG 2020 운영 지침",
+      "date": "2020",
+      "locator": "본문 22–24쪽 및 37–40쪽 · 팀 접수, 구역 구분, 정보 관리·인계",
+      "url": "https://insarag.org/wp-content/uploads/2021/06/INSARAG20Guidelines20Vol20II2C20Man20B.pdf"
+    },
+    {
+      "id": "rasuwa-deoc",
+      "name": "라수와 지구청 재난상황실 연락처",
+      "date": null,
+      "locator": "공식 홈페이지 하단 DEOC 24시간 연락처 · 2026-09-05 확인",
+      "url": "https://daorasuwa.moha.gov.np/en"
+    },
+    {
+      "id": "dhm",
+      "name": "네팔 수문기상청 기상·홍수 안내",
+      "date": null,
+      "locator": "공식 홈페이지 1155 안내 · 1번 기상, 2번 홍수 · 2026-09-05 확인",
+      "url": "https://www.dhm.gov.np/"
+    },
+    {
+      "id": "palantir-texas",
+      "name": "텍사스 DPS 존 밀러의 AIPCon 8 발표 · 팔란티어 공개",
+      "date": null,
+      "locator": "공식 기업 계정의 발표 영상 전사문 · 요청, 다음 날 현장 합류, 48시간 이내 구축, 참여기관 확대 대목",
+      "url": "https://www.linkedin.com/posts/palantir-technologies_we-were-able-to-finally-be-asked-by-local-activity-7371537708302905344-dmBP"
+    },
+    {
+      "id": "texas-response",
+      "name": "텍사스 재난관리국(TDEM) 홍수 대응 발표",
+      "date": "2025-07-04",
+      "locator": "Kerr County 및 인근 홍수 대응, 여러 주정부 기관 참여 설명 · 팔란티어 성과 자료는 아님",
+      "url": "https://tdem.texas.gov/press-release/7-4-25"
     }
   ],
   "regions": [
@@ -73,11 +150,11 @@
           "source": "ifrc"
         },
         {
-          "text": "Syafrubesi·Timure·Mailung 보건 거점은 HEOC의 피해·접근 제약 목록에 포함된다.",
+          "text": "HEOC는 Syafrubesi·Timure·Mailung 보건 거점을 완전 파손으로 분류했다.",
           "source": "heoc"
         },
         {
-          "text": "9월 5일 지구청에 도로 보수에 따른 부분 통제 공지가 게시됐다.",
+          "text": "9월 5일 공지는 다음 날부터 지정 구간의 시간대별 차량 통제를 안내한다.",
           "source": "roads"
         }
       ],
@@ -106,7 +183,7 @@
           "source": "heoc"
         },
         {
-          "text": "Trishuli Hospital은 같은 보고서의 피해·접근 제약 목록에도 등장한다.",
+          "text": "HEOC는 Trishuli Hospital을 접근 장애가 있는 시설로 분류했다.",
           "source": "heoc"
         }
       ],
@@ -131,7 +208,7 @@
           "source": "icimod"
         },
         {
-          "text": "Baireni Hospital(Galchi), Charaudhi 보건시설(Benighat), Dhading Hospital 등이 HEOC의 피해·접근 제약 목록에 포함된다.",
+          "text": "HEOC는 Baireni·Charaudhi 보건시설 등을 부분 파손, Dhading Hospital을 접근 장애로 분류했다.",
           "source": "heoc"
         }
       ],
@@ -157,7 +234,7 @@
       "name": "트리슐리 병원",
       "english": "Trishuli Hospital",
       "place": "비두르 Bidur, Nuwakot",
-      "note": "환자 현황과 피해·접근 제약 목록에 모두 등장",
+      "note": "환자 진료 기록과 접근 장애 보고가 함께 있음",
       "source": "heoc",
       "capacity": null
     },
@@ -184,5 +261,6 @@
     "현재 차량 통행·헬기·병상 가용성",
     "현장 수색 완료·미수색 구역과 생존자 위치"
   ],
-  "koreanGuideUrl": "https://insarag.org/wp-content/uploads/2026/08/Korean-Version-of-the-2020-INSARAG-Guidelines.pdf"
+  "koreanGuideUrl": "https://insarag.org/wp-content/uploads/2026/08/Korean-Version-of-the-2020-INSARAG-Guidelines.pdf",
+  "analysisUpdatedOn": "2026-09-06"
 }

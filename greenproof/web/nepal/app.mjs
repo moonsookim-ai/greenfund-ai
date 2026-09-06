@@ -26,7 +26,7 @@ function renderEvidence() {
   $('#coverage-rows').innerHTML = snapshot.regions.map(r=>`<tr><th scope="row">${esc(r.name)}</th>${FIELDS.map(f=>`<td class="${r.inputs[f] == null ? 'missing' : ''}" aria-label="${esc(LABELS[f])}: ${r.inputs[f] == null ? '미확인' : num(r.inputs[f])+'가구'}">${num(r.inputs[f])}</td>`).join('')}</tr>`).join('');
   const available = snapshot.regions.reduce((n,r)=>n+FIELDS.filter(f=>r.inputs[f] != null).length,0);
   $('#coverage-total').textContent = `${available} / ${snapshot.regions.length*FIELDS.length}개 항목 확인`;
-  $('#source-list').innerHTML = snapshot.sources.map((s,i)=>`<article class="source-item" id="source-${esc(s.id)}"><div class="source-meta">${String(i+1).padStart(2,'0')} / ${esc(s.type)} · ${s.date ? '발표 '+esc(s.date) : '게시일 미표시 · 확인 '+esc(s.retrieved)}</div><h3><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)} ↗</a></h3><p>${esc(s.note)}</p><p>확인 위치: ${esc(s.locator)}</p></article>`).join('');
+  $('#source-list').innerHTML = snapshot.sources.map((s,i)=>`<article class="source-item" id="source-${esc(s.id)}"><div class="source-meta">${String(i+1).padStart(2,'0')} / ${esc(s.type)} · ${s.date ? '발표 '+esc(s.date) : '게시일 미표시 · 확인 '+esc(s.retrieved)}</div><h3><a data-analysis-link href="#analysis-${esc(s.id)}">${esc(s.title)} · 한글 해설 ↓</a></h3><p>${esc(s.note)}</p><p>확인 위치: ${esc(s.locator)}</p></article>`).join('');
 }
 function loadRegion() {
   const row = rows.find(r=>r.id===$('#region-select').value);
