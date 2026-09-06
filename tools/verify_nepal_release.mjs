@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const origin=process.argv[2] || 'https://greenfund.ai.kr';
-const commonHeaderCSS='/site-header.css?v=2';
+const commonHeaderCSS='/site-header.css?v=3';
 const terrainManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/terrain/manifest.json',import.meta.url),'utf8'));
 const detailManifest=JSON.parse(readFileSync(new URL('../greenproof/web/nepal/data/map-detail/manifest.json',import.meta.url),'utf8'));
 const terrainPaths=['/nepal/terrain.mjs?v=3','/nepal/terrain-model.mjs?v=3','/nepal/terrain.css?v=3',...['manifest.json',...Object.keys(terrainManifest.files)].map(f=>'/nepal/data/terrain/'+f),...['manifest.json',...Object.keys(detailManifest.files)].map(f=>'/nepal/data/map-detail/'+f)];
@@ -53,7 +53,8 @@ const results=await Promise.allSettled([...paths,commonHeaderCSS,...terrainPaths
     const localPage=readFileSync(new URL('../greenproof/web'+pagePath+(pagePath.endsWith('/')?'index.html':''),import.meta.url),'utf8');
     assert.equal(header,/<header\b[^>]*>[\s\S]*?<\/header>/.exec(localPage)?.[0],'Exact shared header deployed');
     assert.ok(header.includes('class="gp-site-header"'));
-    assert.ok(!header.includes('<small') && !header.includes('AI환경연구소'),'Logo subtitle removed');
+    assert.ok(!header.includes('<small') && header.includes('<span>AI</span>환경연구소'),'New name without logo subtitle');
+    assert.ok(!text.includes('GREEN PROOF') && !text.includes('GREEN <'),'Previous site name removed');
     assert.ok(nav.includes('/mangrove/#app'),'Mangrove menu points to its new page');
     const active=[...nav.matchAll(/<a\b[^>]*aria-current="page"[^>]*>(.*?)<\/a>/g)];
     assert.equal(active.length,1,'One selected main menu');

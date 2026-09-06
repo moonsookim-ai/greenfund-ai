@@ -2,7 +2,7 @@
 .gp-site-header{position:sticky;top:0;z-index:30;margin:0;padding:0;border:0;border-bottom:1px solid #d4ded4;background:#f5f5ee;color:#193b33;font:400 14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;letter-spacing:normal;text-align:left}
 .gp-site-header *{box-sizing:border-box}
 .gp-header-inner{max-width:1240px;margin:0 auto;padding:21px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.gp-site-header .gp-brand{display:block;flex:0 0 auto;margin:0;padding:0;border:0;color:#193b33;font-size:22px;font-weight:850;letter-spacing:.07em;line-height:1.25;text-decoration:none;opacity:1}
+.gp-site-header .gp-brand{display:block;flex:0 0 auto;margin:0;padding:0;border:0;color:#193b33;font-size:22px;font-weight:850;letter-spacing:.01em;line-height:1.25;text-decoration:none;opacity:1}
 .gp-brand span{color:#166b50}
 .gp-site-header .gp-main-nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;width:auto;gap:8px 27px;margin:0;padding:0;font-size:14px;font-weight:650;line-height:1.5;letter-spacing:0}
 .gp-main-nav a{display:block;white-space:nowrap;margin:0;padding:7px 0 5px;color:#193b33;background:transparent;border:0;border-bottom:2px solid transparent;border-radius:0;font:inherit;line-height:inherit;text-decoration:none}

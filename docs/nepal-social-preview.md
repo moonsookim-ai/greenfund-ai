@@ -1,10 +1,11 @@
 # 네팔상황실 공유 미리보기
 
 - 적용 페이지: https://greenfund.ai.kr/nepal/
+- 사이트 명칭: AI환경연구소 (2026-09-06 웹 로고·페이지 제목·공유 텍스트 변경, 기존 이미지 파일 유지)
 - 이미지: `greenproof/web/nepal/og.png` (1200 × 630, PNG)
 - 공개 이미지 URL: https://greenfund.ai.kr/nepal/og.png?v=1
 - OG/X 제목: 네팔상황실 | 한국 구조대원 현장 브리핑
-- OG/X 설명: 3D 피해 지도와 위성 전후 비교, 지역별 접근·위험·의료·연락 정보를 한글로 확인하세요. 환경재단 AI환경연구소 GREEN PROOF.
+- OG/X 설명: 3D 피해 지도와 위성 전후 비교, 지역별 접근·위험·의료·연락 정보를 한글로 확인하세요. AI환경연구소.
 - 생성 방식: 내장 `image_gen` 도구, 1회 생성. CLI/API 대체 경로 사용 없음.
 - 후처리: 원본 1731 × 909를 1200 × 630 RGB PNG로 크기 조정. 내용 편집·재생성 없음.
 - 참고 입력: `greenproof/web/nepal/data/map-detail/syapru-sentinel.webp` (2026-08-12 Sentinel-2, Copernicus/Element 84).

@@ -48,13 +48,14 @@ for file in pages:
     offline=file.parent.name in ('field','handoff')
     header=re.search(r'<header\b[^>]*>.*?</header>',source,re.S).group()
     assert header==site_header(current,absolute=offline), (file,'shared header differs')
-    assert '<small' not in header and 'AI환경연구소' not in header, (file,'removed logo subtitle')
+    assert '<small' not in header and '<span>AI</span>환경연구소' in header, (file,'new name without logo subtitle')
+    assert 'GREEN PROOF' not in source and 'GREEN <' not in source, (file,'previous name remains')
     assert not re.search(r'href="(?:https://greenfund\.ai\.kr)?/#app"',source), (file,'old mangrove route')
     shared_css=(WEB/'site-header.css').read_text(encoding='utf-8')
     if offline:
         assert shared_css in source, (file,'missing bundled shared header CSS')
     else:
-        assert '/site-header.css?v=2' in source, (file,'missing common stylesheet')
+        assert '/site-header.css?v=3' in source, (file,'missing common stylesheet')
     assert not re.search(r'ocean\.js|startOcean|paintSim|id="ocean"',source), file
     # Ignore literal template expressions in inline scripts, but check every static local asset.
     for ref in page.refs:
