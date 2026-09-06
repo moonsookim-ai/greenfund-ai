@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {decodeElevation,elevationAt,mesh,camera,project,rayAt,intersectTriangle,pickTerrain,candidateAt,lonLat,VIEW_ZOOM,focusOn,panGround,scaleBar} from '../greenproof/web/nepal/terrain-model.mjs';
+import {decodeElevation,elevationAt,mesh,camera,project,rayAt,intersectTriangle,pickTerrain,candidateAt,lonLat,VIEW_ZOOM,focusOn,panGround,scaleBar,contourSegments,terrainLabelVisible} from '../greenproof/web/nepal/terrain-model.mjs';
 
 const base=new URL('../greenproof/web/nepal/data/terrain/',import.meta.url);
 const read=name=>readFileSync(new URL(name,base));
@@ -154,4 +154,45 @@ test('static page starts with the model and retains dated explanations, complete
   const script=readFileSync(new URL('../greenproof/web/nepal/terrain.mjs',import.meta.url),'utf8');
   assert.ok(!/setInterval|requestAnimationFrame\(draw\)/.test(script),'No idle rendering loop');
   assert.match(script,/webglcontextlost/);assert.match(script,/pointercancel/);
+});
+
+test('satellite registration maps pixels to the same ground coordinates as the DEM, without changing source dates or heights',()=>{
+  const detailBase=new URL('../greenproof/web/nepal/data/map-detail/',import.meta.url);
+  const manifest=JSON.parse(readFileSync(new URL('manifest.json',detailBase),'utf8'));
+  for(const [file,meta] of Object.entries(manifest.files)){
+    const bytes=readFileSync(new URL(file,detailBase));assert.equal(bytes.length,meta.bytes);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),meta.sha256);
+  }
+  for(const scene of scenes){
+    const detail=JSON.parse(readFileSync(new URL(scene.id+'.json',detailBase),'utf8')),image=detail.imagery;
+    assert.deepEqual(detail.origin,scene.origin);assert.deepEqual(detail.extent,scene.extent);
+    assert.equal(detail.terrainSceneSha256,createHash('sha256').update(read(scene.id+'.json')).digest('hex'));
+    assert.equal(image.period,'pre-flood');assert.ok(image.acquiredAt.startsWith('2026-08-12'));
+    assert.equal(image.sourcePixelSizeM,10);assert.equal(scene.dem.nominalSourceQualityM,90);
+    const [a,b,c,d,e,f]=image.transform;
+    near(b,0);near(d,0);assert.ok(a>0);assert.ok(e<0);
+    const [x0,y0,x1,y1]=scene.extent;
+    for(const [col,row,x,y] of [[0,0,x0,y1],[image.width,image.height,x1,y0],[image.width/2,image.height/2,(x0+x1)/2,(y0+y1)/2]]){
+      const expected=lonLat(scene,x,y);near(c+a*col,expected[0],1e-9);near(f+e*row,expected[1],1e-9);
+    }
+    assert.ok(image.cloudFraction>=0&&image.cloudFraction<=1);assert.ok(image.maskedFraction>=image.cloudFraction);
+    const photo=readFileSync(new URL(image.url,detailBase));assert.equal(photo.subarray(8,12).toString(),'WEBP');assert.ok(photo.length<100000);
+    const osm=detail.osm;assert.equal(osm.license,'ODbL-1.0');assert.equal(osm.accessStatus,null);assert.equal(osm.buildingHeights,null);
+    for(const road of osm.roads){assert.ok(road.osmId>0);for(const[x,y] of road.xy)assert.ok(x>=x0-.1&&x<=x1+.1&&y>=y0-.1&&y<=y1+.1);}
+    for(const footprint of osm.footprints){assert.ok(!('damage' in footprint));for(const ring of footprint.rings){assert.deepEqual(ring[0],ring.at(-1));for(const[x,y] of ring)assert.ok(x>=x0-.1&&x<=x1+.1&&y>=y0-.1&&y<=y1+.1);}}
+    assert.ok(osm.places.every(place=>place.label&&place.osmId>0));
+  }
+});
+
+test('100m contours lie on the actual DEM triangles and labels behind ridges are hidden',()=>{
+  const scene={extent:[0,0,200,200],dem:{rows:3,columns:3,minimum:0,maximum:300,gridSpacingM:[100,100]}};
+  const values=new Float32Array([200,200,200,100,100,100,0,0,0]);
+  const contours=contourSegments(scene,values,50);assert.ok(contours.length>0);
+  for(const {z,points} of contours){assert.equal(z%50,0);for(const[x,y] of points)near(elevationAt(scene,values,x,y),z);}
+  assert.throws(()=>contourSegments(scene,values,0));
+  const ridge=new Float32Array([0,0,0,300,300,300,0,0,0]);
+  const oblique=camera(scene,{...defaults,azimuth:0,pitch:20},1);
+  assert.equal(terrainLabelVisible(scene,ridge,100,200,oblique),false,'Near ridge occludes a far valley label');
+  assert.equal(terrainLabelVisible(scene,ridge,100,0,oblique),true,'Near valley has no ridge ahead');
+  assert.equal(terrainLabelVisible(scene,ridge,100,200,camera(scene,defaults,1)),true,'Plan view sees the labelled ground');
 });

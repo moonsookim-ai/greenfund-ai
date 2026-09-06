@@ -78,6 +78,46 @@ export function scaleBar(cam,width) {
   return {metres,pixels:metres/metresPerPixel};
 }
 
+// Contours follow the same triangle surface as the rendered DEM; no invented finer terrain.
+export function contourSegments(scene,values,interval=100) {
+  if(!(interval>0))throw new Error('Contour interval must be positive');
+  const {rows,columns}=scene.dem,[x0,y0,x1,y1]=scene.extent,segments=[];
+  const point=(r,c)=>[x0+c/(columns-1)*(x1-x0),y1-r/(rows-1)*(y1-y0),values[r*columns+c]];
+  function triangle(points){
+    const low=Math.min(...points.map(p=>p[2])),high=Math.max(...points.map(p=>p[2]));
+    for(let z=Math.ceil(low/interval)*interval;z<high;z+=interval){
+      const hits=[];
+      for(let i=0;i<3;i++){
+        const a=points[i],b=points[(i+1)%3];
+        if((a[2]<=z&&b[2]>z)||(b[2]<=z&&a[2]>z)){
+          const f=(z-a[2])/(b[2]-a[2]);hits.push([a[0]+f*(b[0]-a[0]),a[1]+f*(b[1]-a[1])]);
+        }
+      }
+      if(hits.length===2 && Math.hypot(hits[0][0]-hits[1][0],hits[0][1]-hits[1][1])>.01)segments.push({z,points:hits});
+    }
+  }
+  for(let r=0;r<rows-1;r++)for(let c=0;c<columns-1;c++){
+    const a=point(r,c),b=point(r,c+1),d=point(r+1,c),e=point(r+1,c+1);
+    triangle([a,d,b]);triangle([b,d,e]);
+  }
+  return segments;
+}
+
+export function terrainLabelVisible(scene,values,x,y,cam) {
+  const z=elevationAt(scene,values,x,y);
+  if(z===null)return false;
+  const horizontal=Math.hypot(cam.toward[0],cam.toward[1]);
+  if(horizontal<.01)return true;
+  const step=Math.min(...scene.dem.gridSpacingM)/2;
+  for(let distance=step;distance<cam.depth;distance+=step){
+    const px=x+cam.toward[0]/horizontal*distance,py=y+cam.toward[1]/horizontal*distance;
+    const h=elevationAt(scene,values,px,py);if(h===null)return true;
+    const rayZ=z+cam.toward[2]/horizontal*distance/cam.exaggeration;
+    if(h>rayZ+3)return false;
+  }
+  return true;
+}
+
 export function project(point, cam) {
   const d=sub([point[0],point[1],point[2]*cam.exaggeration],cam.center);
   return [dot(d,cam.right)/(cam.halfHeight*cam.aspect),dot(d,cam.up)/cam.halfHeight,-dot(d,cam.toward)/cam.depth];
