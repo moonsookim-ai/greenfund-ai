@@ -31,7 +31,7 @@ redirects = (WEB/'_redirects').read_text(encoding='utf-8')
 assert re.search(r'^/ /nepal/ 302$', redirects, re.M)
 assert 'http-equiv="refresh" content="0; url=/nepal/"' in entry
 assert 'href="https://greenfund.ai.kr/nepal/"' in entry
-assert 'https://greenfund.ai.kr/nepal/og.png?v=1' in entry
+assert 'https://greenfund.ai.kr/nepal/og.png?v=2' in entry
 assert '<script' not in entry and '<header' not in entry
 print('PASS homepage redirects directly to Nepal, with matching static fallback and sharing image')
 

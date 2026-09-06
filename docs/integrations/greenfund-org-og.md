@@ -2,7 +2,7 @@
 
 대상: https://greenfund.org/about/ai-environment-institute
 
-## 현재 확인한 상태
+## 최초 점검 기록
 
 2026-09-06에 서버가 보내는 HTML을 직접 확인했다.
 
@@ -13,14 +13,16 @@
 - 페이지의 공개 JavaScript는 https://greenfund.ai.kr/ 를 iframe으로 표시한다.
 - 환경재단 서버 코드 저장소와 배포 설정은 아직 확인하지 못했다. 이 폴더는 적용용 자료이며, greenfund.org에 적용한 결과가 아니다.
 
+추가 확인: 환경재단 페이지의 OG 제목이 ‘네팔상황실 | 한국 구조대원 현장 브리핑’으로 바뀌었고, og:url도 해당 환경재단 페이지 주소로 설정돼 있다. 현재 og:image는 `https://greenfund.ai.kr/nepal/og.png?v=1`을 참조한다. 이미지 파일은 이 경로에서도 수정본을 제공하며, 새 캐시 버전은 아래 v=2 주소다. 환경재단 쪽 코드는 이 저장소에서 변경하지 않았다.
+
 ## 적용할 정보
 
 - 제목: AI환경연구소 | 환경재단
 - 설명: AI와 공개 데이터로 환경 현장을 살펴봅니다. 네팔상황실, 맹그로브 성장 기록, 우리 동네 온실가스 배출을 한곳에서 확인하세요.
 - 대표 주소: https://greenfund.org/about/ai-environment-institute
-- 이미지: https://greenfund.ai.kr/nepal/og.png?v=1
+- 이미지: https://greenfund.ai.kr/nepal/og.png?v=2
 
-이미지는 현재 iframe 첫 화면인 네팔상황실의 기존 1200 × 630 PNG를 재사용하는 안이다. 새로운 이미지가 생성된 것은 아니며, 기존 이미지에는 이전 GREEN PROOF 워드마크가 포함되어 있다. 연구소 전체를 대표할 새 이미지로 바꿀 때는 og:image와 twitter:image를 함께 갱신한다.
+이미지는 현재 iframe 첫 화면인 네팔상황실의 1730 × 909 PNG다. 상단 명칭은 ‘AI환경연구소’, 하단 문구는 ‘환경재단 AI환경연구소’로 갱신했다. 예전 주소를 참조하는 페이지를 위해 og.png 경로도 유지하며, 새 설정에는 캐시 버전 v=2를 사용한다. 환경재단 페이지가 기존 v=1 URL을 사용한다면 og:image와 twitter:image를 v=2 주소로 함께 갱신하고 공유 서비스의 캐시를 새로 읽게 한다.
 
 ## 환경재단 홈페이지 담당자 적용 절차
 
@@ -35,7 +37,7 @@
 - JavaScript를 실행하지 않는 HTTP 요청에도 새 og:title / og:description / og:url / og:image가 들어 있다.
 - 각 태그는 하나씩 있으며, og:url과 canonical은 대상 경로다.
 - og:image와 twitter:image가 같은 공개 이미지 URL이다.
-- 이미지 응답은 image/png, 1200 × 630이다.
+- 이미지 응답은 image/png, 1730 × 909이다.
 - 카카오톡 등에서 해당 환경재단 주소를 공유했을 때 새 카드가 나온다. 페이지를 클릭하는 순간 이미지를 새로 생성하는 방식이 아니라, 공유 서비스가 미리 지정한 메타데이터와 이미지를 읽는 방식이다.
 
 참고: https://ogp.me/ — Open Graph 메타데이터는 공유할 문서의 head에 정의한다.

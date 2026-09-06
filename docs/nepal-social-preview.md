@@ -1,19 +1,35 @@
 # 네팔상황실 공유 미리보기
 
 - 적용 페이지: https://greenfund.ai.kr/nepal/
-- 사이트 명칭: AI환경연구소 (2026-09-06 웹 로고·페이지 제목·공유 텍스트 변경, 기존 이미지 파일 유지)
-- 이미지: `greenproof/web/nepal/og.png` (1200 × 630, PNG)
-- 공개 이미지 URL: https://greenfund.ai.kr/nepal/og.png?v=1
+- 사이트 명칭: AI환경연구소 (2026-09-06 웹 명칭과 공유 이미지 문구 변경)
+- 이미지: `greenproof/web/nepal/og.png` (1730 × 909, PNG)
+- 공개 이미지 URL: https://greenfund.ai.kr/nepal/og.png?v=2
 - OG/X 제목: 네팔상황실 | 한국 구조대원 현장 브리핑
 - OG/X 설명: 3D 피해 지도와 위성 전후 비교, 지역별 접근·위험·의료·연락 정보를 한글로 확인하세요. AI환경연구소.
-- 생성 방식: 내장 `image_gen` 도구, 1회 생성. CLI/API 대체 경로 사용 없음.
-- 후처리: 원본 1731 × 909를 1200 × 630 RGB PNG로 크기 조정. 내용 편집·재생성 없음.
+- 생성 방식: 내장 `image_gen` 도구, 초기 생성 1회 및 문구 편집 1회. CLI/API 대체 경로 사용 없음.
+- 최종 편집본은 도구가 반환한 1730 × 909 RGB PNG를 그대로 사용했다. 추가 픽셀 편집이나 리사이즈 없이 HTML 이미지 크기 메타데이터를 실제 파일에 맞췄다.
+- 변경 문구: 상단 ‘AI환경연구소’, 하단 ‘환경재단 AI환경연구소’. 기존 구성과 다른 문구는 유지했다.
+- 기존 og.png 경로도 새 파일로 갱신했다. 새 공유 설정은 `?v=2`를 사용한다.
 - 참고 입력: `greenproof/web/nepal/data/map-detail/syapru-sentinel.webp` (2026-08-12 Sentinel-2, Copernicus/Element 84).
 - 이미지의 산악·하천은 원영상에서 영감을 얻은 편집 삽화다. 실제 피해 지점·좌표·구조 경로를 표시하거나 그 정확도를 주장하지 않는다. 카드에도 ‘위성영상 기반 참고 시각화’를 명시했다. 개인 이름·이메일·GPT 배지는 넣지 않았다.
 - 검증: 한국어 문구·브랜드 시각 확인, PNG 실제 크기와 메타데이터 일치, 공유 URL의 공개 HTTP 응답 및 배포 파일 체크섬 비교. 브라우저 자동화 검사는 수행하지 않았다.
 - 규격 참고: https://ogp.me/ (Open Graph protocol).
 
-## 최종 생성 프롬프트
+## 최종 문구 편집 프롬프트 (내장 image_gen)
+
+```text
+Use case: text-localization.
+Asset type: Edit the supplied existing Korean Open Graph image, preserving its exact 1200 x 630 landscape canvas, entire layout and mountain illustration.
+Input image 1 is the edit target, not inspiration for a redesign.
+Make exactly these two text replacements:
+1. At the lower left, replace "환경재단이 운영하는 AI환경연구소" with exactly "환경재단 AI환경연구소".
+2. At the upper left, replace "GREEN PROOF" with exactly "AI환경연구소".
+Keep the replacements in the same existing positions, in the same dark forest green color and comparable font size and weight. Ensure perfect, readable Korean glyphs.
+Preserve every other element: the title "네팔상황실", the subtitle "한국 구조대원을 위한" / "현장 브리핑", the line "3D 피해 지도 · 위성 전후 비교 · 한글 현장 자료", the domain "greenfund.ai.kr/nepal", the caption "위성영상 기반 참고 시각화", the small orange divider, the cream background, all spacing and the entire mountain-and-river illustration. No new elements, no personal names, no badges, no additional copy. Do not redraw the scene or change the crop.
+Return one final edited PNG at 1200 x 630 pixels.
+```
+
+## 초기 생성 프롬프트 (이력)
 
 ```text
 Use case: ads-marketing.
